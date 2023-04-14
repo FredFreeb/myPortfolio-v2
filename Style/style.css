@@ -1,3 +1,4 @@
+@charset "UTF-8";
 * {
   margin: 0;
   padding: 0;
@@ -6,8 +7,30 @@
   list-style-type: none;
 }
 
+p {
+  color: #fff;
+  font-size: 2rem;
+}
+
+body {
+  background-image: url("https://raw.githubusercontent.com/FredFreeb/assets/myPortfolio/Cr%C3%A9ation-bing.png");
+  background-size: cover;
+}
+
+.headlines, p {
+  color: #fff;
+}
+
+.recentWork button:hover + img {
+  box-shadow: 0 0 8px #fff, inset 0 0 8px #fff, 0 0 16px #3174bb, inset 0 0 16px #c6e2ff, 0 0 32px #c6e2ff, inset 0 0 32px #c6e2ff;
+}
+
+.recentWork button:hover + h4 {
+  text-shadow: 0 0 8px #fff, inset 0 0 8px #fff, 0 0 16px #3174bb, inset 0 0 16px #c6e2ff, 0 0 32px #c6e2ff, inset 0 0 32px #c6e2ff;
+}
+
 footer {
-  margin-bottom: 15%;
+  margin-bottom: 1%;
 }
 
 footer img {
@@ -17,6 +40,37 @@ footer img {
   box-shadow: 5px 5px 5px 5px #27700d;
 }
 
+.frameWork {
+  color: rgb(184, 13, 13);
+  font-size: 2rem;
+  text-shadow: 0 0 8px #181717, inset 0 0 8px #191818, 0 0 16px #3174bb, inset 0 0 16px #141414, 0 0 32px #0a0a0a, inset 0 0 32px #0b0b0b;
+}
+
+.social-media-icons a {
+  font-size: 3em; /* Augmente la taille de la police pour les icônes */
+  display: inline-block; /* Permet de redimensionner les icônes avec transform: scale() */
+  transition: transform 0.4s ease-in-out; /* Ajoute une transition en douceur lors de la redimensionnement */
+}
+
+.social-media-icons a:hover {
+  transform: scale(1.9); /* Augmente la taille des icônes au survol */
+}
+
+#easter {
+  font-size: 3em; /* Augmente la taille de la police pour les icônes */
+  display: inline-block; /* Permet de redimensionner les icônes avec transform: scale() */
+  transition: transform 0.4s ease-in-out; /* Ajoute une transition en douceur lors de la redimensionnement */
+}
+
+#easter:hover {
+  transform: scale(1.9); /* Augmente la taille des icônes au survol */
+}
+
+@media (max-width: 767px) {
+  .social-media-icons a {
+    font-size: 2.5em; /* Réduit la taille de la police pour les icônes sur les petits écrans */
+  }
+}
 @keyframes tipsy {
   0% {
     transform: translateX(-50%) translateY(-50%) rotate(0deg);
@@ -32,7 +86,7 @@ footer img {
   text-decoration: none;
   letter-spacing: -3px;
   margin: 0;
-  position: absolute;
+  position: relative;
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
@@ -44,10 +98,10 @@ footer img {
   padding: 0.9em 0.4em;
   position: absolute;
   left: 50%;
-  width: 100%;
+  width: 80%;
   top: 50%;
   display: block;
-  border: 15px solid red;
+  border: 15px solid rgb(184, 13, 13);
   transform: translateX(-50%) translateY(-50%) rotate(0deg);
   animation: 10s infinite alternate ease-in-out tipsy;
 }
@@ -74,19 +128,4 @@ footer img {
   height: 100%;
   background-color: black;
   z-index: 9999;
-}
-
-@media (max-width: 992px) {
-  .navbar {
-    background-color: transparent !important;
-  }
-  .navbar-brand {
-    display: block !important;
-    text-align: center !important;
-    margin: auto !important;
-  }
-  .navbar-nav {
-    background-color: #fff !important;
-    margin-top: 10px;
-  }
 }/*# sourceMappingURL=style.css.map */
