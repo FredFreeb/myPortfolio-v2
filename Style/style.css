@@ -71,6 +71,14 @@ footer img {
   transform: scale(1.9); /* Augmente la taille des icônes au survol */
 }
 
+.surprise {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 @media (max-width: 767px) {
   .social-media-icons a {
     font-size: 2.5em; /* Réduit la taille de la police pour les icônes sur les petits écrans */

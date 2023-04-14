@@ -16,13 +16,13 @@ window.onclick = function(event) {
 }
 }
 ////////////////// effet multivers
-let myDiv = document.getElementById('showFullscreenButton');
-		let toggleFullscreenButton = document.getElementById('toggleFullscreenButton');
+// let myDiv = document.getElementById('showFullscreenButton');
+// 		let toggleFullscreenButton = document.getElementById('toggleFullscreenButton');
 
-		toggleFullscreenButton.addEventListener('click', function() {
-			if (!document.fullscreenElement) {
-				myDiv.requestFullscreen();
-			} else {
-				document.exitFullscreen();
-			}
-		});
+// 		toggleFullscreenButton.addEventListener('click', function() {
+// 			if (!document.fullscreenElement) {
+// 				myDiv.requestFullscreen();
+// 			} else {
+// 				document.exitFullscreen();
+// 			}
+// 		});
