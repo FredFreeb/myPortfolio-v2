@@ -11,6 +11,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
     <script defer src="https://kit.fontawesome.com/2cf8922f6a.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js" integrity="sha512-rZkyA1WdAVKDCcAvYQMEBNhL5/OIkKdeV8uc5f5h5M5vCGJoZdW8jHyOYhJm7VvPxHLyjO8A5+gnF5l5JvH38w==" crossorigin="anonymous"></script>
+    <script defer src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script defer src="/js/index.js" ></script>
     <script defer src="/js/modal.js" ></script>
 </head>
@@ -41,7 +43,7 @@
     <section id="firstImpress" class="mt-5 mb-5">
     <div class="container-fluid">
         <div class="headlines">
-            <h1 class="myname">Salut! Je suis :</h1>
+            <h1 class="myname">Salut ! Je suis :</h1>
         </div>
         <div class="row">
             <div class="col-lg-4"></div>
@@ -50,7 +52,7 @@
             </div>
             <div class="col-lg-4"></div>
         </div>
-        <h2 class="myjob pt-5 text-success clear">I am your future web developer</h2>
+        <h2 class="myjob pt-5 text-success clear">Your future web developer</h2>
         <p class="mt-5">
             I am a full-stack developer and I can help you build a product, a site or a project.<br> Feel free to take a look at my work! If you have a need in the code, do not hesitate to contact me...
         </p>
@@ -72,7 +74,7 @@
         </div>
     </div>
     </section>
-    <a id="easter" href="#easterEgg" data-bs-toggle="modal" data-bs-target="#easterEgg">
+    <a class="easter" href="#easterEgg" data-bs-toggle="modal" data-bs-target="#easterEgg">
         <span class="fa-solid fa-circle-chevron-down frameWork "></span>
     </a>
 
@@ -122,7 +124,7 @@
                     <li><span class="fa-brands fa-html5"></span> / <span class="fa-brands fa-css3-alt"></span> / <span class="fa-brands fa-sass"></span></li>
                     <li></li>
                     <li><span class="fa-brands fa-bootstrap"></span> / <span class="fa-brands fa-js"></span> / <span class="fa-brands fa-node"></span></li>
-                    <li>API: <span class="fa-brands fa-spotify"> <i class="fa-brands fa-youtube"></i></span></li>
+                    <li>API: <span class="fa-brands fa-spotify"> <span class="fa-brands fa-youtube"></span></span></li>
                     <button class="btn btn-success project-btn popup-btn mt-2 align-items-end" type="button">See Project</button>
                 </ul>
                 
@@ -177,60 +179,52 @@
         </div>
     </section>
 
-    <section class="about-me" id="about-me">
+    <section class="about-me  align-items-center justify-content-center" id="about-me">
         <div class="container align-items-center justify-content-center">
         <div class="row align-items-center">
-            <div class="col-md-6 align-items-center justify-content-center">
-            <div class="bio-text">
-                <h2 class="me clear text-success">About me</h2>
+            <div class="col-lg-6">
+            <div class="bio-text flex-column">
+                <h2 class="me clear text-success m-4">About me</h2>
                 <p>I can help you build a product, feature, or website. Look through some of my work and experience! If you like what you see and have a project you need coded, don't hesitate to contact me.</p>
-                <button class="project-btn btn" type="button">Get my resume</button>
             </div>
             </div>
-            <div class="col-md-6 align-items-center text-white">
-            <div class="d-flex">
-                <div class="about-card">
-                    <div class="image">
-                    <span class="fa-solid fa-earth-europe"></span>
-                    </div>
-                    <h4>Languages</h4>
-                    <div class="lists">
-                    <ul>
-                        <li><span class="fa-brands fa-js"></span></li>
-                        <li>Sass/Scss</li>
-                        <li><span class="fa-brands fa-html5"></span>/ <span class="fa-brands fa-css3-alt"></span></li>
-                    </ul>
-                    </div>
-                </div>
-                <div class="about-card">
-                    <div class="image">
-                    <i class="fa-solid fa-screwdriver-wrench"></i>
-                    </div>
-                    <h4>Frameworks</h4>
-                    <div class="lists">
-                    <ul>
-                        <li>Bootstrap</li>
-                        <li>WordPress</li>
-                        <li>Node.js</li>
-                    </ul>
+            <div class="col-lg-6 text-white d-md-flex align-items-center justify-content-evenly">
+                <div class="about-card m-2 border">
+                    <div class="row">
+                        <ul class="lists frameWork list-unstyled m-0">
+                            <li class="move d-inline-block float-start m-1"><span class="fa-brands fa-js"></span></li>
+                            <li class="move d-inline-block float-end m-1"><span class="fa-brands fa-html5"></span></li>
+                            <h4 class="text-white m-2"><span class="fa-solid fa-earth-europe easter"></span><br>Languages</h4>
+                            <li class="move d-inline-block float-start m-1"><span class="fa-brands fa-css3-alt"></span></li>
+                            <li class="move d-inline-block float-end m-1"><span class="fa-regular fa-circle-question"></span></li>
+                        </ul>
                     </div>
                 </div>
 
-                <div class="about-card">
-                    <div class="image">
-                    <i class="fa-solid fa-star"></i>
+                <div class="about-card m-2 border">
+                    <div class="row">
+                        <ul class="lists frameWork list-unstyled m-0">
+                            <li class="move d-inline-block float-start m-1"><span class="fa-brands fa-bootstrap"></span></li>
+                            <li class="move d-inline-block float-end m-1"><span class="fa-brands fa-wordpress-simple"></span></li>
+                            <h4 class="text-white m-2"><span class="fa-solid fa-screwdriver-wrench easter"></span><br>Frameworks</h4>
+                            <li class="move d-inline-block float-start m-1"><span class="fa-brands fa-node"></span></li>
+                            <li class="move d-inline-block float-end m-1"><span class="fa-brands fa-sass"></span></li>
+                        </ul>
                     </div>
-                    <h4>Skills</h4>
-                    <div class="lists">
-                    <ul>
-                        <li>CodeSandBox</li>
-                        <li>GitHub</li>
-                        <li>Codepen</li>
-                        <li>Gitlab</li>
-                        <li>Terminal</li>
-                    </ul>
+                </div>
+
+                <div class="about-card position-relative m-2 border ">
+                    <div class="row">
+                        <ul class="lists position-relative frameWork list-unstyled m-0">
+                            <li class="move d-inline-block float-start m-1"><span class="fa-brands fa-codepen"></span></li>
+                            <li class="move d-inline-block float-end m-1"><span class="fa-brands fa-github"></span></li>
+                            <h4 class="text-white m-2"><span class="fa-solid fa-star easter"></span><br>Skills</h4>
+                            <li class="move d-inline-block float-start m-1"><span class="fa-regular fa-circle-question"></span></li>
+                            <li class="move d-inline-block float-end m-1"><span class="fa-regular fa-circle-question"></span></li>
+                        </ul>
                     </div>
-            </div>
+                </div>
+                
             </div>
         </div>
         </div>
@@ -239,8 +233,7 @@
         <div class="container register">
             <div class="row">
                 <div class="col-md-3 register-left">
-                    <h4 class="pt-4">I wait you</h4>
-                    <p>Je vous réponds au plus vite!<br>Et ce n'est pas une blague...</p>
+                    <p class="pt-4">Je vous réponds au plus vite!<br>Et ce n'est pas une blague...</p>
                     <img src="https://raw.githubusercontent.com/FredFreeb/assets/myPortfolio/cameo.png" width="120" alt="Je suis un quoka, pas light...">
                 </div>
 
@@ -266,7 +259,7 @@
                                     </div>
                                 </div>
                                     <div class="align-content-center">
-                                    <input type="submit" class="btn btn-primary"  value="C'est Parti!">
+                                    <input type="submit" class="btn btn-success"  value="C'est Parti!">
                                     </div>
                                 </div>
                             </div>
