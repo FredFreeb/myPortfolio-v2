@@ -38,6 +38,7 @@
         </div>
         </nav>
     </header>
+    <!-- Start : FIRST VIEW -->
     <section id="firstImpress" class="mt-5 mb-5">
     <div class="container-fluid">
         <div class="headlines">
@@ -50,34 +51,35 @@
             </div>
             <div class="col-lg-4"></div>
         </div>
-        <h2 class="myjob pt-5 text-success clear">Your future web developer</h2>
+        <h2 class="myjob pt-5 text-success fw-bolder clear">Your future web developer</h2>
         <p class="mt-5">
             I am a full-stack developer and I can help you build a product, a site or a project.<br> Feel free to take a look at my work! If you have a need in the code, do not hesitate to contact me...
         </p>
         <div class="social-media-icons mt-5">
             <ul class="d-flex justify-content-around list-unstyled">
             <li class="list-inline-item">
-                <a href="https://www.linkedin.com/in/FredFreeb" target="_blank"><span class="fa-brands fa-linkedin-in text-success"></span></a>
+                <a href="https://www.linkedin.com/in/FredFreeb" aria-label="Page de linkedin" target="_blank"><span class="fa-brands fa-linkedin-in text-success"></span></a>
             </li>
             <li class="list-inline-item">
-                <a href="https://join.slack.com/t/fredcodegroupe/shared_invite/zt-1qzda60qe-23PAGA3rbelrAwyP5~eBnQ" target="_blank"><span class="fa-brands fa-slack text-success"></span></a>
+                <a href="https://join.slack.com/t/fredcodegroupe/shared_invite/zt-1qzda60qe-23PAGA3rbelrAwyP5~eBnQ" aria-label="Page de slack" target="_blank"><span class="fa-brands fa-slack text-success"></span></a>
             </li>
             <li class="list-inline-item">
-                <a href="https://github.com/FredFreeb" target="_blank"><span class="fa-brands fa-github text-success"></span></a>
+                <a href="https://github.com/FredFreeb" aria-label="Page de github" target="_blank"><span class="fa-brands fa-github text-success"></span></a>
             </li>
             <li class="list-inline-item">
-                <a href="https://discord.gg/4s375Xyf37" target="_blank"><span class="fa-brands fa-discord text-success" ></span></a>
+                <a href="https://discord.gg/4s375Xyf37" aria-label="Page de discord" target="_blank"><span class="fa-brands fa-discord text-success" ></span></a>
             </li>
             </ul>
         </div>
     </div>
     </section>
+    <!-- Déclenchement : EASTER EGG -->
     <div class="container">
-    <a class="easter" href="#easterEgg" data-bs-toggle="modal" data-bs-target="#easterEgg">
+    <a class="easter" href="#easterEgg" aria-label="petite blague" data-bs-toggle="modal" data-bs-target="#easterEgg">
         <span class="fa-solid fa-circle-chevron-down frameWork "></span>
     </a>
     </div>
-
+    <!-- End : FIRST VIEW -->
     
     <!-- Start: EASTER EGG -->
     
@@ -85,7 +87,7 @@
         <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title text-center" id="exampleModalLabel"> En plein Boulot! </h5>
+            <h3 class="modal-title text-center" id="exampleModalLabel"> En plein Boulot! </h3>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -99,7 +101,6 @@
         </div>
         </div>
     </div>
-    
     <button class="navbar-toggler col-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"  aria-expanded="false" aria-label="Toggle navigation"></button>
 
     <!-- End: EASTER EGG -->
@@ -107,7 +108,7 @@
     <section class="bg-light pb-5"  id="my-works">
         <div class="container justify-content-center">
         <hr>    
-        <h2 class="text-center mb-4">My Recent Works</h2>
+        <h3 class="text-center mb-4">My Recent Works</h3>
         <hr>
     
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 card-group d-flex flex-wrap justify-content-between">
@@ -188,19 +189,19 @@
             </div>
         </div>
     </section>
-
-    <section class="about-me  align-items-center justify-content-center" id="about-me">
-        <div class="container align-items-center justify-content-center">
-        <div class="row align-items-center">
+    <!-- Start : ABOUT ME -->
+    <section class="about-me w-100 align-items-center justify-content-center" id="about-me">
+        <div class="align-items-center justify-content-between">
+        <div class="row align-items-stretch p-3">
             <div class="col-lg-5">
             <div class="bio-text flex-column">
-                <h2 class="me clear text-success m-4">About me</h2>
+                <h4 class="me clear text-success m-2">About me</h4>
                 <p>I can help you build a product, feature, or website. Look through some of my work and experience! If you like what you see and have a project you need coded, don't hesitate to contact me.</p>
             </div>
             </div>
-            <div class="col-lg-7 text-white d-md-flex align-items-center justify-content-evenly">
-                <div class="about-card m-2 border w-100">
-                    <div class="row">
+            <div class="col-lg-7 text-white d-md-flex align-items-center justify-content-around">
+                <div class="about-card m-2 border bg-dark w-100">
+                    <div class="row p-1">
                         <ul class="lists frameWork list-unstyled m-0">
                             <li class="move d-inline-block float-start m-1"><span class="fa-brands fa-js fa-lg "></span></li>
                             <li class="move d-inline-block float-end m-1"><span class="fa-brands fa-html5 fa-lg"></span></li>
@@ -211,20 +212,20 @@
                     </div>
                 </div>
 
-                <div class="about-card m-2 border w-100">
-                    <div class="row">
-                        <ul class="lists frameWork list-unstyled m-0">
+                <div class="about-card m-2 bg-light border w-100">
+                    <div class="row p-1">
+                        <ul class="lists frameWork  list-unstyled m-0">
                             <li class="move d-inline-block float-start m-1"><span class="fa-brands fa-bootstrap fa-lg"></span></li>
                             <li class="move d-inline-block float-end m-1"><span class="fa-brands fa-wordpress-simple fa-lg"></span></li>
-                            <li><p class="text-white pt-5 m-2"><span class="fa-solid fa-screwdriver-wrench easter"></span><br>Frameworks</p></li>
+                            <li><p class="text-dark pt-5 m-2"><span class="fa-solid fa-screwdriver-wrench easter"></span><br>Frameworks</p></li>
                             <li class="move d-inline-block float-start m-1"><span class="fa-brands fa-node fa-lg"></span></li>
                             <li class="move d-inline-block float-end m-1"><span class="fa-brands fa-sass fa-lg"></span></li>
                         </ul>
                     </div>
                 </div>
 
-                <div class="about-card position-relative m-2 border w-100">
-                    <div class="row">
+                <div class="about-card bg-dark m-2 border w-100">
+                    <div class="row p-1">
                         <ul class="lists position-relative frameWork list-unstyled m-0">
                             <li class="move d-inline-block float-start m-1"><span class="fa-brands fa-codepen fa-lg"></span></li>
                             <li class="move d-inline-block float-end m-1"><span class="fa-brands fa-github fa-lg"></span></li>
@@ -238,7 +239,73 @@
             </div>
         </div>
         </div>
+        <div class="align-items-center justify-content-between">
+            <div class="row align-items-center p-3">
+            <div class="col-lg-7 text-white d-md-flex align-items-stretch justify-content-evenly">
+                <div class="about-card m-2 border bg-light w-100">
+                    <div class=" row  p-1">
+                    <ul class="lists justify-content-between list-unstyled m-0">
+                        <li> <!-- JOBS -->
+                        <p class="text-success m-2">
+                            <span class="fa-solid fa-briefcase easter"></span><br>Last jobs
+                        </p>
+                        </li>
+<!-- METTRE UN HOVER SUR LOGO POUR POSTE ET ANNEE -->                        
+                        <li class="d-flex justify-content-around align-items-center m-1"> 
+                            <img src="/assets/LOGOCINEVENDOME.png" class="d-inline-block m-1 w-25 h-25" alt="Ciné Vendôme">
+                            <img src="/assets/but-logo.svg" class="d-inline-block w-25 h-25" alt="But">
+                            <img src="/assets/Amazon_icon.svg.png" class="d-inline-block w-25 h-25" alt="Amazon">
+                        </li>
+                        <li class="d-flex justify-content-around align-items-center m-1">
+                            <img src="/assets/1200px-Quick-Logo.svg.png" class="d-inline-block m-1 w-25 h-25" alt="Quick">
+                            <img src="/assets/cinema-le-calypso.png" class="d-inline-block text-bg-primary w-25 h-25" alt="" >
+                            <img src="/assets/Exofarm.png" class="d-inline-block w-25 h-25" alt="Exofarm">
+                        </li>
+                    </ul>
+                    </div>
+                </div>
+<!-- METTRE UN HOVER SUR LOGO POUR DIPLOME ET ANNEE -->  
+                <div class="about-card row m-2 bg-dark border w-100">
+                    <div class="row p-1"> <!-- DIPLOMES -->
+                    <ul class="lists justify-content-between align-items-baseline list-unstyled m-1">
+                        <li>
+                        <p class="text-success m-2">
+                            <span class="fa-solid fa-graduation-cap  easter"></span><br>Formations
+                        </p>
+                        </li>
+                        <li class="d-flex justify-content-around align-items-end m-1">
+                            <img src="/assets/LOGO-AFPA-VERT-PNG.png" class="d-inline-block bg-light m-1 w-25 h-25" alt="Afpa">
+                            <img src="/assets/Logo_INA.svg.png" class="d-inline-block w-25 h-25" alt="Ina">
+                            <img src="/assets/avatar_1665322366_2610.png" class="d-inline-block w-25 h-25" alt="Afomav">
+                        </li>
+                    </ul>
+                    </div>
+                </div>
+
+                <div class="about-card bg-light m-2 border w-100">
+                    <div class="row p-1"><!-- MON CV -->
+                    <ul class="lists justify-content-between list-unstyled m-0">
+                        <li>
+                        <p class="text-success m-2">
+                            <a download href="/assets/cv_provisoire_stage_2023-2.pdf" aria-label="Page de mon c.v."  class="easter"><span class="fa-solid fa-file-pdf "></span></a><br>My resume
+                        </p>
+                        <p class="text-primary">Cliquez sur le Pdf</p>
+                        </li>
+                    </ul>
+                    </div>
+                </div>
+            </div>
+                <div class=" col-lg-5">
+                <div class="bio-text justify-content-center flex-column">
+                    <h3 class=" text-success m-2">Mon parcours</h3>
+                    <p class="w-100 justify-content-center">Here is a brief overview of my journey in three points</p>
+                </div>
+            </div>
+            </div>
+        </div>
     </section>
+    <!-- END : ABOUT ME -->
+    <!-- Start : FOOTER -->
     <footer class="bg-body-tertiary">    
         <div class="container register">
             <div class="row">
@@ -254,30 +321,55 @@
                             <div class="row register-form">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                       <input type="text" class="form-control my-3" placeholder="First Name *" value="">
+                                        <label for="firstName" class="visually-hidden" aria-hidden="true">Nom :</label>
+                                       <input type="text" id="firstName" class="form-control my-3" placeholder="First Name *" value="first name" name="Nom">
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control my-3" placeholder="Last Name *" value="">
+                                        <label for="lastName" class="visually-hidden aria-hidden="true">Prénom :</label>
+                                        <input type="text" id="lastName" class="form-control my-3" placeholder="Last Name *" value="Last Name" name="prénom">
                                     </div>
                                     </div>
                                 <div class="col-md-6">
                                     <div class="form-group my-3">
-                                        <input type="email" class="form-control" placeholder="Your Email *" value="" >
+                                        <label for="email" class="visually-hidden aria-hidden="true">email :</label>
+                                        <input type="email" id="email" class="form-control" placeholder="Your Email *" value="email" name="email" >
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control my-3" placeholder="Your Phone *" value="">
+                                        <label for="phone" class="visually-hidden aria-hidden="true">Téléphone :</label>
+                                        <input type="text" id="phone" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control my-3" placeholder="Your Phone *" value=" phone">
                                     </div>
                                 </div>
                                     <div class="align-content-center">
-                                    <input type="submit" class="btn btn-success"  value="C'est Parti!">
+                                        <label for="soumettre" class="visually-hidden aria-hidden="true">soumettre :</label>
+                                        <input type="submit" id="soumettre" class="btn btn-success"  value="C'est Parti!">
                                     </div>
                                 </div>
                             </div>
-                        </div>   
+                        </div> 
+                        <hr>
+                            <div class="social-media-icons mt-5">
+                                <ul class="d-flex justify-content-around list-unstyled">
+                                <li class="list-inline-item">
+                                    <a href="https://www.linkedin.com/in/FredFreeb" aria-label="Page de linkedin" target="_blank"><span class="fa-brands fa-linkedin-in text-success"></span></a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="https://join.slack.com/t/fredcodegroupe/shared_invite/zt-1qzda60qe-23PAGA3rbelrAwyP5~eBnQ" aria-label="Page de slack" target="_blank"><span class="fa-brands fa-slack text-success"></span></a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="https://github.com/FredFreeb" aria-label="Page de github" target="_blank"><span class="fa-brands fa-github text-success"></span></a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="https://discord.gg/4s375Xyf37" aria-label="Page de discord" target="_blank"><span class="fa-brands fa-discord text-success" ></span></a>
+                                </li>
+                                </ul>
+                            </div>
+                        <a class="text-decoration-none text-dark" aria-label="Page des mentions légales" href="https://www.legalplace.fr/guides/mentions-legales/">mentions légales</a>
                     </div>
+                    
             </div>
         </div>
-        <a class="" href="https://www.legalplace.fr/guides/mentions-legales/">mentions légales</a>
+        
     </footer>
+    <!-- End : FOOTER -->
 </body>
 </html>
