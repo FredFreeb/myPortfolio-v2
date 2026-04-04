@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Civitalisme | Portfolio + Civitalisme{% endblock %}
+{% block meta_description %}Présentation du projet Civitalisme avec deux lectures complémentaires : grand public et institutionnelle.{% endblock %}
+
+{% block body %}
+    <section class="hero hero--inner">
+        <div class="hero__copy">
+            <p class="eyebrow">Mon plus gros projet</p>
+            <h1 class="hero__title hero__title--medium" data-controller="pretext" data-pretext-line-height-value="62">
+                Civitalisme : une manière d’articuler attention citoyenne, culture et numérique.
+            </h1>
+            <p class="hero__lead">
+                Cette page centrale propose deux interprétations d’un même projet : l’une plus accessible et narrative, l’autre plus structurée
+                pour des partenaires, institutions ou acteurs de terrain.
+            </p>
+        </div>
+
+        <div class="hero__panel surface-card">
+            <p class="panel-label">Intentions</p>
+            <ul class="feature-list">
+                <li>Raconter un projet sans l’écraser sous le concept</li>
+                <li>Donner de la place à l’actualisation et aux nouveaux blocs</li>
+                <li>Permettre une lecture adaptée à chaque interlocuteur</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section dual-grid">
+        <article class="surface-card audience-card audience-card--public">
+            <p class="panel-label">Version grand public</p>
+            <h2>Entrer par l’usage, le ton et la promesse</h2>
+            <p>Une page plus ouverte, plus incarnée, qui assume le sensible et la pédagogie.</p>
+
+            <div class="stacked-snippets">
+                {% for update in publicHighlights %}
+                    <div class="snippet">
+                        <strong>{{ update.title }}</strong>
+                        <span>{{ update.summary }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <a class="button" href="{{ path('app_civitalisme_audience', {audience: 'grand-public'}) }}">Voir la version grand public</a>
+        </article>
+
+        <article class="surface-card audience-card audience-card--institutional">
+            <p class="panel-label">Version institutionnelle</p>
+            <h2>Entrer par la méthode, l’impact et la coopération</h2>
+            <p>Une lecture plus structurée pour préparer une conversation avec des partenaires ou décideurs.</p>
+
+            <div class="stacked-snippets">
+                {% for update in institutionalHighlights %}
+                    <div class="snippet">
+                        <strong>{{ update.title }}</strong>
+                        <span>{{ update.summary }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <a class="button" href="{{ path('app_civitalisme_audience', {audience: 'institutionnel'}) }}">Voir la version institutionnelle</a>
+        </article>
+    </section>
+{% endblock %}

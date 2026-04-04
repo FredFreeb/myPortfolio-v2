@@ -1,0 +1,28 @@
+
+services:
+  php:
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/app
+      - symfony_vendor:/app/vendor
+      - symfony_var:/app/var
+    command: >
+      sh -lc "if [ ! -f vendor/autoload.php ]; then composer install --prefer-dist --no-interaction; fi && apache2-foreground"
+
+###> doctrine/doctrine-bundle ###
+  database:
+    ports:
+      - "5432:5432"
+###< doctrine/doctrine-bundle ###
+
+###> symfony/mailer ###
+  mailer:
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+###< symfony/mailer ###
+
+volumes:
+  symfony_vendor:
+  symfony_var:

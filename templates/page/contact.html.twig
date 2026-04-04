@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact | Portfolio + Civitalisme{% endblock %}
+{% block meta_description %}Formulaire de contact avec protection anti-abus et stockage minimal des données.{% endblock %}
+
+{% block body %}
+    <section class="hero hero--inner">
+        <div class="hero__copy">
+            <p class="eyebrow">Contact</p>
+            <h1 class="hero__title hero__title--medium" data-controller="pretext" data-pretext-line-height-value="62">
+                Parlons d’un site, d’une mission ou d’un projet à faire émerger proprement.
+            </h1>
+            <p class="hero__lead">
+                Le formulaire enregistre uniquement les données nécessaires à la réponse. Les envois sont limités pour réduire le spam,
+                et les messages restent consultables depuis l’admin.
+            </p>
+        </div>
+
+        <div class="hero__panel surface-card">
+            <p class="panel-label">Canaux directs</p>
+            <div class="stacked-links">
+                {% for link in contactLinks %}
+                    <a href="{{ link.url }}" target="_blank" rel="noreferrer">{{ link.label }} — {{ link.description }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="section split-section">
+        <article class="surface-card">
+            <div class="section-heading section-heading--tight">
+                <div>
+                    <p class="eyebrow">Formulaire</p>
+                    <h2>Envoyer un message</h2>
+                </div>
+            </div>
+
+            {{ form_start(form, {'attr': {'class': 'contact-form'}}) }}
+                <div class="form-grid">
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.company) }}
+                    {{ form_row(form.subject) }}
+                </div>
+                {{ form_row(form.message) }}
+                {{ form_row(form.consent) }}
+                {{ form_row(form.website) }}
+
+                <button class="button" type="submit">Envoyer le message</button>
+            {{ form_end(form) }}
+        </article>
+
+        <aside class="surface-card">
+            <p class="eyebrow">Cadre</p>
+            <h2>Ce qui est stocké</h2>
+            <ul class="feature-list">
+                <li>Nom, e-mail, structure éventuelle, objet et message</li>
+                <li>Aucune donnée marketing ni pisteur tiers</li>
+                <li>Un back-office pour lire et traiter les demandes simplement</li>
+            </ul>
+        </aside>
+    </section>
+{% endblock %}

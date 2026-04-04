@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}About me | Portfolio + Civitalisme{% endblock %}
+{% block meta_description %}Parcours, environnement de travail, passions et approche métier autour du web, de l’IA et de la poésie.{% endblock %}
+
+{% block body %}
+    <section class="hero hero--inner">
+        <div class="hero__copy">
+            <p class="eyebrow">About me</p>
+            <h1 class="hero__title hero__title--medium" data-controller="pretext" data-pretext-line-height-value="62">
+                Développer des formes web vivantes sans perdre la clarté du fond.
+            </h1>
+            <p class="hero__lead">
+                Mon parcours s’écrit à la rencontre du code, de la narration visuelle, des usages concrets et d’une curiosité profonde pour l’IA,
+                la poésie et les projets à haute valeur symbolique.
+            </p>
+        </div>
+
+        <aside class="surface-card aside-card">
+            <p class="panel-label">En bref</p>
+            <ul class="feature-list">
+                <li>Front-end sensible, back-end sobre, admin utile</li>
+                <li>Préférence pour les systèmes maintenables plutôt que les démonstrations lourdes</li>
+                <li>Goût pour les projets culturels, civiques et éditoriaux</li>
+            </ul>
+        </aside>
+    </section>
+
+    <section class="section">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Parcours</p>
+                <h2>Quelques repères</h2>
+            </div>
+        </div>
+
+        <div class="card-grid card-grid--three">
+            {% for item in journey %}
+                <article class="surface-card narrative-card">
+                    <h3>{{ item.title }}</h3>
+                    <p>{{ item.body }}</p>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="section split-section">
+        <article class="surface-card">
+            <p class="eyebrow">Environnement de travail</p>
+            <h2>Des outils choisis pour rester autonome</h2>
+            <ul class="feature-list">
+                {% for item in environment %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </article>
+
+        <article class="surface-card">
+            <p class="eyebrow">Passions</p>
+            <h2>IA, poésie, musique</h2>
+            <ul class="feature-list">
+                {% for item in passions %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+
+            {% if albumUrl %}
+                <a class="button" href="{{ albumUrl }}" target="_blank" rel="noreferrer">Écouter l’album</a>
+            {% else %}
+                <p class="hint-text">Le lien vers l’album est prêt à être branché via la variable d’environnement <code>APP_ALBUM_URL</code>.</p>
+            {% endif %}
+        </article>
+    </section>
+
+    <section class="section">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Présence</p>
+                <h2>Me retrouver</h2>
+            </div>
+        </div>
+
+        <div class="card-grid card-grid--compact">
+            {% for link in contactLinks %}
+                <article class="surface-card link-card">
+                    <h3>{{ link.label }}</h3>
+                    <p>{{ link.description }}</p>
+                    <a class="button button--ghost" href="{{ link.url }}" target="_blank" rel="noreferrer">Ouvrir</a>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

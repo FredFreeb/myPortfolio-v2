@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Portfolio + Civitalisme{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Portfolio, parcours et projet Civitalisme dans une application Symfony sobre, éditable et maintenable.{% endblock %}">
+    {{ importmap('app') }}
+</head>
+{% set currentRoute = app.request.attributes.get('_route') ?? '' %}
+<body class="{% block body_class %}{% endblock %}">
+    <div class="site-background" aria-hidden="true">
+        <div class="site-background__orb site-background__orb--one"></div>
+        <div class="site-background__orb site-background__orb--two"></div>
+        <div class="site-background__grid"></div>
+    </div>
+
+    <div class="site-shell">
+        <header class="site-header">
+            <a class="brand" href="{{ path('app_home') }}">
+                <span class="brand__mark">FF</span>
+                <span class="brand__text">
+                    <strong>Portfolio</strong>
+                    <small>Civitalisme</small>
+                </span>
+            </a>
+
+            <nav class="site-nav" aria-label="Navigation principale">
+                <a class="site-nav__link {{ currentRoute == 'app_home' ? 'is-active' }}" href="{{ path('app_home') }}">Portfolio</a>
+                <a class="site-nav__link {{ currentRoute == 'app_about' ? 'is-active' }}" href="{{ path('app_about') }}">About me</a>
+                <a class="site-nav__link {{ currentRoute starts with 'app_civitalisme' ? 'is-active' }}" href="{{ path('app_civitalisme') }}">Civitalisme</a>
+                <a class="site-nav__link {{ currentRoute == 'app_contact' ? 'is-active' }}" href="{{ path('app_contact') }}">Contact</a>
+            </nav>
+
+            <div class="site-actions">
+                <a class="button button--ghost" href="{{ path('app_login') }}">Admin</a>
+            </div>
+        </header>
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="flash flash--{{ label == 'error' ? 'error' : 'success' }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <main class="page-main">
+            {% block body %}{% endblock %}
+        </main>
+
+        <footer class="site-footer">
+            <div>
+                <p class="site-footer__title">Portfolio + Civitalisme</p>
+                <p class="site-footer__text">Symfony, Docker, administration éditoriale et un socle pensé pour rester simple à faire vivre.</p>
+            </div>
+
+            <div class="site-footer__meta">
+                <a href="{{ path('app_contact') }}">Prendre contact</a>
+                <a href="{{ path('app_login') }}">Back-office</a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

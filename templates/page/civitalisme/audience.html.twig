@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ audience.label() }} | Civitalisme{% endblock %}
+{% block meta_description %}{{ audience.label() }} : blocs éditoriaux et avancées du projet Civitalisme.{% endblock %}
+
+{% block body %}
+    <section class="hero hero--inner">
+        <div class="hero__copy">
+            <p class="eyebrow">Civitalisme • {{ audience.label() }}</p>
+            <h1 class="hero__title hero__title--medium" data-controller="pretext" data-pretext-line-height-value="62">
+                {% if audience.value == 'grand-public' %}
+                    Une lecture claire, accueillante et sensible du projet.
+                {% else %}
+                    Une lecture structurée pour partenaires, institutions et coopérations.
+                {% endif %}
+            </h1>
+            <p class="hero__lead">
+                {% if audience.value == 'grand-public' %}
+                    Ici, Civitalisme se présente comme une invitation : comprendre l’idée, sentir le ton et voir des formats concrets d’appropriation.
+                {% else %}
+                    Ici, Civitalisme devient un dossier vivant : objectifs, méthode, capacités d’action et signes de maturité du projet.
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="hero__panel surface-card">
+            <p class="panel-label">Navigation</p>
+            <div class="stacked-links">
+                <a href="{{ path('app_civitalisme') }}">Retour à la page projet</a>
+                <a href="{{ path('app_contact') }}">Prendre contact</a>
+                <a href="{{ path('admin_dashboard') }}">Mettre à jour les blocs</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="timeline">
+            {% for update in updates %}
+                <article class="surface-card timeline-card">
+                    <div class="meta-row">
+                        <span>{{ update.statusLabel }}</span>
+                        {% if update.outcome %}
+                            <span>{{ update.outcome }}</span>
+                        {% endif %}
+                    </div>
+                    <h2>{{ update.title }}</h2>
+                    <p class="timeline-card__summary">{{ update.summary }}</p>
+                    <div class="timeline-card__body">{{ update.body|nl2br }}</div>
+
+                    {% if update.ctaUrl and update.ctaLabel %}
+                        <a class="button button--ghost" href="{{ update.ctaUrl }}" target="_blank" rel="noreferrer">{{ update.ctaLabel }}</a>
+                    {% endif %}
+                </article>
+            {% else %}
+                <article class="surface-card">
+                    <h2>Aucun bloc publié pour le moment.</h2>
+                    <p>Tu peux ajouter les premiers contenus depuis l’admin.</p>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}
