@@ -1,0 +1,228 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cadre institutionnel du Civitalisme | Portfolio + Civitalisme{% endblock %}
+{% block meta_description %}Cadre technique et institutionnel du Civitalisme : EuroE, Socle vital européen, gouvernance démocratique, risques et cas de Prague.{% endblock %}
+{% block body_class %}theme-civitalisme page-civitalisme page-civitalisme--technical{% endblock %}
+
+{% block body %}
+    <section class="hero hero--inner section--panel section--panel-civic">
+        <div class="hero__copy">
+            <p class="eyebrow">{{ content.hero.eyebrow }}</p>
+            <h1 class="hero__title hero__title--medium" data-controller="pretext" data-pretext-line-height-value="62">
+                {{ content.hero.title }}
+            </h1>
+            <p class="hero__subtitle">{{ content.hero.subtitle }}</p>
+            <p class="hero__lead">{{ content.hero.lead }}</p>
+
+            <div class="hero__actions">
+                <a class="button" href="{{ asset('documents/civitalisme-note-conceptuelle.md') }}" download>Télécharger la note conceptuelle</a>
+                <a class="button button--ghost" href="{{ path('app_civitalisme') }}">Revenir à la version grand public</a>
+            </div>
+        </div>
+
+        <div class="hero__panel surface-card">
+            <p class="panel-label">{{ content.heroPanel.label }}</p>
+            <h2>{{ content.heroPanel.title }}</h2>
+            <p>{{ content.heroPanel.body }}</p>
+
+            <div class="hero__tags">
+                {% for item in content.hero.highlights %}
+                    <span class="hero__tag">{{ item }}</span>
+                {% endfor %}
+            </div>
+
+            <ul class="feature-list">
+                {% for point in content.heroPanel.points %}
+                    <li>{{ point }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+
+    {% include 'page/civitalisme/_partials/_page_switch.html.twig' with {
+        active: 'technical',
+        title: 'Navigation Civitalisme',
+        description: 'Cette page technique approfondit la doctrine. La version grand public reste disponible pour une lecture plus synthétique et narrative.',
+    } only %}
+
+    <section class="section section--panel section--panel-civic-alt">
+        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.introduction only %}
+
+        <div class="metric-strip">
+            {% for metric in content.introduction.metrics %}
+                <article class="surface-card metric-chip">
+                    <strong>{{ metric.label }}</strong>
+                    <span>{{ metric.value }}</span>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="section section--panel section--panel-civic">
+        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.diagnostic only %}
+
+        {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
+            items: content.diagnostic.points,
+        } only %}
+    </section>
+
+    <section class="section section--panel section--panel-civic-alt">
+        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.doctrine only %}
+
+        {% include 'page/civitalisme/_partials/_comparison_table.html.twig' with {
+            title: 'Architecture du double circuit monétaire',
+            caption: 'Le Civitalisme conserve l’euro classique comme monnaie générale et attribue à l’EuroE une fonction sociale complémentaire, strictement encadrée.',
+            rowLabel: 'Instrument',
+            columns: content.doctrine.table.columns,
+            rows: content.doctrine.table.rows,
+        } only %}
+
+        {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
+            items: content.doctrine.points,
+        } only %}
+    </section>
+
+    <section class="section section--panel section--panel-civic">
+        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.architecture only %}
+
+        {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
+            items: content.architecture.points,
+        } only %}
+    </section>
+
+    <section class="section section--panel section--panel-civic-alt">
+        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.socle only %}
+
+        <div class="pill-grid pill-grid--wide">
+            {% for need in content.socle.needs %}
+                <article class="surface-card pill-card">
+                    <h3>{{ need }}</h3>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="section section--panel section--panel-civic">
+        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.calculation only %}
+
+        <div class="dual-grid">
+            <article class="surface-card formula-card">
+                <p class="panel-label">Formules</p>
+                <div class="formula-stack">
+                    {% for equation in content.calculation.equations %}
+                        <p class="case-study-card__equation">{{ equation }}</p>
+                    {% endfor %}
+                </div>
+            </article>
+
+            <article class="surface-card formula-card">
+                <p class="panel-label">Paramètres de base</p>
+                <ul class="feature-list feature-list--tight">
+                    {% for parameter in content.calculation.parameters %}
+                        <li>{{ parameter }}</li>
+                    {% endfor %}
+                </ul>
+            </article>
+        </div>
+    </section>
+
+    <section class="section section--panel section--panel-civic-alt">
+        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with {
+            eyebrow: content.caseStudy.eyebrow,
+            title: content.caseStudy.title,
+            lead: 'Le cas de Prague montre comment l’EuroE augmente lorsque le revenu du foyer chute, tout en préservant la lecture économique du système.',
+        } only %}
+
+        {% include 'page/civitalisme/_partials/_case_study_card.html.twig' with {
+            caseStudy: content.caseStudy,
+        } only %}
+    </section>
+
+    <section class="section section--panel section--panel-civic">
+        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.stakeholders only %}
+
+        {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
+            items: content.stakeholders.points,
+        } only %}
+    </section>
+
+    <section class="section section--panel section--panel-civic-alt">
+        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.governance only %}
+
+        <div class="governance-grid">
+            {% for actor in content.governance.actors %}
+                <article class="surface-card governance-card">
+                    <p class="panel-label">Rôle</p>
+                    <h3>{{ actor.title }}</h3>
+                    <p>{{ actor.body }}</p>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="section">
+        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with {
+            eyebrow: content.risks.eyebrow,
+            title: content.risks.title,
+            lead: 'Une doctrine crédible se construit avec ses objections, ses risques et ses garde-fous dès le départ.',
+        } only %}
+
+        <div class="risk-grid">
+            {% for risk in content.risks.items %}
+                <article class="surface-card risk-card">
+                    <h3>{{ risk.title }}</h3>
+                    <p>{{ risk.body }}</p>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="section">
+        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with {
+            eyebrow: content.roadmap.eyebrow,
+            title: content.roadmap.title,
+            lead: 'La montée en charge doit rester progressive, testable et démocratiquement contrôlée.',
+        } only %}
+
+        <div class="timeline-grid">
+            {% for item in content.roadmap.phases %}
+                <article class="surface-card timeline-phase">
+                    <p class="panel-label">{{ item.phase }}</p>
+                    <h3>{{ item.title }}</h3>
+                    <p>{{ item.body }}</p>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    {% include 'page/civitalisme/_partials/_updates_feed.html.twig' with {
+        eyebrow: 'Bloc institutionnel',
+        title: 'Notes et jalons éditoriaux',
+        lead: 'Les contenus ci-dessous restent pilotables depuis l’admin pour faire évoluer la doctrine, les partenaires visés ou les expérimentations.',
+        updates: institutionalHighlights,
+    } only %}
+
+    {% include 'page/civitalisme/_partials/_call_to_action.html.twig' with {
+        eyebrow: 'Conclusion',
+        title: content.conclusion.title,
+        body: content.conclusion.body,
+        actions: [
+            {
+                label: 'Télécharger la note conceptuelle',
+                href: asset('documents/civitalisme-note-conceptuelle.md'),
+                variant: '',
+                download: true,
+            },
+            {
+                label: 'Revenir à la version grand public',
+                href: path('app_civitalisme'),
+                variant: 'button--ghost',
+            },
+            {
+                label: 'Découvrir les autres projets',
+                href: path('app_home'),
+                variant: 'button--ghost',
+            },
+        ],
+    } only %}
+{% endblock %}

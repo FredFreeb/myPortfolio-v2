@@ -1,162 +1,148 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Portfolio | Portfolio + Civitalisme{% endblock %}
-{% block meta_description %}Portfolio de Fred : travaux, intention créative, stack Symfony et aperçu du projet Civitalisme.{% endblock %}
+{% block title %}Portfolio | Portfolio + Civitalisme
+{% endblock %}
+{% block meta_description %}Portfolio de Fred : travaux, intention créative, stack Symfony et aperçu du projet Civitalisme.
+{% endblock %}
+{% block body_class %}theme-portfolio page-home
+{% endblock %}
 
 {% block body %}
-    <section class="hero hero--home">
-        <div class="hero__copy">
-            <p class="eyebrow">Portfolio • Symfony • Docker • administration sobre</p>
-            <h1 class="hero__title" data-controller="pretext" data-pretext-line-height-value="74">
-                J’imagine des sites lisibles, sensibles et faciles à faire évoluer.
-            </h1>
-            <p class="hero__lead">
-                Ce site rassemble mes travaux, mon parcours et mon projet Civitalisme dans une base Symfony pensée pour durer :
-                peu de friction, un back-office utile, et un déploiement simple vers un VPS.
-            </p>
+	<section class="hero hero--home hero--immersive hero--spotlight hero--fullbleed" data-controller="parallax" data-parallax-intensity-value="16">
+		<div class="hero-home__media" aria-hidden="true">
+			<video class="hero-home__video" data-parallax-target="layer" data-parallax-depth="-0.45" autoplay muted loop playsinline preload="metadata" aria-label="Animation immersive d'un futur européen créatif">
+				<source src="{{ asset('images/home/task_01knf9nff8fyfvjmb71z2h54hk_task_01knf9nff8fyfvjmb71z2h54hk_genid_8733ee21-cc40-462b-8f2f-11c74b0a2f81_26_04_05_17_06_871926_videos_00000_351871939_source.mp4') }}" type="video/mp4">
+			</video>
+			<div class="hero-home__veil"></div>
+			<div class="hero-home__halo hero-home__halo--one" data-parallax-target="layer" data-parallax-depth="0.4"></div>
+			<div class="hero-home__halo hero-home__halo--two" data-parallax-target="layer" data-parallax-depth="0.75"></div>
+			<div class="hero-home__mesh"></div>
+		</div>
 
-            <div class="hero__actions">
-                <a class="button" href="{{ path('app_contact') }}">Parler d’un projet</a>
-                <a class="button button--ghost" href="{{ path('app_about') }}">Voir mon parcours</a>
-            </div>
+		<div class="hero__copy">
+			<p class="eyebrow hero__eyebrow-band">Portfolio • Symfony • Docker • administration sobre</p>
+			<h1 class="hero__title hero__title--glow hero__title--typed" data-controller="typewriter" data-typewriter-speed-value="34" data-typewriter-start-delay-value="280">
+				Bienvenue sur mon portfolio, où je partage mes projets.
+			</h1>
+			<p class="hero__lead">
+				Ce site rassemble mes travaux, mon parcours et mes projets pour durer dans l'avenir :
+				                sur mesure, un back-office utile, et un déploiement simple vers un VPS.
+			</p>
 
-            <div class="stats-grid">
-                <article class="stat-card">
-                    <strong>4 pages</strong>
-                    <span>Un parcours clair, sans labyrinthe.</span>
-                </article>
-                <article class="stat-card">
-                    <strong>1 admin</strong>
-                    <span>Travaux, contacts et blocs Civitalisme éditables.</span>
-                </article>
-                <article class="stat-card">
-                    <strong>Secure by default</strong>
-                    <span>Symfony Security, CSRF, throttling et données limitées au nécessaire.</span>
-                </article>
-            </div>
-        </div>
+			<div class="hero__actions">
+				<a class="button" href="{{ path('app_contact') }}">Parler d’un projet</a>
+				<a class="button button--ghost" href="{{ path('app_about') }}">Voir mon parcours</a>
+			</div>
 
-        <div class="hero__panel surface-card">
-            <p class="panel-label">Positionnement</p>
-            <div class="hero__manifesto">
-                <p>Code utile.</p>
-                <p>Esthétique assumée.</p>
-                <p>Structure maintenable.</p>
-            </div>
+			<p class="hero-home__line">Design narratif, architecture propre, modernité maîtrisée.</p>
+		</div>
+	</section>
 
-            <ul class="feature-list">
-                <li>Architecture Twig + Doctrine facile à relire</li>
-                <li>Stack Docker prête pour un VPS</li>
-                <li>Prétext de Cheng Lou pour la mise en scène typographique</li>
-            </ul>
-        </div>
-    </section>
+	<section class="section section--panel section--panel-sun">
+		<div class="section-heading">
+			<div>
+				<p class="eyebrow">Travaux</p>
+				<h2>Une sélection de projets</h2>
+			</div>
+			<a class="section-link" href="{{ path('app_contact') }}">Demander une collaboration</a>
+		</div>
 
-    <section class="section">
-        <div class="section-heading">
-            <div>
-                <p class="eyebrow">Travaux</p>
-                <h2>Une sélection de projets</h2>
-            </div>
-            <a class="section-link" href="{{ path('app_contact') }}">Demander une collaboration</a>
-        </div>
+		<div class="card-grid">
+			{% for work in featuredWorks %}
+				<article class="work-card surface-card">
+					<div class="work-card__cover {{ work.imagePath ? '' : 'work-card__cover--placeholder' }}">
+						{% if work.imagePath %}
+							<img src="{{ asset(work.imagePath) }}" alt="{{ work.title }}">
+						{% else %}
+							<span>{{ work.title|slice(0, 2)|upper }}</span>
+						{% endif %}
+					</div>
 
-        <div class="card-grid">
-            {% for work in featuredWorks %}
-                <article class="work-card surface-card">
-                    <div class="work-card__cover {{ work.imagePath ? '' : 'work-card__cover--placeholder' }}">
-                        {% if work.imagePath %}
-                            <img src="{{ asset(work.imagePath) }}" alt="{{ work.title }}">
-                        {% else %}
-                            <span>{{ work.title|slice(0, 2)|upper }}</span>
-                        {% endif %}
-                    </div>
+					<div class="work-card__body">
+						<div class="meta-row">
+							<span>{{ work.clientName ?: 'Projet personnel' }}</span>
+							{% if work.roleLabel %}
+								<span>{{ work.roleLabel }}</span>
+							{% endif %}
+						</div>
+						<h3>{{ work.title }}</h3>
+						<p>{{ work.excerpt }}</p>
+						<p class="stack-line">{{ work.stackSummary }}</p>
+					</div>
 
-                    <div class="work-card__body">
-                        <div class="meta-row">
-                            <span>{{ work.clientName ?: 'Projet personnel' }}</span>
-                            {% if work.roleLabel %}
-                                <span>{{ work.roleLabel }}</span>
-                            {% endif %}
-                        </div>
-                        <h3>{{ work.title }}</h3>
-                        <p>{{ work.excerpt }}</p>
-                        <p class="stack-line">{{ work.stackSummary }}</p>
-                    </div>
+					<div class="work-card__actions">
+						{% if work.projectUrl %}
+							<a class="button button--ghost" href="{{ work.projectUrl }}" target="_blank" rel="noreferrer">Voir le projet</a>
+						{% endif %}
+						{% if work.repositoryUrl %}
+							<a class="button button--subtle" href="{{ work.repositoryUrl }}" target="_blank" rel="noreferrer">Code</a>
+						{% endif %}
+					</div>
+				</article>
+			{% endfor %}
+		</div>
+	</section>
 
-                    <div class="work-card__actions">
-                        {% if work.projectUrl %}
-                            <a class="button button--ghost" href="{{ work.projectUrl }}" target="_blank" rel="noreferrer">Voir le projet</a>
-                        {% endif %}
-                        {% if work.repositoryUrl %}
-                            <a class="button button--subtle" href="{{ work.repositoryUrl }}" target="_blank" rel="noreferrer">Code</a>
-                        {% endif %}
-                    </div>
-                </article>
-            {% endfor %}
-        </div>
-    </section>
+	<section class="section section--panel section--panel-mint">
+		<div class="section-heading">
+			<div>
+				<p class="eyebrow">Civitalisme</p>
+				<h2>Deux portes d’entrée pour un même projet</h2>
+			</div>
+			<a class="section-link" href="{{ path('app_civitalisme') }}">Voir la page projet</a>
+		</div>
 
-    <section class="section">
-        <div class="section-heading">
-            <div>
-                <p class="eyebrow">Civitalisme</p>
-                <h2>Deux portes d’entrée pour un même projet</h2>
-            </div>
-            <a class="section-link" href="{{ path('app_civitalisme') }}">Voir la page projet</a>
-        </div>
+		<div class="dual-grid">
+			<article class="surface-card audience-card">
+				<p class="panel-label">Grand public</p>
+				<h3>Une vision accessible et incarnée</h3>
+				<p>Une page plus narrative, pensée pour partager la promesse, les usages et la tonalité du projet sans jargon inutile.</p>
 
-        <div class="dual-grid">
-            <article class="surface-card audience-card">
-                <p class="panel-label">Grand public</p>
-                <h3>Une vision accessible et incarnée</h3>
-                <p>Une page plus narrative, pensée pour partager la promesse, les usages et la tonalité du projet sans jargon inutile.</p>
+				<div class="stacked-snippets">
+					{% for update in publicHighlights %}
+						<div class="snippet">
+							<strong>{{ update.title }}</strong>
+							<span>{{ update.summary }}</span>
+						</div>
+					{% endfor %}
+				</div>
 
-                <div class="stacked-snippets">
-                    {% for update in publicHighlights %}
-                        <div class="snippet">
-                            <strong>{{ update.title }}</strong>
-                            <span>{{ update.summary }}</span>
-                        </div>
-                    {% endfor %}
-                </div>
+				<a class="button" href="{{ path('app_civitalisme') }}">Explorer la version grand public</a>
+			</article>
 
-                <a class="button" href="{{ path('app_civitalisme_audience', {audience: 'grand-public'}) }}">Explorer la version grand public</a>
-            </article>
+			<article class="surface-card audience-card">
+				<p class="panel-label">Institutionnel</p>
+				<h3>Une lecture claire pour partenaires et institutions</h3>
+				<p>Une page structurée pour exposer méthode, impact, capacité d’intervention et logique de partenariat.</p>
 
-            <article class="surface-card audience-card">
-                <p class="panel-label">Institutionnel</p>
-                <h3>Une lecture claire pour partenaires et institutions</h3>
-                <p>Une page structurée pour exposer méthode, impact, capacité d’intervention et logique de partenariat.</p>
+				<div class="stacked-snippets">
+					{% for update in institutionalHighlights %}
+						<div class="snippet">
+							<strong>{{ update.title }}</strong>
+							<span>{{ update.summary }}</span>
+						</div>
+					{% endfor %}
+				</div>
 
-                <div class="stacked-snippets">
-                    {% for update in institutionalHighlights %}
-                        <div class="snippet">
-                            <strong>{{ update.title }}</strong>
-                            <span>{{ update.summary }}</span>
-                        </div>
-                    {% endfor %}
-                </div>
+				<a class="button" href="{{ path('app_civitalisme_technical') }}">Explorer la version institutionnelle</a>
+			</article>
+		</div>
+	</section>
 
-                <a class="button" href="{{ path('app_civitalisme_audience', {audience: 'institutionnel'}) }}">Explorer la version institutionnelle</a>
-            </article>
-        </div>
-    </section>
+	<section class="section section--cta section--panel section--panel-sky">
+		<div class="cta-band surface-card">
+			<div>
+				<p class="eyebrow">Contact</p>
+				<h2>Besoin d’un site clair, éditable et bien tenu techniquement ?</h2>
+				<p>Je peux intervenir sur un portfolio, une vitrine narrative, un back-office simple ou une base Symfony durable.</p>
+			</div>
 
-    <section class="section section--cta">
-        <div class="cta-band surface-card">
-            <div>
-                <p class="eyebrow">Contact</p>
-                <h2>Besoin d’un site clair, éditable et bien tenu techniquement ?</h2>
-                <p>Je peux intervenir sur un portfolio, une vitrine narrative, un back-office simple ou une base Symfony durable.</p>
-            </div>
-
-            <div class="cta-band__actions">
-                <a class="button" href="{{ path('app_contact') }}">M’écrire</a>
-                {% for link in contactLinks %}
-                    <a class="button button--ghost" href="{{ link.url }}" target="_blank" rel="noreferrer">{{ link.label }}</a>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
+			<div class="cta-band__actions">
+				<a class="button" href="{{ path('app_contact') }}">M’écrire</a>
+				{% for link in contactLinks %}
+					<a class="button button--ghost" href="{{ link.url }}" target="_blank" rel="noreferrer">{{ link.label }}</a>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
 {% endblock %}

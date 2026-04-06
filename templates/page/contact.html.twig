@@ -2,9 +2,10 @@
 
 {% block title %}Contact | Portfolio + Civitalisme{% endblock %}
 {% block meta_description %}Formulaire de contact avec protection anti-abus et stockage minimal des données.{% endblock %}
+{% block body_class %}theme-portfolio page-contact{% endblock %}
 
 {% block body %}
-    <section class="hero hero--inner">
+    <section class="hero hero--inner hero--contact">
         <div class="hero__copy">
             <p class="eyebrow">Contact</p>
             <h1 class="hero__title hero__title--medium" data-controller="pretext" data-pretext-line-height-value="62">
@@ -16,18 +17,40 @@
             </p>
         </div>
 
-        <div class="hero__panel surface-card">
+        <div class="hero__panel surface-card contact-panel">
             <p class="panel-label">Canaux directs</p>
-            <div class="stacked-links">
+            <div class="contact-link-grid">
                 {% for link in contactLinks %}
-                    <a href="{{ link.url }}" target="_blank" rel="noreferrer">{{ link.label }} — {{ link.description }}</a>
+                    <a class="contact-link-card contact-link-card--{{ link.theme }}" href="{{ link.url }}" target="_blank" rel="noreferrer">
+                        <span class="contact-link-card__badge" aria-hidden="true">
+                            {% if link.theme == 'github' %}
+                                <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                                    <path fill="currentColor" d="M12 1.5a10.5 10.5 0 0 0-3.32 20.46c.52.1.7-.23.7-.5v-1.95c-2.86.62-3.46-1.38-3.46-1.38-.47-1.2-1.14-1.51-1.14-1.51-.93-.64.07-.63.07-.63 1.03.08 1.57 1.05 1.57 1.05.9 1.56 2.38 1.1 2.97.83.1-.67.36-1.1.65-1.36-2.28-.26-4.67-1.14-4.67-5.08 0-1.12.4-2.04 1.04-2.76-.1-.26-.45-1.31.1-2.72 0 0 .85-.27 2.78 1.05a9.5 9.5 0 0 1 5.06 0c1.93-1.32 2.78-1.05 2.78-1.05.55 1.4.2 2.46.1 2.72.65.72 1.04 1.64 1.04 2.76 0 3.95-2.4 4.82-4.69 5.08.37.31.7.92.7 1.87v2.76c0 .27.19.6.71.5A10.5 10.5 0 0 0 12 1.5Z"/>
+                                </svg>
+                            {% elseif link.theme == 'linkedin' %}
+                                <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                                    <path fill="currentColor" d="M5.34 8.2a1.79 1.79 0 1 1 0-3.58 1.79 1.79 0 0 1 0 3.58ZM3.78 9.57h3.13V20.2H3.78V9.57Zm5.03 0h3v1.45h.04c.41-.78 1.44-1.6 2.96-1.6 3.17 0 3.76 2.08 3.76 4.79v5.99h-3.13v-5.31c0-1.27-.02-2.9-1.77-2.9-1.78 0-2.05 1.38-2.05 2.8v5.41H8.81V9.57Z"/>
+                                </svg>
+                            {% else %}
+                                {{ link.badge }}
+                            {% endif %}
+                        </span>
+                        <div class="contact-link-card__copy">
+                            <strong>{{ link.label }}</strong>
+                            <span>{{ link.description }}</span>
+                        </div>
+                    </a>
                 {% endfor %}
+            </div>
+
+            <div class="section-note">
+                <strong>Cadre de réponse :</strong> portfolio, refonte éditoriale, base Symfony maintenable ou réflexion produit à formaliser.
             </div>
         </div>
     </section>
 
-    <section class="section split-section">
-        <article class="surface-card">
+    <section class="section split-section split-section--contact section--panel section--panel-mint">
+        <article class="surface-card" id="contact-form">
             <div class="section-heading section-heading--tight">
                 <div>
                     <p class="eyebrow">Formulaire</p>
@@ -50,14 +73,26 @@
             {{ form_end(form) }}
         </article>
 
-        <aside class="surface-card">
-            <p class="eyebrow">Cadre</p>
-            <h2>Ce qui est stocké</h2>
-            <ul class="feature-list">
-                <li>Nom, e-mail, structure éventuelle, objet et message</li>
-                <li>Aucune donnée marketing ni pisteur tiers</li>
-                <li>Un back-office pour lire et traiter les demandes simplement</li>
-            </ul>
-        </aside>
+        <div class="contact-side-grid">
+            <aside class="surface-card">
+                <p class="eyebrow">Cadre</p>
+                <h2>Ce qui est stocké</h2>
+                <ul class="feature-list">
+                    <li>Nom, e-mail, structure éventuelle, objet et message</li>
+                    <li>Aucune donnée marketing ni pisteur tiers</li>
+                    <li>Un back-office pour lire et traiter les demandes simplement</li>
+                </ul>
+            </aside>
+
+            <aside class="surface-card">
+                <p class="eyebrow">Usage</p>
+                <h2>Ce que tu peux m’envoyer</h2>
+                <ul class="feature-list">
+                    <li>Une idée de site vitrine, portfolio ou projet éditorial</li>
+                    <li>Un besoin de remise au propre d’une base existante</li>
+                    <li>Une réflexion UX, contenu ou cadrage technique</li>
+                </ul>
+            </aside>
+        </div>
     </section>
 {% endblock %}

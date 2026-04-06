@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title>Portfolio plus Civitalisme</title>
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#F38181" />
+      <stop offset="50%" stop-color="#FCE38A" />
+      <stop offset="100%" stop-color="#95E1D3" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="18" fill="#0f1d2c" />
+  <rect x="5" y="5" width="54" height="54" rx="15" fill="url(#bg)" />
+  <path d="M18 38.5c6.8-11.8 16.8-17.7 29.8-18.2" fill="none" stroke="#1a2634" stroke-linecap="round" stroke-width="4.5"/>
+  <circle cx="21" cy="40" r="4.5" fill="#1a2634" />
+  <circle cx="44.5" cy="18.5" r="5.5" fill="#1a2634" />
+  <path d="M23 44h18.5" fill="none" stroke="#1a2634" stroke-linecap="round" stroke-width="4"/>
+</svg>

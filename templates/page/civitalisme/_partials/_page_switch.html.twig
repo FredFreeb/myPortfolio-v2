@@ -1,0 +1,23 @@
+<section class="section section--compact">
+    <div class="page-switch surface-card" aria-label="Parcours Civitalisme">
+        <div class="page-switch__copy">
+            <p class="panel-label">Parcours de lecture</p>
+            <h2>{{ title|default('Deux niveaux de lecture') }}</h2>
+            <p>{{ description|default('Choisissez une version selon le niveau de détail souhaité.') }}</p>
+        </div>
+
+        <div class="page-switch__cards">
+            <a class="page-switch__card {{ active == 'public' ? 'is-active' }}" href="{{ path('app_civitalisme') }}">
+                <span class="page-switch__state">Grand public</span>
+                <strong>Civitalisme</strong>
+                <span>Une lecture pédagogique, claire et accessible de la doctrine.</span>
+            </a>
+
+            <a class="page-switch__card {{ active == 'technical' ? 'is-active' }}" href="{{ path('app_civitalisme_technical') }}">
+                <span class="page-switch__state">Technique / institutionnel</span>
+                <strong>Cadre institutionnel</strong>
+                <span>Une lecture plus dense sur l’architecture monétaire, la gouvernance et la mise en œuvre.</span>
+            </a>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,38 @@
+<div class="insight-grid {{ modifier|default('') }}">
+	{% for item in items %}
+		<article class="surface-card insight-card">
+			{% if item.kicker is defined and item.kicker %}
+				<p class="panel-label">{{ item.kicker }}</p>
+			{% endif %}
+
+			<h3>{{ item.title }}</h3>
+
+			{% if item.body is defined and item.body %}
+				<p>{{ item.body }}</p>
+			{% endif %}
+
+			{% if item.points is defined and item.points %}
+				<ul class="feature-list feature-list--tight">
+					{% for point in item.points %}
+						<li>{{ point }}</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+
+			{% if item.documents is defined and item.documents %}
+				<div class="insight-card__resources">
+					<p class="panel-label">PDF à lire</p>
+					<ul class="resource-list">
+						{% for document in item.documents %}
+							<li>
+								<a class="resource-pill" href="{{ document.href }}" target="_blank" rel="noreferrer">
+									{{ document.label }}
+								</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			{% endif %}
+		</article>
+	{% endfor %}
+</div>

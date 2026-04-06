@@ -9,7 +9,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    #[Route('/connexion', name: 'app_login', methods: ['GET', 'POST'])]
+    #[Route('/chezmoi', name: 'app_login', methods: ['GET', 'POST'])]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
@@ -22,6 +22,7 @@ class SecurityController extends AbstractController
         ]);
     }
 
+    #[Route('/deconnexion', name: 'app_logout', methods: ['GET'])]
     public function logout(): never
     {
         throw new \LogicException('La déconnexion est gérée par le pare-feu Symfony.');

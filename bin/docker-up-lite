@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SERVICES=(php nginx database)
+PROFILE_ARGS=()
+
+if [[ "${1:-}" == "--with-mailer" ]]; then
+  PROFILE_ARGS+=(--profile tools)
+  SERVICES+=(mailer)
+fi
+
+COMMAND=(docker compose -f compose.yaml -f compose.override.yaml up -d --build)
+
+if ((${#PROFILE_ARGS[@]})); then
+  COMMAND+=("${PROFILE_ARGS[@]}")
+fi
+
+COMMAND+=("${SERVICES[@]}")
+
+"${COMMAND[@]}"

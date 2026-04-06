@@ -1,0 +1,19 @@
+<footer class="site-footer">
+    <div class="site-footer__intro">
+        <p class="site-footer__title">Portfolio + Civitalisme</p>
+        <p class="site-footer__text">Symfony, Docker, administration editoriale et une base pensee pour durer, migrer facilement et rester agreable a faire evoluer.</p>
+    </div>
+
+    <div class="site-footer__meta">
+        <a href="{{ path('app_home') }}">Portfolio</a>
+        <a href="{{ path('app_civitalisme') }}">Civitalisme</a>
+        <a href="{{ path('app_contact') }}">Contact</a>
+        <a href="{{ path('app_legal_notice') }}">Mentions legales</a>
+        <a href="{{ path('app_privacy_policy') }}">Confidentialite</a>
+    </div>
+
+    <div class="site-footer__note">
+        <span>{{ "now"|date("Y") }} • Frederic Fribel</span>
+        <span>Concu pour un deploiement VPS simple et maintenable.</span>
+    </div>
+</footer>

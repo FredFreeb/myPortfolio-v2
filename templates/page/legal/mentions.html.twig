@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mentions legales | Portfolio + Civitalisme{% endblock %}
+{% block meta_description %}Mentions legales du site Portfolio + Civitalisme : editeur, contact, hebergement et cadre de publication.{% endblock %}
+{% block body_class %}theme-portfolio page-legal page-legal--mentions{% endblock %}
+
+{% block body %}
+    <section class="hero hero--inner hero--contact">
+        <div class="hero__copy">
+            <p class="eyebrow">Cadre legal</p>
+            <h1 class="hero__title hero__title--medium" data-controller="pretext" data-pretext-line-height-value="62">
+                Mentions legales
+            </h1>
+            <p class="hero__lead">
+                Cette page presente le cadre editorial actuel du site, dans sa version portfolio et projet prospectif.
+            </p>
+        </div>
+
+        <aside class="hero__panel surface-card">
+            <p class="panel-label">Edition</p>
+            <h2>{{ editor.site }}</h2>
+            <p>Site personnel de presentation, de contact et de publication autour du portfolio et du projet Civitalisme.</p>
+        </aside>
+    </section>
+
+    <section class="section split-section section--panel section--panel-sun">
+        <article class="surface-card">
+            <p class="eyebrow">Editeur</p>
+            <h2>{{ editor.name }}</h2>
+            <p>{{ editor.role }}</p>
+            <p class="section-intro">Le contenu public du site, les textes, la structure et les choix de publication sont portes par l editeur du site.</p>
+        </article>
+
+        <article class="surface-card">
+            <p class="eyebrow">Contact</p>
+            <h2>Canaux publics</h2>
+            <ul class="feature-list">
+                {% for link in contactLinks %}
+                    <li><a href="{{ link.url }}" target="_blank" rel="noreferrer">{{ link.label }}</a> — {{ link.description }}</li>
+                {% endfor %}
+                <li><a href="{{ path('app_contact') }}">Formulaire de contact</a> — pour les demandes directes depuis le site.</li>
+            </ul>
+        </article>
+    </section>
+
+    <section class="section split-section section--panel section--panel-mint">
+        <article class="surface-card">
+            <p class="eyebrow">Hebergement</p>
+            <h2>{{ hosting.name }}</h2>
+            <p>{{ hosting.body }}</p>
+            <p class="hint-text">A completer avant une mise en production publique definitive si un hebergeur nomme doit etre mentionne.</p>
+        </article>
+
+        <article class="surface-card">
+            <p class="eyebrow">Propriete intellectuelle</p>
+            <h2>Textes, images et code</h2>
+            <p>Les contenus, maquettes, textes, visuels et elements de code restent proteges par le droit applicable, sauf mention contraire ou lien vers une source externe.</p>
+            <p>Toute reutilisation substantielle doit faire l objet d une autorisation explicite.</p>
+        </article>
+    </section>
+{% endblock %}

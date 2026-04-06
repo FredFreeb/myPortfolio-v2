@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Politique de confidentialite | Portfolio + Civitalisme{% endblock %}
+{% block meta_description %}Politique de confidentialite du site Portfolio + Civitalisme : donnees collectees, finalites et conservation.{% endblock %}
+{% block body_class %}theme-portfolio page-legal page-legal--privacy{% endblock %}
+
+{% block body %}
+    <section class="hero hero--inner hero--contact">
+        <div class="hero__copy">
+            <p class="eyebrow">Confidentialite</p>
+            <h1 class="hero__title hero__title--medium" data-controller="pretext" data-pretext-line-height-value="62">
+                Politique de confidentialite
+            </h1>
+            <p class="hero__lead">
+                Le site cherche a limiter les donnees collectees au strict necessaire et a eviter les dependances tierces superflues.
+            </p>
+        </div>
+
+        <aside class="hero__panel surface-card">
+            <p class="panel-label">Principe</p>
+            <h2>Collecte minimale</h2>
+            <p>Le formulaire de contact sert uniquement a recevoir et traiter une demande. Il n alimente pas de dispositif publicitaire ni de profilage marketing.</p>
+        </aside>
+    </section>
+
+    <section class="section split-section section--panel section--panel-sky">
+        <article class="surface-card">
+            <p class="eyebrow">Donnees traitees</p>
+            <h2>Ce qui peut etre stocke</h2>
+            <ul class="feature-list">
+                {% for item in storedData %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </article>
+
+        <article class="surface-card">
+            <p class="eyebrow">Finalite</p>
+            <h2>Pourquoi ces donnees existent</h2>
+            <ul class="feature-list">
+                <li>Repondre a une prise de contact.</li>
+                <li>Suivre l historique minimal d un echange si la discussion se poursuit.</li>
+                <li>Limiter les abus via des protections anti-spam et anti-envoi massif.</li>
+            </ul>
+        </article>
+    </section>
+
+    <section class="section split-section section--panel section--panel-mint">
+        <article class="surface-card">
+            <p class="eyebrow">Conservation</p>
+            <h2>Duree et suppression</h2>
+            <ul class="feature-list">
+                {% for item in retentionPolicy %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </article>
+
+        <article class="surface-card">
+            <p class="eyebrow">Tiers et cookies</p>
+            <h2>Approche actuelle</h2>
+            <p>Le site n embarque pas de systeme publicitaire ni de pisteur marketing tiers. Les cookies techniques eventuels restent lies au fonctionnement normal de Symfony et a l administration securisee.</p>
+            <p>Si le site evolue vers des services externes supplementaires, cette page devra etre mise a jour en consequence.</p>
+        </article>
+    </section>
+{% endblock %}

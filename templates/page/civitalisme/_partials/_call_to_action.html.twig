@@ -1,0 +1,25 @@
+<section class="section section--cta">
+    <div class="cta-band cta-band--civitalisme surface-card">
+        <div>
+            {% if eyebrow is defined and eyebrow %}
+                <p class="eyebrow">{{ eyebrow }}</p>
+            {% endif %}
+            <h2>{{ title }}</h2>
+            <p>{{ body }}</p>
+        </div>
+
+        <div class="cta-band__actions">
+            {% for action in actions %}
+                <a
+                    class="button {{ action.variant|default('') }}"
+                    href="{{ action.href }}"
+                    {% if action.target is defined and action.target %}target="{{ action.target }}"{% endif %}
+                    {% if action.rel is defined and action.rel %}rel="{{ action.rel }}"{% endif %}
+                    {% if action.download is defined and action.download %}download{% endif %}
+                >
+                    {{ action.label }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>

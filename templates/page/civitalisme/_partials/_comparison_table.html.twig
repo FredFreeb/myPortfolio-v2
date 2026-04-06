@@ -1,0 +1,33 @@
+<article class="surface-card comparison-table">
+    {% if title is defined and title %}
+        <div class="comparison-table__intro">
+            <p class="panel-label">{{ title }}</p>
+            {% if caption is defined and caption %}
+                <p>{{ caption }}</p>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <div class="comparison-table__scroll">
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">{{ rowLabel|default('Circuit') }}</th>
+                    {% for column in columns %}
+                        <th scope="col">{{ column.label }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                    <tr>
+                        <th scope="row">{{ row.label }}</th>
+                        {% for column in columns %}
+                            <td>{{ attribute(row, column.key) }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</article>

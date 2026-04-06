@@ -1,0 +1,16 @@
+<section class="section">
+    {% include 'page/civitalisme/_partials/_section_heading.html.twig' with {
+        eyebrow: eyebrow,
+        title: title,
+        lead: lead|default(null),
+    } only %}
+
+    <div class="faq-list">
+        {% for item in items %}
+            <details class="surface-card faq-item">
+                <summary>{{ item.question }}</summary>
+                <p>{{ item.answer }}</p>
+            </details>
+        {% endfor %}
+    </div>
+</section>

@@ -1,64 +1,270 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Civitalisme | Portfolio + Civitalisme{% endblock %}
-{% block meta_description %}Présentation du projet Civitalisme avec deux lectures complémentaires : grand public et institutionnelle.{% endblock %}
+{% block title %}Civitalisme | Doctrine prospective européenne{% endblock %}
+{% block meta_description %}Présentation grand public du Civitalisme : double circuit monétaire, EuroE, Socle vital européen et vision européenne de long terme.{% endblock %}
+{% block body_class %}theme-civitalisme page-civitalisme page-civitalisme--public{% endblock %}
 
 {% block body %}
-    <section class="hero hero--inner">
+    <section class="hero hero--inner section--panel section--panel-civic">
         <div class="hero__copy">
-            <p class="eyebrow">Mon plus gros projet</p>
-            <h1 class="hero__title hero__title--medium" data-controller="pretext" data-pretext-line-height-value="62">
-                Civitalisme : une manière d’articuler attention citoyenne, culture et numérique.
+            <p class="eyebrow">{{ content.hero.eyebrow }}</p>
+            <h1 class="hero__title" data-controller="pretext" data-pretext-line-height-value="74">
+                {{ content.hero.title }}
             </h1>
-            <p class="hero__lead">
-                Cette page centrale propose deux interprétations d’un même projet : l’une plus accessible et narrative, l’autre plus structurée
-                pour des partenaires, institutions ou acteurs de terrain.
-            </p>
+            <p class="hero__subtitle">{{ content.hero.subtitle }}</p>
+            <p class="hero__lead">{{ content.hero.lead }}</p>
+
+            <div class="hero__actions">
+                <a class="button" href="{{ path('app_civitalisme_technical') }}">Découvrir le cadre institutionnel</a>
+                <a class="button button--ghost" href="{{ path('app_home') }}">Voir les autres projets</a>
+            </div>
         </div>
 
         <div class="hero__panel surface-card">
-            <p class="panel-label">Intentions</p>
+            <p class="panel-label">{{ content.heroPanel.label }}</p>
+            <h2>{{ content.heroPanel.title }}</h2>
+            <p>{{ content.heroPanel.body }}</p>
+
+            <div class="hero__tags">
+                {% for item in content.hero.highlights %}
+                    <span class="hero__tag">{{ item }}</span>
+                {% endfor %}
+            </div>
+
             <ul class="feature-list">
-                <li>Raconter un projet sans l’écraser sous le concept</li>
-                <li>Donner de la place à l’actualisation et aux nouveaux blocs</li>
-                <li>Permettre une lecture adaptée à chaque interlocuteur</li>
+                {% for point in content.heroPanel.points %}
+                    <li>{{ point }}</li>
+                {% endfor %}
             </ul>
         </div>
     </section>
 
-    <section class="section dual-grid">
-        <article class="surface-card audience-card audience-card--public">
-            <p class="panel-label">Version grand public</p>
-            <h2>Entrer par l’usage, le ton et la promesse</h2>
-            <p>Une page plus ouverte, plus incarnée, qui assume le sensible et la pédagogie.</p>
-
-            <div class="stacked-snippets">
-                {% for update in publicHighlights %}
-                    <div class="snippet">
-                        <strong>{{ update.title }}</strong>
-                        <span>{{ update.summary }}</span>
-                    </div>
-                {% endfor %}
+    <section class="section section--panel section--panel-civic-alt civitalisme-video">
+        <div class="section-heading section-heading--stack">
+            <div>
+                <p class="eyebrow">Présentation vidéo</p>
+                <h2>Le projet en quelques minutes</h2>
             </div>
+            <p class="section-intro">
+                Cette capsule permet de présenter le Civitalisme de façon simple et visuelle avant d’entrer dans le parcours de lecture.
+            </p>
+        </div>
 
-            <a class="button" href="{{ path('app_civitalisme_audience', {audience: 'grand-public'}) }}">Voir la version grand public</a>
-        </article>
+        <article class="surface-card civitalisme-video__frame">
+            {% if civitalismeVideoUrl %}
+                {% set isEmbedVideo = ('youtube.com' in civitalismeVideoUrl) or ('youtu.be' in civitalismeVideoUrl) or ('vimeo.com' in civitalismeVideoUrl) or ('synthesia.io' in civitalismeVideoUrl) %}
+                {% set embedUrl = civitalismeVideoUrl %}
 
-        <article class="surface-card audience-card audience-card--institutional">
-            <p class="panel-label">Version institutionnelle</p>
-            <h2>Entrer par la méthode, l’impact et la coopération</h2>
-            <p>Une lecture plus structurée pour préparer une conversation avec des partenaires ou décideurs.</p>
+                {% if 'share.synthesia.io/' in civitalismeVideoUrl and '/embeds/videos/' not in civitalismeVideoUrl %}
+                    {% set synthesiaBase = (civitalismeVideoUrl|split('?'))[0] %}
+                    {% set synthesiaId = (synthesiaBase|split('/'))|last %}
+                    {% set embedUrl = 'https://share.synthesia.io/embeds/videos/' ~ synthesiaId %}
+                {% endif %}
 
-            <div class="stacked-snippets">
-                {% for update in institutionalHighlights %}
-                    <div class="snippet">
-                        <strong>{{ update.title }}</strong>
-                        <span>{{ update.summary }}</span>
+                {% if isEmbedVideo %}
+                    <div class="civitalisme-video__embed civitalisme-video__embed--full">
+                        <iframe
+                            src="{{ embedUrl }}"
+                            title="Vidéo de présentation du Civitalisme"
+                            loading="lazy"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen
+                            referrerpolicy="strict-origin-when-cross-origin"
+                        ></iframe>
                     </div>
-                {% endfor %}
-            </div>
-
-            <a class="button" href="{{ path('app_civitalisme_audience', {audience: 'institutionnel'}) }}">Voir la version institutionnelle</a>
+                    <a class="button button--ghost civitalisme-video__link" href="{{ civitalismeVideoUrl }}" target="_blank" rel="noreferrer">
+                        Ouvrir la vidéo dans un nouvel onglet
+                    </a>
+                {% else %}
+                    <video class="civitalisme-video__player" controls preload="metadata">
+                        <source src="{{ civitalismeVideoUrl }}">
+                        Votre navigateur ne prend pas en charge la lecture vidéo intégrée.
+                    </video>
+                {% endif %}
+            {% else %}
+                <div class="civitalisme-video__placeholder">
+                    <p class="panel-label">Emplacement prêt</p>
+                    <h3>Ajoute ta vidéo promotionnelle</h3>
+                    <p>
+                        Renseigne l’URL via <code>APP_CIVITALISME_VIDEO_URL</code> dans <code>.env.local</code>.
+                        Tu peux utiliser un lien d’embed YouTube/Vimeo, ou un fichier MP4 hébergé.
+                    </p>
+                </div>
+            {% endif %}
         </article>
     </section>
+
+    {% include 'page/civitalisme/_partials/_page_switch.html.twig' with {
+        active: 'public',
+        title: 'Deux pages, deux niveaux de lecture',
+        description: 'La version grand public pose la vision. La page technique expose l’architecture monétaire, la gouvernance et les hypothèses de mise en œuvre.',
+    } only %}
+
+    <section class="section section--panel section--panel-civic">
+        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.problem only %}
+
+        <div class="split-section">
+            <article class="surface-card narrative-card narrative-card--emphasis">
+                <h3>{{ content.problem.narrativeTitle }}</h3>
+                {% for paragraph in content.problem.narrative %}
+                    <p>{{ paragraph }}</p>
+                {% endfor %}
+            </article>
+
+            {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
+                items: content.problem.points,
+                modifier: 'insight-grid--compact',
+            } only %}
+        </div>
+    </section>
+
+    <section class="section section--panel section--panel-civic">
+        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.financing only %}
+
+        <div class="split-section">
+            <article class="surface-card narrative-card narrative-card--emphasis">
+                <h3>{{ content.financing.narrativeTitle }}</h3>
+                {% for paragraph in content.financing.narrative %}
+                    <p>{{ paragraph }}</p>
+                {% endfor %}
+            </article>
+
+            {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
+                items: content.financing.points,
+                modifier: 'insight-grid--compact',
+            } only %}
+        </div>
+
+        {% include 'page/civitalisme/_partials/_comparison_table.html.twig' with {
+            title: content.financing.infography.title,
+            caption: content.financing.infography.caption,
+            rowLabel: content.financing.infography.rowLabel,
+            columns: content.financing.infography.columns,
+            rows: content.financing.infography.rows,
+        } only %}
+
+        <article class="surface-card civic-quote civic-quote--center">
+            <p class="panel-label">Phrase clé</p>
+            <h3>{{ content.financing.infography.quote }}</h3>
+        </article>
+
+        <div class="section-note">
+            <strong>Transition :</strong> Le Civitalisme ne remplace pas ce système. Il le complète.
+        </div>
+    </section>
+
+    <section class="section section--panel section--panel-civic-alt">
+        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.howItWorks only %}
+
+        {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
+            items: content.howItWorks.points,
+        } only %}
+    </section>
+
+    <section class="section section--panel section--panel-civic">
+        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.usage only %}
+
+        <div class="split-section">
+            <div class="pill-grid">
+                {% for need in content.usage.needs %}
+                    <article class="surface-card pill-card">
+                        <h3>{{ need }}</h3>
+                    </article>
+                {% endfor %}
+            </div>
+
+            {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
+                items: content.usage.points,
+                modifier: 'insight-grid--compact',
+            } only %}
+        </div>
+
+        <div class="section-note">
+            <strong>En clair :</strong> l’euro classique reste la monnaie principale, et l’EuroE protège le vital.
+        </div>
+    </section>
+
+    <section class="section section--panel section--panel-civic-alt">
+        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.work only %}
+
+        <article class="surface-card civic-quote">
+            <p class="panel-label">Phrase directrice</p>
+            <h3>{{ content.work.quote }}</h3>
+        </article>
+
+        {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
+            items: content.work.points,
+        } only %}
+
+        <div class="pill-grid pill-grid--wide">
+            {% for item in content.work.benefits %}
+                <article class="surface-card pill-card pill-card--benefit">
+                    <h3>{{ item }}</h3>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="section section--panel section--panel-civic">
+        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.business only %}
+
+        {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
+            items: content.business.points,
+        } only %}
+    </section>
+
+    <section class="section section--panel section--panel-civic-alt">
+        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with {
+            eyebrow: content.caseStudy.eyebrow,
+            title: content.caseStudy.title,
+            lead: 'Lecture rapide : quatre situations réelles, dans une grande ville européenne.',
+        } only %}
+
+        {% include 'page/civitalisme/_partials/_case_study_card.html.twig' with {
+            caseStudy: content.caseStudy,
+        } only %}
+
+        <div class="section-note">
+            <strong>À retenir :</strong> le mécanisme agit comme stabilisateur automatique et limite les ruptures de vie.
+            <a class="section-link" href="{{ path('app_civitalisme_technical') }}">Voir les calculs détaillés et la méthode</a>
+        </div>
+    </section>
+
+    <section class="section section--panel section--panel-civic">
+        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.privacy only %}
+
+        {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
+            items: content.privacy.points,
+        } only %}
+    </section>
+
+    {% include 'page/civitalisme/_partials/_faq_list.html.twig' with {
+        eyebrow: 'FAQ',
+        title: 'Questions simples, réponses claires',
+        lead: 'Des réponses courtes pour comprendre sans jargon.',
+        items: content.faq,
+    } only %}
+
+    {% include 'page/civitalisme/_partials/_call_to_action.html.twig' with {
+        eyebrow: 'Suite',
+        title: content.conclusion.title,
+        body: content.conclusion.body,
+        actions: [
+            {
+                label: 'Découvrir le cadre institutionnel',
+                href: path('app_civitalisme_technical'),
+                variant: '',
+            },
+            {
+                label: 'Voir les autres projets',
+                href: path('app_home'),
+                variant: 'button--ghost',
+            },
+            {
+                label: 'Prendre contact',
+                href: path('app_contact'),
+                variant: 'button--ghost',
+            },
+        ],
+    } only %}
 {% endblock %}

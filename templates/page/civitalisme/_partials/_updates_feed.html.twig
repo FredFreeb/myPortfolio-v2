@@ -1,0 +1,31 @@
+<section class="section">
+    {% include 'page/civitalisme/_partials/_section_heading.html.twig' with {
+        eyebrow: eyebrow,
+        title: title,
+        lead: lead|default(null),
+    } only %}
+
+    <div class="insight-grid">
+        {% for update in updates %}
+            <article class="surface-card insight-card">
+                <div class="meta-row">
+                    <span>{{ update.statusLabel }}</span>
+                    {% if update.outcome %}
+                        <span>{{ update.outcome }}</span>
+                    {% endif %}
+                </div>
+                <h3>{{ update.title }}</h3>
+                <p>{{ update.summary }}</p>
+                <div class="update-card__body">{{ update.body|nl2br }}</div>
+                {% if update.ctaUrl and update.ctaLabel %}
+                    <a class="button button--ghost" href="{{ update.ctaUrl }}" target="_blank" rel="noreferrer">{{ update.ctaLabel }}</a>
+                {% endif %}
+            </article>
+        {% else %}
+            <article class="surface-card insight-card">
+                <h3>Bloc éditorial à venir</h3>
+                <p>Les prochains jalons Civitalisme pourront être ajoutés depuis l’admin sans modifier le template.</p>
+            </article>
+        {% endfor %}
+    </div>
+</section>

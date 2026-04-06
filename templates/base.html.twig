@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Portfolio + Civitalisme{% endblock %}</title>
     <meta name="description" content="{% block meta_description %}Portfolio, parcours et projet Civitalisme dans une application Symfony sobre, éditable et maintenable.{% endblock %}">
+    <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+    <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
     {{ importmap('app') }}
 </head>
 {% set currentRoute = app.request.attributes.get('_route') ?? '' %}
-<body class="{% block body_class %}{% endblock %}">
+<body class="{% block body_class %}theme-portfolio{% endblock %}">
     <div class="site-background" aria-hidden="true">
         <div class="site-background__orb site-background__orb--one"></div>
         <div class="site-background__orb site-background__orb--two"></div>
@@ -16,26 +18,9 @@
     </div>
 
     <div class="site-shell">
-        <header class="site-header">
-            <a class="brand" href="{{ path('app_home') }}">
-                <span class="brand__mark">FF</span>
-                <span class="brand__text">
-                    <strong>Portfolio</strong>
-                    <small>Civitalisme</small>
-                </span>
-            </a>
-
-            <nav class="site-nav" aria-label="Navigation principale">
-                <a class="site-nav__link {{ currentRoute == 'app_home' ? 'is-active' }}" href="{{ path('app_home') }}">Portfolio</a>
-                <a class="site-nav__link {{ currentRoute == 'app_about' ? 'is-active' }}" href="{{ path('app_about') }}">About me</a>
-                <a class="site-nav__link {{ currentRoute starts with 'app_civitalisme' ? 'is-active' }}" href="{{ path('app_civitalisme') }}">Civitalisme</a>
-                <a class="site-nav__link {{ currentRoute == 'app_contact' ? 'is-active' }}" href="{{ path('app_contact') }}">Contact</a>
-            </nav>
-
-            <div class="site-actions">
-                <a class="button button--ghost" href="{{ path('app_login') }}">Admin</a>
-            </div>
-        </header>
+        {% include '_partials/_site_header.html.twig' with {
+            currentRoute: currentRoute,
+        } only %}
 
         {% for label, messages in app.flashes %}
             {% for message in messages %}
@@ -49,17 +34,126 @@
             {% block body %}{% endblock %}
         </main>
 
-        <footer class="site-footer">
-            <div>
-                <p class="site-footer__title">Portfolio + Civitalisme</p>
-                <p class="site-footer__text">Symfony, Docker, administration éditoriale et un socle pensé pour rester simple à faire vivre.</p>
-            </div>
-
-            <div class="site-footer__meta">
-                <a href="{{ path('app_contact') }}">Prendre contact</a>
-                <a href="{{ path('app_login') }}">Back-office</a>
-            </div>
-        </footer>
+        {% include '_partials/_site_footer.html.twig' %}
     </div>
+
+    <script>
+        (function () {
+            function initMobileNav() {
+                var header = document.querySelector('.site-header');
+                if (!header || header.dataset.navInitialized === 'true') {
+                    return;
+                }
+
+                var button = header.querySelector('[data-nav-target="button"]');
+                var panel = header.querySelector('[data-nav-target="panel"]');
+                var backdrop = header.querySelector('[data-nav-target="backdrop"]');
+                if (!button || !panel) {
+                    return;
+                }
+
+                var mediaQuery = window.matchMedia('(max-width: 860px)');
+                var open = false;
+
+                function isMobile() {
+                    return mediaQuery.matches;
+                }
+
+                function render() {
+                    var mobile = isMobile();
+                    var expanded = mobile && open;
+
+                    button.setAttribute('aria-expanded', String(expanded));
+                    button.setAttribute('aria-label', expanded ? 'Fermer la navigation' : 'Ouvrir la navigation');
+
+                    if (expanded) {
+                        panel.setAttribute('data-open', 'true');
+                    } else {
+                        panel.removeAttribute('data-open');
+                    }
+                    panel.hidden = mobile ? !expanded : false;
+
+                    if (backdrop) {
+                        backdrop.hidden = !expanded;
+                        if (expanded) {
+                            backdrop.setAttribute('data-open', 'true');
+                        } else {
+                            backdrop.removeAttribute('data-open');
+                        }
+                    }
+
+                    header.classList.toggle('is-open', expanded);
+                    document.body.classList.toggle('has-mobile-nav', expanded);
+                    document.body.classList.toggle('mobile-nav-ready', mobile);
+                }
+
+                function closeMenu() {
+                    if (!isMobile()) {
+                        return false;
+                    }
+                    open = false;
+                    render();
+                    return false;
+                }
+
+                function toggleMenu() {
+                    if (!isMobile()) {
+                        return false;
+                    }
+                    open = !open;
+                    render();
+                    return false;
+                }
+
+                window.portfolioNavToggle = function () {
+                    return toggleMenu();
+                };
+
+                window.portfolioNavClose = function () {
+                    return closeMenu();
+                };
+
+                window.portfolioNavLinkClick = function () {
+                    closeMenu();
+                    return true;
+                };
+
+                var links = header.querySelectorAll('.site-nav__link');
+                for (var i = 0; i < links.length; i += 1) {
+                    links[i].addEventListener('click', function () {
+                        closeMenu();
+                    });
+                }
+
+                window.addEventListener('keydown', function (event) {
+                    if (event.key === 'Escape') {
+                        closeMenu();
+                    }
+                });
+
+                function sync() {
+                    if (!isMobile()) {
+                        open = false;
+                    }
+                    render();
+                }
+
+                if (typeof mediaQuery.addEventListener === 'function') {
+                    mediaQuery.addEventListener('change', sync);
+                } else if (typeof mediaQuery.addListener === 'function') {
+                    mediaQuery.addListener(sync);
+                }
+
+                header.dataset.navInitialized = 'true';
+                render();
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initMobileNav, { once: true });
+            } else {
+                initMobileNav();
+            }
+        })();
+    </script>
 </body>
 </html>

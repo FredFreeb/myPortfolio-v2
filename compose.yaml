@@ -1,21 +1,46 @@
 
 services:
   php:
+    init: true
     build:
       context: .
       dockerfile: Dockerfile
     depends_on:
       database:
         condition: service_healthy
+    cpus: 1.0
     environment:
       APP_ENV: ${APP_ENV:-dev}
       APP_DEBUG: ${APP_DEBUG:-1}
+    mem_limit: 768m
+    pids_limit: 128
     working_dir: /app
-    command: apache2-foreground
+
+  nginx:
+    init: true
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    cpus: 0.25
+    depends_on:
+      - php
+    mem_limit: 128m
+    pids_limit: 64
+    ports:
+      - "${APP_PORT:-8080}:80"
 
 ###> doctrine/doctrine-bundle ###
   database:
     image: postgres:${POSTGRES_VERSION:-16}-alpine
+    command: >
+      postgres
+      -c shared_buffers=128MB
+      -c effective_cache_size=256MB
+      -c work_mem=4MB
+      -c maintenance_work_mem=64MB
+      -c temp_buffers=8MB
+      -c max_connections=40
+    cpus: 0.75
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-app}
       # You should definitely change the password in production
@@ -26,6 +51,9 @@ services:
       timeout: 5s
       retries: 5
       start_period: 60s
+    mem_limit: 512m
+    pids_limit: 128
+    shm_size: 128m
     volumes:
       - database_data:/var/lib/postgresql/data:rw
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
@@ -35,9 +63,13 @@ services:
 ###> symfony/mailer ###
   mailer:
     image: axllent/mailpit
+    cpus: 0.20
     environment:
       MP_SMTP_AUTH_ACCEPT_ANY: 1
       MP_SMTP_AUTH_ALLOW_INSECURE: 1
+    mem_limit: 128m
+    pids_limit: 64
+    profiles: ["tools"]
 ###< symfony/mailer ###
 
 volumes:
