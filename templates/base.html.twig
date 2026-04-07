@@ -36,123 +36,94 @@
 
         {% include '_partials/_site_footer.html.twig' %}
     </div>
-
     <script>
         (function () {
-            function initMobileNav() {
+            var MOBILE_BREAKPOINT = '(max-width: 860px)';
+
+            function initSimpleMobileNav() {
                 var header = document.querySelector('.site-header');
-                if (!header || header.dataset.navInitialized === 'true') {
+                if (!header || header.dataset.navSimpleInitialized === 'true') {
                     return;
                 }
 
-                var button = header.querySelector('[data-nav-target="button"]');
-                var panel = header.querySelector('[data-nav-target="panel"]');
-                var backdrop = header.querySelector('[data-nav-target="backdrop"]');
+                var button = header.querySelector('.nav-toggle');
+                var panel = header.querySelector('.site-header__panel');
+                var backdrop = header.querySelector('.site-header__backdrop');
+                var links = header.querySelectorAll('.site-nav__link');
                 if (!button || !panel) {
                     return;
                 }
 
-                var mediaQuery = window.matchMedia('(max-width: 860px)');
-                var open = false;
+                var mediaQuery = window.matchMedia(MOBILE_BREAKPOINT);
 
                 function isMobile() {
                     return mediaQuery.matches;
                 }
 
-                function render() {
-                    var mobile = isMobile();
-                    var expanded = mobile && open;
-
-                    button.setAttribute('aria-expanded', String(expanded));
-                    button.setAttribute('aria-label', expanded ? 'Fermer la navigation' : 'Ouvrir la navigation');
-
-                    if (expanded) {
-                        panel.setAttribute('data-open', 'true');
-                    } else {
-                        panel.removeAttribute('data-open');
+                function openMenu() {
+                    if (!isMobile()) {
+                        return;
                     }
-                    panel.hidden = mobile ? !expanded : false;
-
-                    if (backdrop) {
-                        backdrop.hidden = !expanded;
-                        if (expanded) {
-                            backdrop.setAttribute('data-open', 'true');
-                        } else {
-                            backdrop.removeAttribute('data-open');
-                        }
-                    }
-
-                    header.classList.toggle('is-open', expanded);
-                    document.body.classList.toggle('has-mobile-nav', expanded);
-                    document.body.classList.toggle('mobile-nav-ready', mobile);
+                    header.classList.add('is-open');
+                    button.setAttribute('aria-expanded', 'true');
+                    button.setAttribute('aria-label', 'Fermer la navigation');
+                    document.body.classList.add('has-mobile-nav');
                 }
 
                 function closeMenu() {
-                    if (!isMobile()) {
-                        return false;
-                    }
-                    open = false;
-                    render();
-                    return false;
+                    header.classList.remove('is-open');
+                    button.setAttribute('aria-expanded', 'false');
+                    button.setAttribute('aria-label', 'Ouvrir la navigation');
+                    document.body.classList.remove('has-mobile-nav');
                 }
 
-                function toggleMenu() {
+                function toggleMenu(event) {
+                    event.preventDefault();
                     if (!isMobile()) {
-                        return false;
+                        return;
                     }
-                    open = !open;
-                    render();
-                    return false;
-                }
-
-                window.portfolioNavToggle = function () {
-                    return toggleMenu();
-                };
-
-                window.portfolioNavClose = function () {
-                    return closeMenu();
-                };
-
-                window.portfolioNavLinkClick = function () {
-                    closeMenu();
-                    return true;
-                };
-
-                var links = header.querySelectorAll('.site-nav__link');
-                for (var i = 0; i < links.length; i += 1) {
-                    links[i].addEventListener('click', function () {
+                    if (header.classList.contains('is-open')) {
                         closeMenu();
-                    });
+                    } else {
+                        openMenu();
+                    }
                 }
 
-                window.addEventListener('keydown', function (event) {
+                button.addEventListener('click', toggleMenu);
+                if (backdrop) {
+                    backdrop.addEventListener('click', closeMenu);
+                }
+                for (var i = 0; i < links.length; i += 1) {
+                    links[i].addEventListener('click', closeMenu);
+                }
+                document.addEventListener('keydown', function (event) {
                     if (event.key === 'Escape') {
                         closeMenu();
                     }
                 });
 
-                function sync() {
+                function onViewportChange() {
                     if (!isMobile()) {
-                        open = false;
+                        closeMenu();
                     }
-                    render();
                 }
 
                 if (typeof mediaQuery.addEventListener === 'function') {
-                    mediaQuery.addEventListener('change', sync);
+                    mediaQuery.addEventListener('change', onViewportChange);
                 } else if (typeof mediaQuery.addListener === 'function') {
-                    mediaQuery.addListener(sync);
+                    mediaQuery.addListener(onViewportChange);
                 }
 
-                header.dataset.navInitialized = 'true';
-                render();
+                header.dataset.navSimpleInitialized = 'true';
+                closeMenu();
             }
 
             if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initMobileNav, { once: true });
+                document.addEventListener('DOMContentLoaded', initSimpleMobileNav, { once: true });
             } else {
-                initMobileNav();
+                initSimpleMobileNav();
             }
+            document.addEventListener('turbo:load', initSimpleMobileNav);
         })();
     </script>
 </body>

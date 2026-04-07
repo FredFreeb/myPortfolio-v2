@@ -15,17 +15,15 @@
         aria-label="Ouvrir la navigation"
         aria-controls="site-header-panel"
         aria-expanded="false"
-        data-nav-target="button"
-        onclick="return window.portfolioNavToggle ? window.portfolioNavToggle(this) : false;"
     >
         <span class="nav-toggle__line"></span>
         <span class="nav-toggle__line"></span>
         <span class="nav-toggle__line"></span>
     </button>
 
-    <div class="site-header__backdrop" data-nav-target="backdrop" onclick="return window.portfolioNavClose ? window.portfolioNavClose() : false;" hidden></div>
+    <div class="site-header__backdrop"></div>
 
-    <div class="site-header__panel" id="site-header-panel" data-nav-target="panel">
+    <div class="site-header__panel" id="site-header-panel">
         <nav class="site-nav" aria-label="Navigation principale">
             <a class="site-nav__link {{ currentRoute == 'app_home' ? 'is-active' }}" href="{{ path('app_home') }}">Portfolio</a>
             <a class="site-nav__link {{ currentRoute == 'app_about' ? 'is-active' }}" href="{{ path('app_about') }}">About me</a>
