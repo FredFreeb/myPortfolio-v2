@@ -1,3 +1,5 @@
+import './controllers/csrf_protection_controller.js';
+
 const bootStimulus = async () => {
     try {
         await import('./stimulus_bootstrap.js');

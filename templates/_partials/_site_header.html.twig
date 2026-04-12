@@ -1,4 +1,4 @@
-<header class="site-header">
+<header class="site-header" data-controller="nav">
     <a class="brand" href="{{ path('app_home') }}">
         <span class="brand__mark">
             <img src="{{ asset('images/profile/fred-public-avatar.jpg') }}" alt="Photo de profil LinkedIn de Frederic Fribel">
@@ -15,20 +15,22 @@
         aria-label="Ouvrir la navigation"
         aria-controls="site-header-panel"
         aria-expanded="false"
+        data-nav-target="button"
+        data-action="click->nav#toggle"
     >
         <span class="nav-toggle__line"></span>
         <span class="nav-toggle__line"></span>
         <span class="nav-toggle__line"></span>
     </button>
 
-    <div class="site-header__backdrop"></div>
+    <div class="site-header__backdrop" data-action="click->nav#close"></div>
 
     <div class="site-header__panel" id="site-header-panel">
         <nav class="site-nav" aria-label="Navigation principale">
-            <a class="site-nav__link {{ currentRoute == 'app_home' ? 'is-active' }}" href="{{ path('app_home') }}">Portfolio</a>
-            <a class="site-nav__link {{ currentRoute == 'app_about' ? 'is-active' }}" href="{{ path('app_about') }}">About me</a>
-            <a class="site-nav__link {{ currentRoute starts with 'app_civitalisme' ? 'is-active' }}" href="{{ path('app_civitalisme') }}">Civitalisme</a>
-            <a class="site-nav__link {{ currentRoute == 'app_contact' ? 'is-active' }}" href="{{ path('app_contact') }}">Contact</a>
+            <a class="site-nav__link {{ currentRoute == 'app_home' ? 'is-active' }}" href="{{ path('app_home') }}" data-action="click->nav#close">Portfolio</a>
+            <a class="site-nav__link {{ currentRoute == 'app_about' ? 'is-active' }}" href="{{ path('app_about') }}" data-action="click->nav#close">About me</a>
+            <a class="site-nav__link {{ currentRoute starts with 'app_civitalisme' ? 'is-active' }}" href="{{ path('app_civitalisme') }}" data-action="click->nav#close">Civitalisme</a>
+            <a class="site-nav__link {{ currentRoute == 'app_contact' ? 'is-active' }}" href="{{ path('app_contact') }}" data-action="click->nav#close">Contact</a>
         </nav>
     </div>
 </header>

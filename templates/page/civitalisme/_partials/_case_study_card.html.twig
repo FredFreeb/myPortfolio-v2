@@ -13,6 +13,24 @@
     </div>
 
     <div class="case-study-card__grid">
+        {% if caseStudy.profiles is defined and caseStudy.profiles %}
+            <div class="case-study-card__panel case-study-card__panel--profiles">
+                <div class="case-study-card__profiles">
+                    {% for profile in caseStudy.profiles %}
+                        <article class="case-study-profile">
+                            <h4>{{ profile.title }}</h4>
+                            <ul class="feature-list feature-list--tight">
+                                <li><strong>Avant :</strong> {{ profile.before }}</li>
+                                <li><strong>Après le choc :</strong> {{ profile.after }}</li>
+                                <li><strong>Réponse EuroE :</strong> {{ profile.response }}</li>
+                                <li><strong>Ce que cela change :</strong> {{ profile.impact }}</li>
+                            </ul>
+                        </article>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
         {% if caseStudy.table is defined and caseStudy.table.rows is defined and caseStudy.table.rows %}
             <div class="case-study-card__panel case-study-card__panel--table">
                 {% if caseStudy.table.title is defined and caseStudy.table.title %}

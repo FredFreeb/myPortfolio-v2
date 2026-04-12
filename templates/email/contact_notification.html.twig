@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Nouveau message de contact</title>
+    <style>
+        body { font-family: Arial, sans-serif; color: #19262d; background: #f7fff0; margin: 0; padding: 0; }
+        .wrapper { max-width: 600px; margin: 2rem auto; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,.08); }
+        .header { background: #2c8a87; color: #fff; padding: 1.5rem 2rem; }
+        .header h1 { margin: 0; font-size: 1.25rem; }
+        .body { padding: 2rem; }
+        .field { margin-bottom: 1.25rem; }
+        .field label { display: block; font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #52636b; margin-bottom: .3rem; }
+        .field p { margin: 0; font-size: 1rem; line-height: 1.55; }
+        .message-block { background: #f7fff0; border-left: 3px solid #2c8a87; padding: 1rem 1.2rem; border-radius: 0 8px 8px 0; white-space: pre-wrap; }
+        .footer { background: #f0f4f4; padding: 1rem 2rem; font-size: .8rem; color: #52636b; }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <h1>Nouveau message de contact</h1>
+        </div>
+        <div class="body">
+            <div class="field">
+                <label>Nom</label>
+                <p>{{ name }}</p>
+            </div>
+            <div class="field">
+                <label>E-mail</label>
+                <p><a href="mailto:{{ email }}">{{ email }}</a></p>
+            </div>
+            {% if company %}
+            <div class="field">
+                <label>Organisation</label>
+                <p>{{ company }}</p>
+            </div>
+            {% endif %}
+            <div class="field">
+                <label>Objet</label>
+                <p>{{ subject }}</p>
+            </div>
+            <div class="field">
+                <label>Message</label>
+                <div class="message-block">{{ message }}</div>
+            </div>
+            <div class="field">
+                <label>Reçu le</label>
+                <p>{{ receivedAt|date('d/m/Y à H:i') }}</p>
+            </div>
+        </div>
+        <div class="footer">
+            Ce message a été envoyé via le formulaire de contact de ton portfolio.
+        </div>
+    </div>
+</body>
+</html>

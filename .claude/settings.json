@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php bin/console lint:twig templates/)",
+      "Bash(php -S 127.0.0.1:8000 -t public/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://127.0.0.1:8000/civitalisme)",
+      "Bash(curl -s http://127.0.0.1:8000/civitalisme)",
+      "Bash(php bin/phpunit --list-tests)"
+    ]
+  }
+}

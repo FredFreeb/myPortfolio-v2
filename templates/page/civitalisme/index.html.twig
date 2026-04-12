@@ -129,11 +129,39 @@
                 {% endfor %}
             </article>
 
-            {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
-                items: content.financing.points,
-                modifier: 'insight-grid--compact',
-            } only %}
+            {% if content.financing.resources is defined and content.financing.resources %}
+                <article class="surface-card narrative-card">
+                    <p class="panel-label">{{ content.financing.resourcesTitle|default('Pour aller plus loin') }}</p>
+                    <ul class="feature-list feature-list--tight">
+                        {% for resource in content.financing.resources %}
+                            <li>
+                                <a class="section-link" href="{{ resource.href }}" target="_blank" rel="noreferrer">{{ resource.label }}</a>
+                                {% if resource.meta is defined and resource.meta %}
+                                    <br><small>{{ resource.meta }}</small>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </article>
+            {% endif %}
         </div>
+
+        <div class="section-note">
+            <strong>Conclusion simple :</strong> Aujourd’hui, la majorité de l’argent est créée par la dette.
+        </div>
+    </section>
+
+    <section class="section section--panel section--panel-civic-alt">
+        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with {
+            eyebrow: 'Ce qui change avec le Civitalisme',
+            title: 'Ce que le projet apporte, et comment il tient debout',
+            lead: 'Le Civitalisme complète le système actuel avec un mécanisme social en euro, progressif et encadré.',
+        } only %}
+
+        {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
+            items: content.financing.points,
+            modifier: 'insight-grid--compact',
+        } only %}
 
         {% include 'page/civitalisme/_partials/_comparison_table.html.twig' with {
             title: content.financing.infography.title,
@@ -149,8 +177,33 @@
         </article>
 
         <div class="section-note">
-            <strong>Transition :</strong> Le Civitalisme ne remplace pas ce système. Il le complète.
+            <strong>{{ content.financing.noteLabel|default('Idée clé :') }}</strong> {{ content.financing.note|default('Le Civitalisme ne remplace pas le système actuel. Il le complète.') }}
         </div>
+
+        {% if content.financing.euroe is defined and content.financing.euroe %}
+            <article class="surface-card narrative-card narrative-card--emphasis">
+                <p class="panel-label">EuroE</p>
+                <h3>{{ content.financing.euroe.title }}</h3>
+                <p>{{ content.financing.euroe.lead }}</p>
+            </article>
+
+            {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
+                items: content.financing.euroe.steps,
+                modifier: 'insight-grid--compact',
+            } only %}
+
+            {% include 'page/civitalisme/_partials/_comparison_table.html.twig' with {
+                title: content.financing.euroe.table.title,
+                caption: content.financing.euroe.table.caption,
+                rowLabel: content.financing.euroe.table.rowLabel,
+                columns: content.financing.euroe.table.columns,
+                rows: content.financing.euroe.table.rows,
+            } only %}
+
+            <div class="section-note">
+                <strong>{{ content.financing.euroe.noteLabel|default('Repère :') }}</strong> {{ content.financing.euroe.note }}
+            </div>
+        {% endif %}
     </section>
 
     <section class="section section--panel section--panel-civic-alt">
@@ -185,6 +238,23 @@
     </section>
 
     <section class="section section--panel section--panel-civic-alt">
+        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with {
+            eyebrow: content.caseStudy.eyebrow,
+            title: content.caseStudy.title,
+            lead: 'Lecture rapide : quatre situations réelles, dans une grande ville européenne.',
+        } only %}
+
+        {% include 'page/civitalisme/_partials/_case_study_card.html.twig' with {
+            caseStudy: content.caseStudy,
+        } only %}
+
+        <div class="section-note">
+            <strong>À retenir :</strong> le mécanisme agit comme stabilisateur automatique et limite les ruptures de vie.
+            <a class="section-link" href="{{ path('app_civitalisme_technical') }}">Voir les calculs détaillés et la méthode</a>
+        </div>
+    </section>
+
+    <section class="section section--panel section--panel-civic-alt">
         {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.work only %}
 
         <article class="surface-card civic-quote">
@@ -211,23 +281,6 @@
         {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
             items: content.business.points,
         } only %}
-    </section>
-
-    <section class="section section--panel section--panel-civic-alt">
-        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with {
-            eyebrow: content.caseStudy.eyebrow,
-            title: content.caseStudy.title,
-            lead: 'Lecture rapide : quatre situations réelles, dans une grande ville européenne.',
-        } only %}
-
-        {% include 'page/civitalisme/_partials/_case_study_card.html.twig' with {
-            caseStudy: content.caseStudy,
-        } only %}
-
-        <div class="section-note">
-            <strong>À retenir :</strong> le mécanisme agit comme stabilisateur automatique et limite les ruptures de vie.
-            <a class="section-link" href="{{ path('app_civitalisme_technical') }}">Voir les calculs détaillés et la méthode</a>
-        </div>
     </section>
 
     <section class="section section--panel section--panel-civic">

@@ -10,10 +10,12 @@ use App\Form\Model\ContactRequest;
 use App\Repository\ProjectUpdateRepository;
 use App\Repository\WorkRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -26,6 +28,9 @@ class PageController extends AbstractController
         private readonly string $civitalismeVideoUrl,
         #[Autowire(service: 'limiter.contact_form')]
         private readonly RateLimiterFactory $contactFormLimiter,
+        #[Autowire('%env(string:ADMIN_EMAIL)%')]
+        private readonly string $adminEmail,
+        private readonly MailerInterface $mailer,
     ) {
     }
 
@@ -323,7 +328,7 @@ class PageController extends AbstractController
             $limiterKey = sprintf(
                 '%s|%s',
                 $request->getClientIp() ?? 'anonymous',
-                strtolower((string) $contactRequest->email)
+                strtolower((string) $contactRequest->getEmail())
             );
             $rateLimit = $this->contactFormLimiter->create($limiterKey)->consume(1);
 
@@ -333,21 +338,37 @@ class PageController extends AbstractController
                 return $this->redirectToRoute('app_contact');
             }
 
-            if (!empty($contactRequest->website)) {
+            if (!empty($contactRequest->getWebsite())) {
                 $this->addFlash('success', 'Merci, ton message a bien été pris en compte.');
 
                 return $this->redirectToRoute('app_contact');
             }
 
             $message = (new ContactMessage())
-                ->setName((string) $contactRequest->name)
-                ->setEmail((string) $contactRequest->email)
-                ->setCompany($contactRequest->company)
-                ->setSubject((string) $contactRequest->subject)
-                ->setMessage((string) $contactRequest->message);
+                ->setName((string) $contactRequest->getName())
+                ->setEmail((string) $contactRequest->getEmail())
+                ->setCompany($contactRequest->getCompany())
+                ->setSubject((string) $contactRequest->getSubject())
+                ->setMessage((string) $contactRequest->getMessage());
 
             $entityManager->persist($message);
             $entityManager->flush();
+
+            $notification = (new TemplatedEmail())
+                ->to($this->adminEmail)
+                ->replyTo((string) $contactRequest->getEmail())
+                ->subject(sprintf('[Contact] %s — %s', $contactRequest->getName(), $contactRequest->getSubject()))
+                ->htmlTemplate('email/contact_notification.html.twig')
+                ->context([
+                    'name' => $contactRequest->getName(),
+                    'email' => $contactRequest->getEmail(),
+                    'company' => $contactRequest->getCompany(),
+                    'subject' => $contactRequest->getSubject(),
+                    'message' => $contactRequest->getMessage(),
+                    'receivedAt' => new \DateTimeImmutable(),
+                ]);
+
+            $this->mailer->send($notification);
 
             $this->addFlash('success', 'Merci, ton message a bien été envoyé. Je reviendrai vers toi rapidement.');
 
