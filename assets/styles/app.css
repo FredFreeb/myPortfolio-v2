@@ -2040,7 +2040,7 @@ h3 {
     padding: 0.95rem;
     border-radius: calc(var(--radius-md) - 8px);
     border: 1px solid rgba(57, 44, 29, 0.1);
-    background: rgba(255, 255, 255, 0.58);
+    background: rgba(255, 255, 255, 0.18);
 }
 
 .case-study-profile h4 {
