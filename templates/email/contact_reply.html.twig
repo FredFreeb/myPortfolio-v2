@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ replySubject }}</title>
+    <style>
+        body { margin: 0; padding: 0; background: #eef5f6; color: #1c2d34; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+        .wrapper { max-width: 680px; margin: 2rem auto; background: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #dce7ea; box-shadow: 0 8px 32px rgba(8, 25, 32, .08); }
+        .header { padding: 1.5rem 2rem; background: linear-gradient(120deg, #2c8a87, #286f95); color: #fff; }
+        .header h1 { margin: 0; font-size: 1.2rem; line-height: 1.35; }
+        .content { padding: 2rem; }
+        .intro { margin: 0 0 1.2rem; color: #4a5e67; }
+        .reply { background: #f7fcfd; border: 1px solid #d8e8ee; border-radius: 12px; padding: 1rem 1.1rem; white-space: pre-wrap; line-height: 1.65; }
+        .meta { margin-top: 1.2rem; font-size: .88rem; color: #5e717a; }
+        .separator { margin: 1.5rem 0; height: 1px; background: #e3ecef; }
+        .original { background: #f6f8f9; border-radius: 10px; padding: .9rem 1rem; border-left: 3px solid #b8c6cb; }
+        .original p { margin: .5rem 0 0; white-space: pre-wrap; color: #485d66; }
+        .footer { padding: 1rem 2rem 1.5rem; font-size: .82rem; color: #607179; background: #f1f7f8; }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="header">
+        <h1>{{ replySubject }}</h1>
+    </div>
+
+    <div class="content">
+        <p class="intro">
+            Bonjour {{ contactName }},
+        </p>
+
+        <div class="reply">{{ replyBody }}</div>
+
+        <p class="meta">
+            Réponse envoyée le {{ sentAt|date('d/m/Y à H:i') }}.
+            {% if companyName %} • Organisation: {{ companyName }}{% endif %}
+        </p>
+
+        <div class="separator"></div>
+
+        <div class="original">
+            <strong>Votre message initial</strong>
+            <p><strong>Objet :</strong> {{ originalSubject }}</p>
+            <p>{{ originalBody }}</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        Cet e-mail a été envoyé depuis le portfolio de Frédéric Fribel.
+    </div>
+</div>
+</body>
+</html>

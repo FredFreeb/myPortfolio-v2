@@ -2,25 +2,23 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Work;
+use App\Entity\Training;
 use App\Service\WebpImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints\File;
 
-class WorkCrudController extends AbstractCrudController
+class TrainingCrudController extends AbstractCrudController
 {
     public function __construct(private readonly WebpImageUploader $webpImageUploader)
     {
@@ -28,30 +26,25 @@ class WorkCrudController extends AbstractCrudController
 
     public static function getEntityFqcn(): string
     {
-        return Work::class;
+        return Training::class;
     }
 
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('travail')
-            ->setEntityLabelInPlural('travaux')
-            ->setSearchFields(['title', 'clientName', 'roleLabel', 'stackSummary', 'toolsUsed'])
-            ->setDefaultSort(['sortOrder' => 'ASC', 'publishedAt' => 'DESC']);
+            ->setEntityLabelInSingular('formation')
+            ->setEntityLabelInPlural('formations')
+            ->setSearchFields(['schoolName', 'program', 'summary'])
+            ->setDefaultSort(['sortOrder' => 'ASC']);
     }
 
     public function configureFields(string $pageName): iterable
     {
         yield IdField::new('id')->hideOnForm();
-        yield TextField::new('title', 'Titre');
-        yield TextField::new('clientName', 'Client')->hideOnIndex();
-        yield TextField::new('roleLabel', 'Rôle')->hideOnIndex();
-        yield TextField::new('stackSummary', 'Stack');
-        yield TextEditorField::new('excerpt', 'Résumé court')->hideOnIndex();
-        yield TextEditorField::new('description', 'Description')->hideOnIndex();
-        yield UrlField::new('projectUrl', 'Lien projet')->hideOnIndex();
-        yield TextField::new('toolsUsed', 'Outils utilisés')->hideOnIndex();
-        yield UrlField::new('repositoryUrl', 'Lien dépôt')->hideOnIndex();
+        yield TextField::new('schoolName', 'Établissement');
+        yield TextField::new('program', 'Intitulé');
+        yield TextField::new('period', 'Période');
+        yield TextField::new('theme', 'Thème CSS')->hideOnIndex();
         yield ImageField::new('imagePath', 'Aperçu')
             ->setBasePath('/')
             ->onlyOnIndex();
@@ -62,7 +55,7 @@ class WorkCrudController extends AbstractCrudController
                 'mapped' => true,
                 'constraints' => [
                     new File(
-                        maxSize: '8M',
+                        maxSize: '6M',
                         mimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
                         mimeTypesMessage: 'Formats autorisés: JPG, JPEG, PNG, WEBP.'
                     ),
@@ -75,15 +68,14 @@ class WorkCrudController extends AbstractCrudController
         yield TextField::new('imagePath', 'Chemin public')
             ->setFormTypeOption('disabled', true)
             ->onlyOnForms();
-        yield BooleanField::new('isFeatured', 'Mise en avant');
-        yield BooleanField::new('isPublished', 'Publié');
+        yield TextEditorField::new('summary', 'Résumé')->hideOnIndex();
         yield IntegerField::new('sortOrder', 'Ordre');
-        yield DateTimeField::new('publishedAt', 'Publication')->hideOnIndex();
+        yield BooleanField::new('isPublished', 'Publié');
     }
 
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        if ($entityInstance instanceof Work) {
+        if ($entityInstance instanceof Training) {
             $this->handleImageUpload($entityInstance);
         }
 
@@ -92,28 +84,28 @@ class WorkCrudController extends AbstractCrudController
 
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        if ($entityInstance instanceof Work) {
+        if ($entityInstance instanceof Training) {
             $this->handleImageUpload($entityInstance);
         }
 
         parent::updateEntity($entityManager, $entityInstance);
     }
 
-    private function handleImageUpload(Work $work): void
+    private function handleImageUpload(Training $training): void
     {
-        $imageFile = $work->getImageFile();
+        $imageFile = $training->getImageFile();
         if (!$imageFile instanceof UploadedFile) {
             return;
         }
 
         $relativePath = $this->webpImageUploader->upload(
             $imageFile,
-            'works',
-            $work->getImagePath(),
-            $work->getTitle()
+            'trainings',
+            $training->getImagePath(),
+            $training->getSchoolName()
         );
 
-        $work->setImagePath($relativePath);
-        $work->setImageFile(null);
+        $training->setImagePath($relativePath);
+        $training->setImageFile(null);
     }
 }

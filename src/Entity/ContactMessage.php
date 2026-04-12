@@ -33,6 +33,18 @@ class ContactMessage
     #[ORM\Column(options: ['default' => false])]
     private bool $isRead = false;
 
+    #[ORM\Column(options: ['default' => false])]
+    private bool $isAnswered = false;
+
+    #[ORM\Column(length: 180, nullable: true)]
+    private ?string $replySubject = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $replyMessage = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $repliedAt = null;
+
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -137,6 +149,54 @@ class ContactMessage
     public function setCreatedAt(?\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function isAnswered(): bool
+    {
+        return $this->isAnswered;
+    }
+
+    public function setIsAnswered(bool $isAnswered): static
+    {
+        $this->isAnswered = $isAnswered;
+
+        return $this;
+    }
+
+    public function getReplySubject(): ?string
+    {
+        return $this->replySubject;
+    }
+
+    public function setReplySubject(?string $replySubject): static
+    {
+        $this->replySubject = $replySubject;
+
+        return $this;
+    }
+
+    public function getReplyMessage(): ?string
+    {
+        return $this->replyMessage;
+    }
+
+    public function setReplyMessage(?string $replyMessage): static
+    {
+        $this->replyMessage = $replyMessage;
+
+        return $this;
+    }
+
+    public function getRepliedAt(): ?\DateTimeImmutable
+    {
+        return $this->repliedAt;
+    }
+
+    public function setRepliedAt(?\DateTimeImmutable $repliedAt): static
+    {
+        $this->repliedAt = $repliedAt;
 
         return $this;
     }

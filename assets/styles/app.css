@@ -2392,6 +2392,13 @@ h3 {
     min-width: 0;
 }
 
+.contact-link-card > .button {
+    grid-column: 1 / -1;
+    justify-self: start;
+    width: auto;
+    margin-top: 0.25rem;
+}
+
 .contact-link-card--github {
     background: linear-gradient(180deg, rgba(22, 28, 36, 0.95), rgba(39, 47, 60, 0.92));
     border-color: rgba(255, 255, 255, 0.08);

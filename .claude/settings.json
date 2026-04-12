@@ -5,7 +5,17 @@
       "Bash(php -S 127.0.0.1:8000 -t public/)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://127.0.0.1:8000/civitalisme)",
       "Bash(curl -s http://127.0.0.1:8000/civitalisme)",
-      "Bash(php bin/phpunit --list-tests)"
+      "Bash(php bin/phpunit --list-tests)",
+      "Read(//Users/papounet/Coding/PORTFOLIO+CIVITALISME /src/**)",
+      "Read(//Users/papounet/Coding/PORTFOLIO+CIVITALISME /templates/page/**)",
+      "Read(//Users/papounet/Coding/**)"
+    ],
+    "additionalDirectories": [
+      "/Users/papounet/Coding/PORTFOLIO+CIVITALISME /src/Enum",
+      "/Users/papounet/Coding/PORTFOLIO+CIVITALISME /src/Entity",
+      "/Users/papounet/Coding/PORTFOLIO+CIVITALISME /src/Repository",
+      "/Users/papounet/Coding/PORTFOLIO+CIVITALISME /src/Controller/Admin",
+      "/Users/papounet/Coding/PORTFOLIO+CIVITALISME /src/DataFixtures"
     ]
   }
 }

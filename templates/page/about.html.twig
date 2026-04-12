@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}About me | Portfolio + Civitalisme{% endblock %}
+{% block title %}About me | Frédéric Fribel{% endblock %}
 {% block meta_description %}Parcours, environnement de travail, passions et approche métier autour du web, de l’IA et de la poésie.{% endblock %}
 {% block body_class %}theme-portfolio page-about{% endblock %}
 
 {% block body %}
     <section class="hero hero--inner hero--about">
         <div class="hero__copy">
-            <p class="eyebrow">About me</p>
+            <p class="eyebrow">A propos de mon travail</p>
             <h1 class="hero__title hero__title--medium hero__title--heartbeat" data-controller="pretext" data-pretext-line-height-value="62">
                 Développer des sites web vivants
             </h1>
@@ -59,10 +59,10 @@ Aujourd’hui, je mets ces compétences au service de projets où technique, hum
                 <article class="surface-card experience-card experience-card--{{ item.theme }}">
                     <div class="experience-card__header">
                         <div class="experience-card__logo" aria-hidden="true">
-                            {% if item.logoPath is defined and item.logoPath %}
-                                <img src="{{ asset(item.logoPath) }}" alt="{{ item.company }}">
+                            {% if item.logoPath %}
+                                <img src="{{ asset(item.logoPath) }}" alt="{{ item.companyName }}">
                             {% else %}
-                                <span>{{ item.logoMonogram|default(item.company|slice(0, 3)|upper) }}</span>
+                                <span>{{ item.monogram|default(item.companyName|slice(0, 3)|upper) }}</span>
                             {% endif %}
                         </div>
 
@@ -71,7 +71,7 @@ Aujourd’hui, je mets ces compétences au service de projets où technique, hum
                             <span>{{ item.status }}</span>
                         </div>
                     </div>
-                    <h3 class="experience-card__title" data-controller="pretext" data-pretext-line-height-value="42">{{ item.company }}</h3>
+                    <h3 class="experience-card__title" data-controller="pretext" data-pretext-line-height-value="42">{{ item.companyName }}</h3>
                     <p class="experience-card__role">{{ item.role }}</p>
                     <p class="experience-card__period">{{ item.period }}</p>
                     <p>{{ item.summary }}</p>
@@ -131,7 +131,7 @@ Aujourd’hui, je mets ces compétences au service de projets où technique, hum
         <div class="section-heading">
             <div>
                 <p class="eyebrow">Formations</p>
-                <h2>Apprentissages structurants</h2>
+                <h2>Formations et retours de terrain</h2>
             </div>
         </div>
 
@@ -141,11 +141,11 @@ Aujourd’hui, je mets ces compétences au service de projets où technique, hum
                     <article class="surface-card training-card training-card--{{ item.theme }}">
                         <div class="training-card__head">
                             {% if item.imagePath %}
-                                <img src="{{ asset(item.imagePath) }}" alt="{{ item.school }}">
+                                <img src="{{ asset(item.imagePath) }}" alt="{{ item.schoolName }}">
                             {% endif %}
                             <div>
                                 <p class="panel-label">{{ item.period }}</p>
-                                <h3>{{ item.school }}</h3>
+                                <h3>{{ item.schoolName }}</h3>
                             </div>
                         </div>
                         <p class="experience-card__role">{{ item.program }}</p>
@@ -154,30 +154,25 @@ Aujourd’hui, je mets ces compétences au service de projets où technique, hum
                 {% endfor %}
             </div>
 
-            <article class="surface-card logo-panel logo-panel--training">
-                <p class="panel-label">Constellation</p>
-                <h2>Environnements traversés</h2>
-                <p class="section-intro">Une mosaïque plus ludique pour raconter les structures croisées sans transformer la page en CV figé.</p>
-
-                <div class="logo-grid">
-                    {% for company in companyLogos %}
-                        <div class="logo-tile logo-tile--{{ company.theme|default('neutral') }}">
-                            {% if company.imagePath is defined and company.imagePath %}
-                                <img src="{{ asset(company.imagePath) }}" alt="{{ company.name }}">
-                            {% else %}
-                                <div class="logo-tile__monogram">{{ company.monogram|default(company.name|slice(0, 2)|upper) }}</div>
+            <article class="surface-card">
+                <p class="panel-label">Témoignages</p>
+                <h3>Ce qu’ils ont pensé de moi</h3>
+                <div class="card-grid card-grid--compact">
+                    {% for item in testimonials %}
+                        <article class="surface-card narrative-card">
+                            <p class="panel-label">{{ item.companyName ?: 'Référence' }}</p>
+                            <h3>{{ item.authorName }}</h3>
+                            {% if item.authorRole %}
+                                <p class="stack-line">{{ item.authorRole }}</p>
                             {% endif %}
-                            <span>{{ company.name }}</span>
-                        </div>
-                    {% endfor %}
-                </div>
-
-                <div class="logo-grid logo-grid--training">
-                    {% for training in trainingLogos %}
-                        <div class="logo-tile logo-tile--{{ training.theme|default('neutral') }}">
-                            <img src="{{ asset(training.imagePath) }}" alt="{{ training.name }}">
-                            <span>{{ training.name }}</span>
-                        </div>
+                            <p>“{{ item.content }}”</p>
+                        </article>
+                    {% else %}
+                        <article class="surface-card narrative-card">
+                            <p class="panel-label">Témoignages</p>
+                            <h3>Aucun témoignage publié</h3>
+                            <p>Ajoute tes premiers retours depuis l’espace admin pour alimenter cette section.</p>
+                        </article>
                     {% endfor %}
                 </div>
             </article>
@@ -211,9 +206,14 @@ Aujourd’hui, je mets ces compétences au service de projets où technique, hum
                     <div class="network-card__copy">
                         <p class="panel-label">{{ item.kicker }}</p>
                         <h3 data-controller="pretext" data-pretext-line-height-value="38">{{ item.title }}</h3>
+                        {% if item.subtitle %}
+                            <p class="stack-line">{{ item.subtitle }}</p>
+                        {% endif %}
                         <p>{{ item.description }}</p>
                     </div>
-                    <a class="button button--ghost" href="{{ item.url }}" target="_blank" rel="noreferrer">Ouvrir</a>
+                    {% if item.url %}
+                        <a class="button button--ghost" href="{{ item.url }}" target="_blank" rel="noreferrer">Ouvrir</a>
+                    {% endif %}
                 </article>
             {% endfor %}
 
@@ -224,16 +224,32 @@ Aujourd’hui, je mets ces compétences au service de projets où technique, hum
                 <a class="button button--ghost" href="{{ path('app_civitalisme') }}">Explorer</a>
             </article>
 
-            <article class="surface-card link-card">
-                <p class="panel-label">Écoute</p>
-                <h3>Album et univers personnel</h3>
-                <p>Une autre facette de mon travail, plus sensible et musicale, qui nourrit aussi ma manière de concevoir le web.</p>
-                {% if albumUrl %}
-                    <a class="button button--ghost" href="{{ albumUrl }}" target="_blank" rel="noreferrer">Écouter</a>
-                {% else %}
-                    <span class="hint-text">Lien d’album à connecter via <code>APP_ALBUM_URL</code>.</span>
-                {% endif %}
-            </article>
+            {% for item in hobbyCards %}
+                <article class="surface-card link-card link-card--{{ item.theme }}">
+                    <p class="panel-label">{{ item.kicker }}</p>
+                    <h3>{{ item.title }}</h3>
+                    {% if item.subtitle %}
+                        <p class="stack-line">{{ item.subtitle }}</p>
+                    {% endif %}
+                    <p>{{ item.description }}</p>
+                    {% if item.url %}
+                        <a class="button button--ghost" href="{{ item.url }}" target="_blank" rel="noreferrer">Découvrir</a>
+                    {% endif %}
+                </article>
+            {% endfor %}
+
+            {% if hobbyCards is empty %}
+                <article class="surface-card link-card">
+                    <p class="panel-label">Écoute</p>
+                    <h3>Album et univers personnel</h3>
+                    <p>Une autre facette de mon travail, plus sensible et musicale, qui nourrit aussi ma manière de concevoir le web.</p>
+                    {% if albumUrl %}
+                        <a class="button button--ghost" href="{{ albumUrl }}" target="_blank" rel="noreferrer">Écouter</a>
+                    {% else %}
+                        <span class="hint-text">Lien d’album à connecter via <code>APP_ALBUM_URL</code>.</span>
+                    {% endif %}
+                </article>
+            {% endif %}
         </div>
     </section>
 {% endblock %}

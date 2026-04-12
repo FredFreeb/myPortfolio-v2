@@ -2,11 +2,20 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Experience;
+use App\Entity\ProfileLink;
 use App\Entity\ProjectUpdate;
+use App\Entity\Testimonial;
+use App\Entity\Training;
 use App\Entity\User;
 use App\Entity\Work;
+use App\Enum\LinkCategory;
 use App\Enum\ProjectAudience;
+use App\Repository\ExperienceRepository;
+use App\Repository\ProfileLinkRepository;
 use App\Repository\ProjectUpdateRepository;
+use App\Repository\TestimonialRepository;
+use App\Repository\TrainingRepository;
 use App\Repository\UserRepository;
 use App\Repository\WorkRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -20,11 +29,17 @@ class AppFixtures extends Fixture
         private readonly UserRepository $userRepository,
         private readonly WorkRepository $workRepository,
         private readonly ProjectUpdateRepository $projectUpdateRepository,
+        private readonly ExperienceRepository $experienceRepository,
+        private readonly TrainingRepository $trainingRepository,
+        private readonly TestimonialRepository $testimonialRepository,
+        private readonly ProfileLinkRepository $profileLinkRepository,
         private readonly UserPasswordHasherInterface $passwordHasher,
         #[Autowire('%env(string:ADMIN_EMAIL)%')]
         private readonly string $adminEmail,
         #[Autowire('%env(string:ADMIN_PASSWORD)%')]
         private readonly string $adminPassword,
+        #[Autowire('%env(string:APP_ALBUM_URL)%')]
+        private readonly string $albumUrl,
     ) {
     }
 
@@ -33,6 +48,10 @@ class AppFixtures extends Fixture
         $this->seedAdmin($manager);
         $this->seedWorks($manager);
         $this->seedProjectUpdates($manager);
+        $this->seedExperiences($manager);
+        $this->seedTrainings($manager);
+        $this->seedTestimonials($manager);
+        $this->seedProfileLinks($manager);
 
         $manager->flush();
     }
@@ -70,6 +89,7 @@ class AppFixtures extends Fixture
                 'description' => 'Ce projet mêle direction artistique, intégration et micro-interactions pour faire dialoguer mémoire, musique et navigation. Il m’a permis d’affirmer une approche où la technique soutient la sensibilité du récit.',
                 'projectUrl' => 'https://fredfreeb.github.io/SoundOfMemories/',
                 'repositoryUrl' => 'https://github.com/FredFreeb',
+                'toolsUsed' => 'Figma, Photoshop, APIs Spotify/YouTube',
                 'isFeatured' => true,
                 'sortOrder' => 10,
             ],
@@ -82,6 +102,7 @@ class AppFixtures extends Fixture
                 'description' => 'Cette base a servi de laboratoire visuel pour tester différentes mises en page, hiérarchies et approches de présentation des projets. La version Symfony actuelle en reprend l’intention tout en gagnant en maintenabilité.',
                 'projectUrl' => 'https://github.com/FredFreeb/myPortfolio-v2',
                 'repositoryUrl' => 'https://github.com/FredFreeb/myPortfolio-v2',
+                'toolsUsed' => 'Bootstrap, Sass, GSAP',
                 'isFeatured' => true,
                 'sortOrder' => 20,
             ],
@@ -94,6 +115,7 @@ class AppFixtures extends Fixture
                 'description' => 'Un mini projet court, utile pour travailler la qualité de l’interaction et la lisibilité d’une interface sans infrastructure lourde.',
                 'projectUrl' => 'https://fredfreeb.github.io/Togglez/',
                 'repositoryUrl' => 'https://github.com/FredFreeb',
+                'toolsUsed' => 'Vanilla JS, CSS transitions',
                 'isFeatured' => false,
                 'sortOrder' => 30,
             ],
@@ -106,6 +128,7 @@ class AppFixtures extends Fixture
                 'description' => 'Ce travail a consolidé mes réflexes autour de la structure HTML, du responsive et d’une organisation CSS plus rigoureuse.',
                 'projectUrl' => 'https://fredfreeb.github.io/RenduFinalAfpaFribel/html/index.html',
                 'repositoryUrl' => 'https://github.com/FredFreeb',
+                'toolsUsed' => 'Sass, BEM, responsive layout',
                 'isFeatured' => false,
                 'sortOrder' => 40,
             ],
@@ -121,6 +144,7 @@ class AppFixtures extends Fixture
                 ->setDescription($workData['description'])
                 ->setProjectUrl($workData['projectUrl'])
                 ->setRepositoryUrl($workData['repositoryUrl'])
+                ->setToolsUsed($workData['toolsUsed'])
                 ->setIsFeatured($workData['isFeatured'])
                 ->setSortOrder($workData['sortOrder']);
 
@@ -209,6 +233,250 @@ class AppFixtures extends Fixture
                 ->setSortOrder($updateData['sortOrder']);
 
             $manager->persist($update);
+        }
+    }
+
+    private function seedExperiences(ObjectManager $manager): void
+    {
+        if ($this->experienceRepository->count([]) > 0) {
+            return;
+        }
+
+        $items = [
+            [
+                'company' => 'Stage WordPress & Symfony',
+                'role' => 'Développeur stagiaire',
+                'period' => '09.2023 - 11.2023',
+                'location' => 'Blois',
+                'status' => 'Mission terrain',
+                'theme' => 'stage',
+                'logoMonogram' => 'WP',
+                'summary' => 'Première séquence professionnelle plus frontale côté développement, avec intégration, structure Symfony et mise en pratique sur un vrai cadre de production.',
+                'sortOrder' => 10,
+            ],
+            [
+                'company' => 'ADP Prague',
+                'role' => 'Payroll Specialist',
+                'period' => '2024 - aujourd\'hui',
+                'location' => 'Prague',
+                'status' => 'Toujours en poste',
+                'theme' => 'adp',
+                'logoMonogram' => 'ADP',
+                'summary' => 'Un cadre international, structuré et exigeant, qui nourrit mon sens du détail, de la fiabilité et des flux bien tenus.',
+                'sortOrder' => 20,
+            ],
+            [
+                'company' => 'Ciné Vendôme',
+                'role' => 'Adjoint de direction',
+                'period' => '2012 - 2022',
+                'location' => 'Vendôme',
+                'status' => '10 ans de terrain',
+                'theme' => 'cinema',
+                'logoPath' => 'images/about/companies/cine-vendome.jpg',
+                'summary' => 'Une décennie au contact du public, de l\'organisation et du rythme réel d\'une structure vivante, avant le virage plus net vers le numérique.',
+                'sortOrder' => 30,
+            ],
+            [
+                'company' => 'Amazon',
+                'role' => 'Agent logistique',
+                'period' => '2011 - 2012',
+                'location' => 'Saran',
+                'status' => 'Opérations',
+                'theme' => 'amazon',
+                'logoPath' => 'images/about/companies/amazon.png',
+                'summary' => 'Un environnement rapide, industrialisé et exigeant, qui m\'a appris la cadence, la précision et le sérieux opérationnel.',
+                'sortOrder' => 40,
+            ],
+            [
+                'company' => 'Le Calypso',
+                'role' => 'Projectionniste',
+                'period' => '2007 - 2010',
+                'location' => 'Viry-Châtillon',
+                'status' => 'Cabine & exploitation',
+                'theme' => 'calypso',
+                'logoPath' => 'images/about/companies/cinema-calypso.png',
+                'summary' => 'Les premières responsabilités longues dans l\'exploitation cinéma, entre technique, autonomie et relation concrète au lieu.',
+                'sortOrder' => 50,
+            ],
+        ];
+
+        foreach ($items as $data) {
+            $experience = (new Experience())
+                ->setCompanyName($data['company'])
+                ->setRole($data['role'])
+                ->setPeriod($data['period'])
+                ->setLocation($data['location'])
+                ->setStatus($data['status'])
+                ->setTheme($data['theme'])
+                ->setSummary($data['summary'])
+                ->setSortOrder($data['sortOrder']);
+
+            if (isset($data['logoMonogram'])) {
+                $experience->setMonogram($data['logoMonogram']);
+            }
+            if (isset($data['logoPath'])) {
+                $experience->setImagePath($data['logoPath']);
+            }
+
+            $manager->persist($experience);
+        }
+    }
+
+    private function seedTrainings(ObjectManager $manager): void
+    {
+        if ($this->trainingRepository->count([]) > 0) {
+            return;
+        }
+
+        $items = [
+            [
+                'school' => 'AFPA',
+                'program' => 'Développeur Web & Web Mobile',
+                'period' => '2023',
+                'theme' => 'afpa',
+                'imagePath' => 'images/about/training/afpa.png',
+                'summary' => 'Le moment où la pratique s\'est structurée plus frontalement autour du code, du responsive, de l\'intégration et des bases full-stack.',
+                'sortOrder' => 10,
+            ],
+            [
+                'school' => 'INA',
+                'program' => 'Responsable Technique de Salles',
+                'period' => '2015',
+                'theme' => 'ina',
+                'imagePath' => 'images/about/training/ina.png',
+                'summary' => 'Une formation orientée exploitation, technique de salle et compréhension des contraintes audiovisuelles en contexte professionnel.',
+                'sortOrder' => 20,
+            ],
+            [
+                'school' => 'AFOMAV',
+                'program' => 'C.A.P Projectionniste',
+                'period' => '2006 - 2007',
+                'theme' => 'afomav',
+                'imagePath' => 'images/about/training/afomav.jpg',
+                'summary' => 'Le socle métier initial autour de la projection, de la cabine et de la rigueur technique appliquée.',
+                'sortOrder' => 30,
+            ],
+        ];
+
+        foreach ($items as $data) {
+            $training = (new Training())
+                ->setSchoolName($data['school'])
+                ->setProgram($data['program'])
+                ->setPeriod($data['period'])
+                ->setTheme($data['theme'])
+                ->setImagePath($data['imagePath'])
+                ->setSummary($data['summary'])
+                ->setSortOrder($data['sortOrder']);
+
+            $manager->persist($training);
+        }
+    }
+
+    private function seedTestimonials(ObjectManager $manager): void
+    {
+        if ($this->testimonialRepository->count([]) > 0) {
+            return;
+        }
+
+        $items = [
+            [
+                'authorName' => 'Responsable technique',
+                'authorRole' => 'Tuteur de stage',
+                'company' => 'Stage WordPress & Symfony',
+                'quote' => 'Frédéric a su s\'adapter rapidement à notre environnement technique et a montré une vraie curiosité pour les bonnes pratiques de développement.',
+                'theme' => 'stage',
+                'sortOrder' => 10,
+            ],
+            [
+                'authorName' => 'Directeur de salle',
+                'authorRole' => 'Direction',
+                'company' => 'Ciné Vendôme',
+                'quote' => 'Dix ans de collaboration fiable, avec un sens de l\'organisation et du public qui a structuré durablement le fonctionnement de la salle.',
+                'theme' => 'cinema',
+                'sortOrder' => 20,
+            ],
+            [
+                'authorName' => 'Formateur référent',
+                'authorRole' => 'Encadrement pédagogique',
+                'company' => 'AFPA',
+                'quote' => 'Un profil atypique et motivé, capable de relier ses expériences passées à une vraie logique de développement web structuré.',
+                'theme' => 'afpa',
+                'sortOrder' => 30,
+            ],
+        ];
+
+        foreach ($items as $data) {
+            $testimonial = (new Testimonial())
+                ->setAuthorName($data['authorName'])
+                ->setAuthorRole($data['authorRole'])
+                ->setCompanyName($data['company'])
+                ->setContent($data['quote'])
+                ->setTheme($data['theme'])
+                ->setSortOrder($data['sortOrder']);
+
+            $manager->persist($testimonial);
+        }
+    }
+
+    private function seedProfileLinks(ObjectManager $manager): void
+    {
+        if ($this->profileLinkRepository->count([]) > 0) {
+            return;
+        }
+
+        $albumUrl = '' !== trim($this->albumUrl)
+            ? trim($this->albumUrl)
+            : 'https://open.spotify.com/';
+
+        $items = [
+            [
+                'category' => LinkCategory::Network,
+                'title' => 'Code public',
+                'subtitle' => 'GitHub',
+                'url' => 'https://github.com/FredFreeb',
+                'description' => 'Mes bases, prototypes et explorations autour du web, de l\'UI et des projets personnels.',
+                'badge' => 'GH',
+                'theme' => 'github',
+                'year' => '2026',
+                'sortOrder' => 10,
+            ],
+            [
+                'category' => LinkCategory::Network,
+                'title' => 'Trajectoire pro',
+                'subtitle' => 'LinkedIn',
+                'url' => 'https://www.linkedin.com/in/FredFreeb',
+                'description' => 'Une lecture plus professionnelle du parcours, des responsabilités et du positionnement actuel.',
+                'badge' => 'in',
+                'theme' => 'linkedin',
+                'year' => '2026',
+                'sortOrder' => 20,
+            ],
+            [
+                'category' => LinkCategory::Hobby,
+                'title' => 'Album et univers personnel',
+                'subtitle' => 'Musique et écriture',
+                'url' => $albumUrl,
+                'description' => 'Une autre facette de mon travail, plus sensible et musicale, qui nourrit aussi ma manière de concevoir le web.',
+                'badge' => null,
+                'theme' => 'music',
+                'year' => '2026',
+                'sortOrder' => 30,
+            ],
+        ];
+
+        foreach ($items as $data) {
+            $link = (new ProfileLink())
+                ->setCategory($data['category'])
+                ->setTitle($data['title'])
+                ->setSubtitle($data['subtitle'])
+                ->setUrl($data['url'])
+                ->setDescription($data['description'])
+                ->setBadge($data['badge'])
+                ->setTheme($data['theme'])
+                ->setYear($data['year'])
+                ->setSortOrder($data['sortOrder']);
+
+            $manager->persist($link);
         }
     }
 }

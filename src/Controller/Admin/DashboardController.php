@@ -34,9 +34,13 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToRoute('Voir le site', 'fa fa-arrow-up-right-from-square', 'app_home');
         yield MenuItem::section('Contenus');
-        yield MenuItem::linkTo(WorkCrudController::class, 'Travaux', 'fa fa-briefcase');
-        yield MenuItem::linkTo(ProjectUpdateCrudController::class, 'Blocs Civitalisme', 'fa fa-landmark');
+        yield MenuItem::linkToRoute('Travaux', 'fa fa-briefcase', 'admin_dashboard_work_index');
+        yield MenuItem::linkToRoute('Expériences', 'fa fa-building', 'admin_dashboard_experience_index');
+        yield MenuItem::linkToRoute('Formations', 'fa fa-graduation-cap', 'admin_dashboard_training_index');
+        yield MenuItem::linkToRoute('Témoignages', 'fa fa-quote-left', 'admin_dashboard_testimonial_index');
+        yield MenuItem::linkToRoute('Liens profil', 'fa fa-link', 'admin_dashboard_profile_link_index');
+        yield MenuItem::linkToRoute('Blocs Civitalisme', 'fa fa-landmark', 'admin_dashboard_project_update_index');
         yield MenuItem::section('Messages');
-        yield MenuItem::linkTo(ContactMessageCrudController::class, 'Contacts', 'fa fa-envelope');
+        yield MenuItem::linkToRoute('Contacts', 'fa fa-envelope', 'admin_dashboard_contact_message_index');
     }
 }

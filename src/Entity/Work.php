@@ -2,14 +2,18 @@
 
 namespace App\Entity;
 
+use App\Entity\Concerns\SanitizesEntityDataTrait;
 use App\Repository\WorkRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: WorkRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class Work
 {
+    use SanitizesEntityDataTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -42,6 +46,9 @@ class Work
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imagePath = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $toolsUsed = null;
+
     #[ORM\Column(options: ['default' => false])]
     private bool $isFeatured = false;
 
@@ -53,6 +60,8 @@ class Work
 
     #[ORM\Column]
     private ?\DateTimeImmutable $publishedAt = null;
+
+    private ?UploadedFile $imageFile = null;
 
     public function __construct()
     {
@@ -77,108 +86,120 @@ class Work
 
     public function getTitle(): string
     {
-        return $this->title;
+        return self::sanitizePlainText($this->title) ?? '';
     }
 
     public function setTitle(string $title): static
     {
-        $this->title = $title;
+        $this->title = self::sanitizePlainText($title) ?? '';
 
         return $this;
     }
 
     public function getClientName(): ?string
     {
-        return $this->clientName;
+        return self::sanitizePlainText($this->clientName);
     }
 
     public function setClientName(?string $clientName): static
     {
-        $this->clientName = $clientName;
+        $this->clientName = self::sanitizePlainText($clientName);
 
         return $this;
     }
 
     public function getRoleLabel(): ?string
     {
-        return $this->roleLabel;
+        return self::sanitizePlainText($this->roleLabel);
     }
 
     public function setRoleLabel(?string $roleLabel): static
     {
-        $this->roleLabel = $roleLabel;
+        $this->roleLabel = self::sanitizePlainText($roleLabel);
 
         return $this;
     }
 
     public function getExcerpt(): string
     {
-        return $this->excerpt;
+        return self::sanitizeLongText($this->excerpt) ?? '';
     }
 
     public function setExcerpt(string $excerpt): static
     {
-        $this->excerpt = $excerpt;
+        $this->excerpt = self::sanitizeLongText($excerpt) ?? '';
 
         return $this;
     }
 
     public function getDescription(): string
     {
-        return $this->description;
+        return self::sanitizeLongText($this->description) ?? '';
     }
 
     public function setDescription(string $description): static
     {
-        $this->description = $description;
+        $this->description = self::sanitizeLongText($description) ?? '';
 
         return $this;
     }
 
     public function getStackSummary(): string
     {
-        return $this->stackSummary;
+        return self::sanitizePlainText($this->stackSummary) ?? '';
     }
 
     public function setStackSummary(string $stackSummary): static
     {
-        $this->stackSummary = $stackSummary;
+        $this->stackSummary = self::sanitizePlainText($stackSummary) ?? '';
 
         return $this;
     }
 
     public function getProjectUrl(): ?string
     {
-        return $this->projectUrl;
+        return self::sanitizeUrl($this->projectUrl);
     }
 
     public function setProjectUrl(?string $projectUrl): static
     {
-        $this->projectUrl = $projectUrl;
+        $this->projectUrl = self::sanitizeUrl($projectUrl);
 
         return $this;
     }
 
     public function getRepositoryUrl(): ?string
     {
-        return $this->repositoryUrl;
+        return self::sanitizeUrl($this->repositoryUrl);
     }
 
     public function setRepositoryUrl(?string $repositoryUrl): static
     {
-        $this->repositoryUrl = $repositoryUrl;
+        $this->repositoryUrl = self::sanitizeUrl($repositoryUrl);
 
         return $this;
     }
 
     public function getImagePath(): ?string
     {
-        return $this->imagePath;
+        return self::normalizeAssetPath($this->imagePath);
     }
 
     public function setImagePath(?string $imagePath): static
     {
-        $this->imagePath = $imagePath;
+        $this->imagePath = self::normalizeAssetPath($imagePath);
+
+        return $this;
+    }
+
+    public function getToolsUsed(): ?string
+    {
+        return self::sanitizePlainText($this->toolsUsed);
+    }
+
+    public function setToolsUsed(?string $toolsUsed): static
+    {
+        $this->toolsUsed = self::sanitizePlainText($toolsUsed);
 
         return $this;
     }
@@ -227,6 +248,18 @@ class Work
     public function setPublishedAt(?\DateTimeImmutable $publishedAt): static
     {
         $this->publishedAt = $publishedAt;
+
+        return $this;
+    }
+
+    public function getImageFile(): ?UploadedFile
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?UploadedFile $imageFile): static
+    {
+        $this->imageFile = $imageFile;
 
         return $this;
     }

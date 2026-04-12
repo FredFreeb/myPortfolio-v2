@@ -1,0 +1,41 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}
+    Répondre à {{ contactMessage.name }}
+{% endblock %}
+
+{% block page_actions %}
+    <a class="btn btn-secondary" href="{{ backToDetailUrl }}">Retour au message</a>
+    <a class="btn btn-light" href="{{ backToIndexUrl }}">Liste des messages</a>
+{% endblock %}
+
+{% block main %}
+    <div class="content-panel">
+        <div class="content-panel-body" style="max-width: 880px;">
+            <h2 style="margin-bottom: .75rem;">Préparer une réponse</h2>
+            <p style="margin-bottom: 1.25rem; color: #5f6f78;">
+                Le mail sera envoyé au format HTML avec une mise en forme claire et professionnelle.
+            </p>
+
+            <div style="margin-bottom: 1rem; padding: 1rem; border-radius: 10px; background: #f7fafb; border: 1px solid #e3eaee;">
+                <strong>Message reçu</strong>
+                <p style="margin: .5rem 0 0;"><strong>Objet :</strong> {{ contactMessage.subject }}</p>
+                <p style="margin: .35rem 0 0;"><strong>De :</strong> {{ contactMessage.name }} &lt;{{ contactMessage.email }}&gt;</p>
+                {% if contactMessage.company %}
+                    <p style="margin: .35rem 0 0;"><strong>Organisation :</strong> {{ contactMessage.company }}</p>
+                {% endif %}
+                <p style="margin: .75rem 0 0; white-space: pre-wrap;">{{ contactMessage.message }}</p>
+            </div>
+
+            {{ form_start(replyForm) }}
+                {{ form_row(replyForm.subject) }}
+                {{ form_row(replyForm.body) }}
+
+                <div style="display: flex; gap: .75rem; margin-top: 1rem;">
+                    <button class="btn btn-primary" type="submit">Envoyer la réponse</button>
+                    <a class="btn btn-secondary" href="{{ backToDetailUrl }}">Annuler</a>
+                </div>
+            {{ form_end(replyForm) }}
+        </div>
+    </div>
+{% endblock %}

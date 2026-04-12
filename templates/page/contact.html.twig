@@ -21,7 +21,7 @@
             <p class="panel-label">Canaux directs</p>
             <div class="contact-link-grid">
                 {% for link in contactLinks %}
-                    <a class="contact-link-card contact-link-card--{{ link.theme }}" href="{{ link.url }}" target="_blank" rel="noreferrer">
+                    <article class="contact-link-card contact-link-card--{{ link.theme }}">
                         <span class="contact-link-card__badge" aria-hidden="true">
                             {% if link.theme == 'github' %}
                                 <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
@@ -38,8 +38,14 @@
                         <div class="contact-link-card__copy">
                             <strong>{{ link.label }}</strong>
                             <span>{{ link.description }}</span>
+                            {% if link.year %}
+                                <small>{{ link.year }}</small>
+                            {% endif %}
                         </div>
-                    </a>
+                        {% if link.url %}
+                            <a class="button button--ghost" href="{{ link.url }}" target="_blank" rel="noreferrer">Ouvrir</a>
+                        {% endif %}
+                    </article>
                 {% endfor %}
             </div>
 

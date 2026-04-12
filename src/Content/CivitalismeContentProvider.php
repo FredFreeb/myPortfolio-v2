@@ -888,13 +888,13 @@ final class CivitalismeContentProvider
                     ],
                     [
                         'phase' => 'Phase 3 - Extension',
-                        'title' => 'Montee en charge europeenne',
-                        'body' => 'Scaling, interoperabilite, industrialisation des controles, module reconversion IA. Redeploiement des equipes, optimisation du mix humain/IA.',
+                        'title' => 'Montee en charge européenne',
+                        'body' => 'Scaling, interopérabilité, industrialisation des contrôles, module reconversion IA. Redeploiement des equipes, optimisation du mix humain/IA.',
                     ],
                     [
-                        'phase' => 'Phase 4 - Generalisation',
+                        'phase' => 'Phase 4 - Généralisation',
                         'title' => 'Dividende technologique mature',
-                        'body' => 'Cadre d\'exploitation permanent, certification, controles continus, IA integree. Standard europeen, label entreprise euroE, accès marchés publics.',
+                        'body' => 'Cadre d\'exploitation permanent, certification, contrôles continus, IA integree. Standard europeen, label entreprise euroE, accès marchés publics.',
                     ],
                 ],
             ],

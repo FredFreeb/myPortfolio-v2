@@ -65,10 +65,13 @@
 								<span>{{ work.roleLabel }}</span>
 							{% endif %}
 						</div>
-						<h3>{{ work.title }}</h3>
-						<p>{{ work.excerpt }}</p>
-						<p class="stack-line">{{ work.stackSummary }}</p>
-					</div>
+                        <h3>{{ work.title }}</h3>
+                        <p>{{ work.excerpt }}</p>
+                        <p class="stack-line">{{ work.stackSummary }}</p>
+                        {% if work.toolsUsed %}
+                            <p class="stack-line">Outils : {{ work.toolsUsed }}</p>
+                        {% endif %}
+                    </div>
 
 					<div class="work-card__actions">
 						{% if work.projectUrl %}
@@ -127,7 +130,31 @@
 				<a class="button" href="{{ path('app_civitalisme_technical') }}">Explorer la version institutionnelle</a>
 			</article>
 		</div>
-	</section>
+    </section>
+
+    {% if testimonials is not empty %}
+        <section class="section section--panel section--panel-sun">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Retours</p>
+                    <h2>Paroles de terrain</h2>
+                </div>
+            </div>
+
+            <div class="card-grid card-grid--compact">
+                {% for testimonial in testimonials %}
+                    <article class="surface-card narrative-card">
+                        <p class="panel-label">{{ testimonial.companyName ?: 'Témoignage' }}</p>
+                        <h3>{{ testimonial.authorName }}</h3>
+                        <p>“{{ testimonial.content }}”</p>
+                        {% if testimonial.authorRole %}
+                            <p class="stack-line">{{ testimonial.authorRole }}</p>
+                        {% endif %}
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
 
 	<section class="section section--cta section--panel section--panel-sky">
 		<div class="cta-band surface-card">
@@ -137,12 +164,14 @@
 				<p>Je peux intervenir sur un portfolio, une vitrine narrative, un back-office simple ou une base Symfony durable.</p>
 			</div>
 
-			<div class="cta-band__actions">
-				<a class="button" href="{{ path('app_contact') }}">M’écrire</a>
-				{% for link in contactLinks %}
-					<a class="button button--ghost" href="{{ link.url }}" target="_blank" rel="noreferrer">{{ link.label }}</a>
-				{% endfor %}
-			</div>
-		</div>
-	</section>
+                <div class="cta-band__actions">
+                    <a class="button" href="{{ path('app_contact') }}">M’écrire</a>
+                    {% for link in contactLinks %}
+                        {% if link.url %}
+                            <a class="button button--ghost" href="{{ link.url }}" target="_blank" rel="noreferrer">{{ link.label }}</a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
 {% endblock %}

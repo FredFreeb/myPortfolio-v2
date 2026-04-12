@@ -9,10 +9,17 @@ RUN apt-get update \
         libicu-dev \
         libpq-dev \
         libzip-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev \
+        libwebp-dev \
+    && docker-php-ext-configure gd \
+        --with-jpeg \
+        --with-webp \
     && docker-php-ext-install \
         intl \
         pdo_pgsql \
         opcache \
+        gd \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer

@@ -2,25 +2,23 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Work;
+use App\Entity\Experience;
 use App\Service\WebpImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints\File;
 
-class WorkCrudController extends AbstractCrudController
+class ExperienceCrudController extends AbstractCrudController
 {
     public function __construct(private readonly WebpImageUploader $webpImageUploader)
     {
@@ -28,41 +26,39 @@ class WorkCrudController extends AbstractCrudController
 
     public static function getEntityFqcn(): string
     {
-        return Work::class;
+        return Experience::class;
     }
 
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('travail')
-            ->setEntityLabelInPlural('travaux')
-            ->setSearchFields(['title', 'clientName', 'roleLabel', 'stackSummary', 'toolsUsed'])
-            ->setDefaultSort(['sortOrder' => 'ASC', 'publishedAt' => 'DESC']);
+            ->setEntityLabelInSingular('expérience')
+            ->setEntityLabelInPlural('expériences')
+            ->setSearchFields(['companyName', 'role', 'location', 'summary'])
+            ->setDefaultSort(['sortOrder' => 'ASC']);
     }
 
     public function configureFields(string $pageName): iterable
     {
         yield IdField::new('id')->hideOnForm();
-        yield TextField::new('title', 'Titre');
-        yield TextField::new('clientName', 'Client')->hideOnIndex();
-        yield TextField::new('roleLabel', 'Rôle')->hideOnIndex();
-        yield TextField::new('stackSummary', 'Stack');
-        yield TextEditorField::new('excerpt', 'Résumé court')->hideOnIndex();
-        yield TextEditorField::new('description', 'Description')->hideOnIndex();
-        yield UrlField::new('projectUrl', 'Lien projet')->hideOnIndex();
-        yield TextField::new('toolsUsed', 'Outils utilisés')->hideOnIndex();
-        yield UrlField::new('repositoryUrl', 'Lien dépôt')->hideOnIndex();
-        yield ImageField::new('imagePath', 'Aperçu')
+        yield TextField::new('companyName', 'Entreprise');
+        yield TextField::new('role', 'Poste');
+        yield TextField::new('period', 'Période');
+        yield TextField::new('location', 'Ville')->hideOnIndex();
+        yield TextField::new('status', 'Statut')->hideOnIndex();
+        yield TextField::new('theme', 'Thème CSS')->hideOnIndex();
+        yield TextField::new('monogram', 'Monogramme')->hideOnIndex();
+        yield ImageField::new('logoPath', 'Aperçu')
             ->setBasePath('/')
             ->onlyOnIndex();
-        yield Field::new('imageFile', 'Image (jpg, jpeg, png, webp)')
+        yield Field::new('logoFile', 'Logo (jpg, jpeg, png, webp)')
             ->setFormType(FileType::class)
             ->setFormTypeOptions([
                 'required' => false,
                 'mapped' => true,
                 'constraints' => [
                     new File(
-                        maxSize: '8M',
+                        maxSize: '6M',
                         mimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
                         mimeTypesMessage: 'Formats autorisés: JPG, JPEG, PNG, WEBP.'
                     ),
@@ -72,19 +68,18 @@ class WorkCrudController extends AbstractCrudController
                 ],
             ])
             ->onlyOnForms();
-        yield TextField::new('imagePath', 'Chemin public')
+        yield TextField::new('logoPath', 'Chemin public')
             ->setFormTypeOption('disabled', true)
             ->onlyOnForms();
-        yield BooleanField::new('isFeatured', 'Mise en avant');
-        yield BooleanField::new('isPublished', 'Publié');
+        yield TextEditorField::new('summary', 'Résumé')->hideOnIndex();
         yield IntegerField::new('sortOrder', 'Ordre');
-        yield DateTimeField::new('publishedAt', 'Publication')->hideOnIndex();
+        yield BooleanField::new('isPublished', 'Publié');
     }
 
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        if ($entityInstance instanceof Work) {
-            $this->handleImageUpload($entityInstance);
+        if ($entityInstance instanceof Experience) {
+            $this->handleLogoUpload($entityInstance);
         }
 
         parent::persistEntity($entityManager, $entityInstance);
@@ -92,28 +87,28 @@ class WorkCrudController extends AbstractCrudController
 
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        if ($entityInstance instanceof Work) {
-            $this->handleImageUpload($entityInstance);
+        if ($entityInstance instanceof Experience) {
+            $this->handleLogoUpload($entityInstance);
         }
 
         parent::updateEntity($entityManager, $entityInstance);
     }
 
-    private function handleImageUpload(Work $work): void
+    private function handleLogoUpload(Experience $experience): void
     {
-        $imageFile = $work->getImageFile();
-        if (!$imageFile instanceof UploadedFile) {
+        $logoFile = $experience->getLogoFile();
+        if (!$logoFile instanceof UploadedFile) {
             return;
         }
 
         $relativePath = $this->webpImageUploader->upload(
-            $imageFile,
-            'works',
-            $work->getImagePath(),
-            $work->getTitle()
+            $logoFile,
+            'experiences',
+            $experience->getLogoPath(),
+            $experience->getCompanyName()
         );
 
-        $work->setImagePath($relativePath);
-        $work->setImageFile(null);
+        $experience->setLogoPath($relativePath);
+        $experience->setLogoFile(null);
     }
 }
