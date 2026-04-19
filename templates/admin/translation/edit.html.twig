@@ -1,0 +1,99 @@
+{% extends 'admin/translation/_layout.html.twig' %}
+
+{% block title %}Traduction {{ localeName }} — Admin{% endblock %}
+
+{% block adm_tr_body %}
+    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem;">
+        <h1 style="margin: 0; color: #003399;">
+            {{ localeName }} <span style="color: #888; font-weight: 400; font-size: 1.1rem;">({{ locale|upper }})</span>
+        </h1>
+        <a href="{{ path('admin_translations_index') }}" class="adm-tr__back">← Toutes les langues</a>
+    </div>
+
+    <p style="color: #666;">
+        {% if isReference %}
+            <strong>Langue de référence.</strong> Modifier le texte français met à jour la source pour toutes les autres traductions.
+        {% else %}
+            Progression : <strong>{{ stats.done }} / {{ stats.total }}</strong> ({{ stats.percent }}%).
+            Le texte en gris à gauche est la référence française, à ne pas modifier ici.
+        {% endif %}
+    </p>
+
+    {% if grouped is empty %}
+        <div class="adm-tr__flash adm-tr__flash--info">
+            Aucune clé n'est encore enregistrée. <a href="{{ path('admin_translations_new_key') }}">Créer la première clé</a>.
+        </div>
+    {% else %}
+        <form method="post" action="{{ path('admin_translations_edit', {locale: locale}) }}">
+            <input type="hidden" name="_token" value="{{ csrf_token('tr_edit_' ~ locale) }}">
+
+            {% for section, rows in grouped %}
+                <div class="adm-tr-section">
+                    <div class="adm-tr-section__head">
+                        <h2 class="adm-tr-section__title">{{ section }}</h2>
+                        <span class="adm-tr-section__count">{{ rows|length }} clé{{ rows|length > 1 ? 's' : '' }}</span>
+                    </div>
+                    {% for t in rows %}
+                        {% set currentValue = isReference ? (t.contents['fr']|default('')) : (t.contents[locale]|default('')) %}
+                        {% set hasContent = currentValue is not empty %}
+                        <div class="adm-tr-row">
+                            <div class="adm-tr-row__col">
+                                <div class="adm-tr-row__key">{{ t.translationKey }}</div>
+                                {% if isReference %}
+                                    <div class="adm-tr-row__ref" style="background: #fffaeb; border-left-color: #FFCC00;">
+                                        Texte de référence (français).
+                                    </div>
+                                {% else %}
+                                    <div class="adm-tr-row__ref">{{ t.getContent('fr', null) ?? '(pas de référence FR)' }}</div>
+                                {% endif %}
+                                {% if t.notes %}
+                                    <div class="adm-tr-row__notes">💡 {{ t.notes }}</div>
+                                {% endif %}
+                                {% if isReference %}
+                                    <form method="post" action="{{ path('admin_translations_delete_key', {locale: locale, id: t.id}) }}" style="display: inline;" onsubmit="return confirm('Supprimer la clé « {{ t.translationKey }} » (toutes langues) ?');">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('tr_delete_' ~ t.id) }}">
+                                        <button type="submit" class="adm-tr-row__delete">Supprimer cette clé</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                            <div class="adm-tr-row__col">
+                                <textarea
+                                    name="tr[{{ t.id }}]"
+                                    class="adm-tr-row__input {{ hasContent ? 'adm-tr-row__input--done' : '' }}"
+                                    data-tr-input
+                                    placeholder="Traduction en {{ localeName }}…"
+                                    rows="2"
+                                >{{ currentValue }}</textarea>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <div class="adm-tr-stickybar">
+                <div class="adm-tr-stickybar__progress">
+                    <span data-tr-counter>—</span> traduction{{ stats.total > 1 ? 's' : '' }} remplie{{ stats.total > 1 ? 's' : '' }} sur {{ stats.total }}
+                </div>
+                <div style="display: flex; gap: 0.6rem;">
+                    <a href="{{ path('admin_translations_index') }}" class="adm-btn adm-btn--ghost">Annuler</a>
+                    <button type="submit" class="adm-btn adm-btn--primary">Enregistrer {{ localeName }}</button>
+                </div>
+            </div>
+        </form>
+
+        <script>
+            // Compteur dynamique des champs remplis
+            (function() {
+                const inputs = document.querySelectorAll('[data-tr-input]');
+                const counter = document.querySelector('[data-tr-counter]');
+                function update() {
+                    let filled = 0;
+                    inputs.forEach(i => { if (i.value.trim() !== '') { filled++; i.classList.add('adm-tr-row__input--done'); } else { i.classList.remove('adm-tr-row__input--done'); } });
+                    counter.textContent = filled;
+                }
+                inputs.forEach(i => i.addEventListener('input', update));
+                update();
+            })();
+        </script>
+    {% endif %}
+{% endblock %}

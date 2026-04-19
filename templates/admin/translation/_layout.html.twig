@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block body_class 'theme-portfolio page-admin-translations' %}
+
+{% block extra_head %}
+    <style>
+        .adm-tr { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; font-family: system-ui, sans-serif; }
+        .adm-tr__head { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+        .adm-tr__head h1 { margin: 0; color: #003399; font-size: 1.8rem; }
+        .adm-tr__back { color: #003399; text-decoration: none; font-weight: 600; }
+        .adm-tr__back:hover { text-decoration: underline; }
+        .adm-tr__flash { padding: 0.85rem 1.25rem; border-radius: 8px; margin-bottom: 1rem; font-weight: 500; }
+        .adm-tr__flash--success { background: #e6f6ea; color: #145a32; border-left: 4px solid #28a745; }
+        .adm-tr__flash--warning { background: #fff8e1; color: #8a5a00; border-left: 4px solid #f0a500; }
+        .adm-tr__flash--danger  { background: #fde8e8; color: #842029; border-left: 4px solid #dc3545; }
+        .adm-tr__flash--info    { background: #e7f0ff; color: #003399; border-left: 4px solid #003399; }
+
+        /* Index : grille de langues */
+        .adm-tr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+        .adm-tr-card { background: #fff; border: 1px solid #e0e6f0; border-radius: 10px; padding: 1.2rem; transition: transform .15s, box-shadow .15s; text-decoration: none; color: inherit; display: block; }
+        .adm-tr-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,51,153,0.12); border-color: #9FAEE5; }
+        .adm-tr-card--available { border-color: #28a745; }
+        .adm-tr-card--reference { border-color: #003399; border-width: 2px; }
+        .adm-tr-card__head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem; }
+        .adm-tr-card__code { font-family: monospace; font-size: 0.85rem; font-weight: 700; background: rgba(0,51,153,0.08); padding: 0.1rem 0.5rem; border-radius: 4px; color: #003399; }
+        .adm-tr-card__name { font-size: 1.1rem; font-weight: 600; color: #222; }
+        .adm-tr-card__badge { font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 99px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        .adm-tr-card__badge--ref { background: #003399; color: #FFCC00; }
+        .adm-tr-card__badge--pub { background: #28a745; color: #fff; }
+        .adm-tr-card__badge--wip { background: #f0a500; color: #fff; }
+        .adm-tr-card__bar { background: #eef1f7; height: 6px; border-radius: 3px; overflow: hidden; margin: 0.4rem 0 0.3rem; }
+        .adm-tr-card__bar-fill { height: 100%; background: linear-gradient(90deg, #003399, #4266b8); transition: width .3s; }
+        .adm-tr-card__bar-fill--done { background: linear-gradient(90deg, #28a745, #5cc270); }
+        .adm-tr-card__count { font-size: 0.85rem; color: #666; }
+
+        /* Actions */
+        .adm-tr-actions { display: flex; gap: 0.8rem; margin: 0 0 1.5rem; }
+        .adm-btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.55rem 1.1rem; border-radius: 8px; text-decoration: none; font-weight: 600; border: none; cursor: pointer; font-size: 0.95rem; font-family: inherit; }
+        .adm-btn--primary { background: #003399; color: #fff; }
+        .adm-btn--primary:hover { background: #002a80; }
+        .adm-btn--ghost { background: transparent; color: #003399; border: 1px solid #9FAEE5; }
+        .adm-btn--ghost:hover { background: rgba(0,51,153,0.06); }
+        .adm-btn--danger { background: #dc3545; color: #fff; }
+
+        /* Édition : tableau des clés */
+        .adm-tr-section { margin-bottom: 2.5rem; }
+        .adm-tr-section__head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.8rem; }
+        .adm-tr-section__title { margin: 0; font-size: 1.1rem; color: #003399; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+        .adm-tr-section__count { font-size: 0.8rem; color: #999; background: #f0f2f8; padding: 0.1rem 0.5rem; border-radius: 99px; }
+
+        .adm-tr-row { background: #fff; border: 1px solid #e0e6f0; border-radius: 8px; padding: 1rem; margin-bottom: 0.6rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .adm-tr-row__col { min-width: 0; }
+        .adm-tr-row__key { font-family: monospace; font-size: 0.8rem; color: #003399; font-weight: 600; margin-bottom: 0.3rem; word-break: break-all; }
+        .adm-tr-row__ref { padding: 0.6rem 0.8rem; background: #f5f7fb; border-left: 3px solid #9FAEE5; border-radius: 4px; color: #333; white-space: pre-wrap; font-size: 0.95rem; line-height: 1.5; min-height: 2.2rem; }
+        .adm-tr-row__input { width: 100%; padding: 0.6rem 0.8rem; border: 1px solid #c8d3e3; border-radius: 6px; font-family: inherit; font-size: 0.95rem; line-height: 1.5; min-height: 3rem; resize: vertical; background: #fff; color: #222; }
+        .adm-tr-row__input:focus { outline: none; border-color: #003399; box-shadow: 0 0 0 3px rgba(0,51,153,0.15); }
+        .adm-tr-row__input--done { border-color: #28a745; background: #f7fdf8; }
+        .adm-tr-row__notes { font-size: 0.8rem; color: #888; margin-top: 0.3rem; font-style: italic; }
+        .adm-tr-row__delete { background: none; border: none; color: #dc3545; font-size: 0.8rem; cursor: pointer; text-decoration: underline; padding: 0; margin-top: 0.3rem; }
+
+        .adm-tr-stickybar { position: sticky; bottom: 0; background: #fff; border-top: 2px solid #003399; padding: 1rem 1.5rem; margin: 2rem -1.5rem -2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -4px 16px rgba(0,51,153,0.08); }
+        .adm-tr-stickybar__progress { font-size: 0.9rem; color: #666; }
+
+        /* Nouvelle clé */
+        .adm-tr-form { background: #fff; border: 1px solid #e0e6f0; border-radius: 10px; padding: 1.5rem; max-width: 720px; }
+        .adm-tr-form label { display: block; font-weight: 600; color: #003399; margin: 1rem 0 0.3rem; }
+        .adm-tr-form input, .adm-tr-form textarea { width: 100%; padding: 0.6rem 0.8rem; border: 1px solid #c8d3e3; border-radius: 6px; font-family: inherit; font-size: 0.95rem; }
+        .adm-tr-form .adm-tr-form__hint { font-size: 0.8rem; color: #888; margin-top: 0.2rem; }
+
+        @media (max-width: 720px) {
+            .adm-tr-row { grid-template-columns: 1fr; }
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="adm-tr">
+        <div class="adm-tr__head">
+            <a href="{{ path('admin_dashboard') }}" class="adm-tr__back">← Retour au dashboard</a>
+        </div>
+
+        {% block adm_tr_body %}{% endblock %}
+    </div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'admin/translation/_layout.html.twig' %}
+
+{% block title %}Nouvelle clé de traduction — Admin{% endblock %}
+
+{% block adm_tr_body %}
+    <h1 style="margin: 0 0 1rem; color: #003399;">Nouvelle clé de traduction</h1>
+    <p style="color: #666;">
+        Créez une clé hiérarchique (ex: <code>civitalisme.hero.title</code>) et son contenu français de référence.
+        La clé pourra ensuite être traduite dans les 23 autres langues.
+    </p>
+
+    <form method="post" action="{{ path('admin_translations_new_key') }}" class="adm-tr-form">
+        <label for="translation_key">Clé (identifiant technique)</label>
+        <input type="text" id="translation_key" name="translation_key" required placeholder="civitalisme.hero.title" pattern="[a-z0-9_.\-]+" autofocus>
+        <div class="adm-tr-form__hint">Minuscules, chiffres, points et tirets bas/hauts uniquement. Ex: <code>nav.portfolio</code>, <code>home.cta.primary</code>.</div>
+
+        <label for="section">Section (regroupement UI)</label>
+        <input type="text" id="section" name="section" placeholder="Navigation principale">
+        <div class="adm-tr-form__hint">Optionnel. Si vide, déduit automatiquement du préfixe de la clé.</div>
+
+        <label for="content_fr">Contenu français (référence)</label>
+        <textarea id="content_fr" name="content_fr" required rows="3" placeholder="Le texte visible pour les utilisateurs francophones"></textarea>
+
+        <label for="notes">Notes au traducteur (optionnel)</label>
+        <textarea id="notes" name="notes" rows="2" placeholder="Ex: terme juridique — utiliser l'équivalent local ; ton formel ; max 60 caractères"></textarea>
+
+        <div style="margin-top: 1.5rem; display: flex; gap: 0.8rem;">
+            <a href="{{ path('admin_translations_index') }}" class="adm-btn adm-btn--ghost">Annuler</a>
+            <button type="submit" class="adm-btn adm-btn--primary">Créer la clé</button>
+        </div>
+    </form>
+{% endblock %}

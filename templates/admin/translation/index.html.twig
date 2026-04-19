@@ -1,0 +1,61 @@
+{% extends 'admin/translation/_layout.html.twig' %}
+
+{% block title %}Traductions — Admin{% endblock %}
+
+{% block adm_tr_body %}
+    <h1 style="margin: 0 0 0.5rem; color: #003399; font-size: 1.8rem;">Traductions multilingues</h1>
+    <p style="color: #666; margin-bottom: 1.5rem;">
+        {{ total }} clé{{ total > 1 ? 's' : '' }} de traduction réparties sur 24 langues UE.
+        Une langue devient publique automatiquement dès qu'elle atteint {{ threshold }}% de complétude.
+    </p>
+
+    {% if total == 0 %}
+        <div class="adm-tr__flash adm-tr__flash--info" style="line-height: 1.6;">
+            <strong>Aucune clé n'est encore enregistrée.</strong><br>
+            Deux façons de démarrer :<br>
+            ① Créer une clé manuellement via le bouton ci-dessous (ex. <code>nav.portfolio</code> avec le contenu FR « Portfolio »).<br>
+            ② Écrire des <code>{{ '{{' }} 'ma.cle'|trans {{ '}}' }}</code> dans un template puis lancer <code>php bin/console app:translations:scan --write</code>.
+        </div>
+    {% endif %}
+
+    <div class="adm-tr-actions">
+        <a href="{{ path('admin_translations_new_key') }}" class="adm-btn adm-btn--primary">
+            + Nouvelle clé
+        </a>
+        {% if total > 0 %}
+            <a href="{{ path('admin_translations_edit', {locale: 'fr'}) }}" class="adm-btn adm-btn--ghost">
+                Éditer la référence française
+            </a>
+        {% endif %}
+    </div>
+
+    <div class="adm-tr-grid">
+        {% for locale in locales %}
+            {% set s = stats[locale] %}
+            {% set isRef = locale == 'fr' %}
+            {% set isPub = locale in available and not isRef %}
+            {% set cardClass = isRef ? 'adm-tr-card--reference' : (isPub ? 'adm-tr-card--available' : '') %}
+            <a href="{{ path('admin_translations_edit', {locale: locale}) }}" class="adm-tr-card {{ cardClass }}">
+                <div class="adm-tr-card__head">
+                    <div>
+                        <div class="adm-tr-card__name">{{ names[locale] }}</div>
+                        <span class="adm-tr-card__code">{{ locale|upper }}</span>
+                    </div>
+                    {% if isRef %}
+                        <span class="adm-tr-card__badge adm-tr-card__badge--ref">Référence</span>
+                    {% elseif isPub %}
+                        <span class="adm-tr-card__badge adm-tr-card__badge--pub">En ligne</span>
+                    {% elseif s.done > 0 %}
+                        <span class="adm-tr-card__badge adm-tr-card__badge--wip">En cours</span>
+                    {% endif %}
+                </div>
+                <div class="adm-tr-card__bar">
+                    <div class="adm-tr-card__bar-fill {{ s.percent >= threshold ? 'adm-tr-card__bar-fill--done' : '' }}" style="width: {{ s.percent }}%"></div>
+                </div>
+                <div class="adm-tr-card__count">
+                    {{ s.done }} / {{ s.total }} clés traduites — <strong>{{ s.percent }}%</strong>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}

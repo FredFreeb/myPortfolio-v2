@@ -31,6 +31,73 @@
             <a class="site-nav__link {{ currentRoute == 'app_about' ? 'is-active' }}" href="{{ path('app_about') }}" data-action="click->nav#close">About me</a>
             <a class="site-nav__link {{ currentRoute starts with 'app_civitalisme' ? 'is-active' }}" href="{{ path('app_civitalisme') }}" data-action="click->nav#close">Civitalisme</a>
             <a class="site-nav__link {{ currentRoute == 'app_contact' ? 'is-active' }}" href="{{ path('app_contact') }}" data-action="click->nav#close">Contact</a>
+
+            <div class="lang-switcher"
+                 data-controller="lang-switcher"
+                 data-lang-switcher-active-value="{{ app.request.locale|default('fr') }}"
+                 data-lang-switcher-available-value="{{ available_locales()|join(',') }}"
+                 aria-label="Sélecteur de langue">
+                <button
+                    type="button"
+                    class="lang-switcher__toggle"
+                    aria-haspopup="listbox"
+                    aria-expanded="false"
+                    data-lang-switcher-target="toggle"
+                    data-action="click->lang-switcher#toggle"
+                >
+                    <svg class="lang-switcher__flag" viewBox="0 0 60 40" width="22" height="15" aria-hidden="true" focusable="false">
+                        <rect width="60" height="40" fill="#003399"/>
+                        <g fill="#ffcc00">
+                            <circle cx="30" cy="8" r="1.6"/>
+                            <circle cx="36" cy="9.6" r="1.6"/>
+                            <circle cx="40.39" cy="14" r="1.6"/>
+                            <circle cx="42" cy="20" r="1.6"/>
+                            <circle cx="40.39" cy="26" r="1.6"/>
+                            <circle cx="36" cy="30.4" r="1.6"/>
+                            <circle cx="30" cy="32" r="1.6"/>
+                            <circle cx="24" cy="30.4" r="1.6"/>
+                            <circle cx="19.61" cy="26" r="1.6"/>
+                            <circle cx="18" cy="20" r="1.6"/>
+                            <circle cx="19.61" cy="14" r="1.6"/>
+                            <circle cx="24" cy="9.6" r="1.6"/>
+                        </g>
+                    </svg>
+                    <span class="lang-switcher__current" data-lang-switcher-target="current">FR</span>
+                    <svg class="lang-switcher__caret" viewBox="0 0 12 8" width="10" height="7" aria-hidden="true" focusable="false">
+                        <path d="M1 1.5 L6 6.5 L11 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <ul class="lang-switcher__menu" role="listbox" data-lang-switcher-target="menu">
+                    {# Français — seule langue active #}
+                    <li><button type="button" role="option" data-locale="fr" data-action="click->lang-switcher#select"><span>Français</span><small>FR</small></button></li>
+                    {# 23 langues officielles UE — bientôt disponibles #}
+                    <li class="lang-switcher__group-label" aria-hidden="true">Bientôt disponibles</li>
+                    <li><button type="button" role="option" data-locale="bg" data-action="click->lang-switcher#select"><span>Български</span><small>BG</small></button></li>
+                    <li><button type="button" role="option" data-locale="cs" data-action="click->lang-switcher#select"><span>Čeština</span><small>CS</small></button></li>
+                    <li><button type="button" role="option" data-locale="da" data-action="click->lang-switcher#select"><span>Dansk</span><small>DA</small></button></li>
+                    <li><button type="button" role="option" data-locale="de" data-action="click->lang-switcher#select"><span>Deutsch</span><small>DE</small></button></li>
+                    <li><button type="button" role="option" data-locale="el" data-action="click->lang-switcher#select"><span>Ελληνικά</span><small>EL</small></button></li>
+                    <li><button type="button" role="option" data-locale="en" data-action="click->lang-switcher#select"><span>English</span><small>EN</small></button></li>
+                    <li><button type="button" role="option" data-locale="et" data-action="click->lang-switcher#select"><span>Eesti</span><small>ET</small></button></li>
+                    <li><button type="button" role="option" data-locale="fi" data-action="click->lang-switcher#select"><span>Suomi</span><small>FI</small></button></li>
+                    <li><button type="button" role="option" data-locale="ga" data-action="click->lang-switcher#select"><span>Gaeilge</span><small>GA</small></button></li>
+                    <li><button type="button" role="option" data-locale="hr" data-action="click->lang-switcher#select"><span>Hrvatski</span><small>HR</small></button></li>
+                    <li><button type="button" role="option" data-locale="hu" data-action="click->lang-switcher#select"><span>Magyar</span><small>HU</small></button></li>
+                    <li><button type="button" role="option" data-locale="it" data-action="click->lang-switcher#select"><span>Italiano</span><small>IT</small></button></li>
+                    <li><button type="button" role="option" data-locale="lt" data-action="click->lang-switcher#select"><span>Lietuvių</span><small>LT</small></button></li>
+                    <li><button type="button" role="option" data-locale="lv" data-action="click->lang-switcher#select"><span>Latviešu</span><small>LV</small></button></li>
+                    <li><button type="button" role="option" data-locale="mt" data-action="click->lang-switcher#select"><span>Malti</span><small>MT</small></button></li>
+                    <li><button type="button" role="option" data-locale="nl" data-action="click->lang-switcher#select"><span>Nederlands</span><small>NL</small></button></li>
+                    <li><button type="button" role="option" data-locale="pl" data-action="click->lang-switcher#select"><span>Polski</span><small>PL</small></button></li>
+                    <li><button type="button" role="option" data-locale="pt" data-action="click->lang-switcher#select"><span>Português</span><small>PT</small></button></li>
+                    <li><button type="button" role="option" data-locale="ro" data-action="click->lang-switcher#select"><span>Română</span><small>RO</small></button></li>
+                    <li><button type="button" role="option" data-locale="sk" data-action="click->lang-switcher#select"><span>Slovenčina</span><small>SK</small></button></li>
+                    <li><button type="button" role="option" data-locale="sl" data-action="click->lang-switcher#select"><span>Slovenščina</span><small>SL</small></button></li>
+                    <li><button type="button" role="option" data-locale="es" data-action="click->lang-switcher#select"><span>Español</span><small>ES</small></button></li>
+                    <li><button type="button" role="option" data-locale="sv" data-action="click->lang-switcher#select"><span>Svenska</span><small>SV</small></button></li>
+                </ul>
+                <div class="lang-switcher__notice" role="status" aria-live="polite" data-lang-switcher-target="notice"></div>
+            </div>
         </nav>
     </div>
 </header>

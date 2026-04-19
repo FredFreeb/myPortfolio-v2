@@ -1,228 +1,641 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Cadre institutionnel du Civitalisme | Portfolio + Civitalisme{% endblock %}
-{% block meta_description %}Cadre technique et institutionnel du Civitalisme : EuroE, Socle vital européen, gouvernance démocratique, risques et cas de Prague.{% endblock %}
-{% block body_class %}theme-civitalisme page-civitalisme page-civitalisme--technical{% endblock %}
+{% block title %}Cadre institutionnel — Socle Vital Garanti européen | Civitalisme{% endblock %}
+{% block meta_description %}Doctrine, architecture EuroE, cadre juridique et feuille de route du Socle Vital Garanti européen, projet du Civitalisme. Accès libre aux 7 rapports.{% endblock %}
+{% block body_class %}theme-civitalisme page-civitalisme page-civitalisme--institution{% endblock %}
+
+{% block extra_head %}
+    {# Chart.js UMD — chargé avant les modules ES pour que window.Chart soit disponible #}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js" defer></script>
+{% endblock %}
 
 {% block body %}
-    <section class="hero hero--inner section--panel section--panel-civic">
-        <div class="hero__copy">
-            <p class="eyebrow">{{ content.hero.eyebrow }}</p>
-            <h1 class="hero__title hero__title--medium" data-controller="pretext" data-pretext-line-height-value="62">
-                {{ content.hero.title }}
-            </h1>
-            <p class="hero__subtitle">{{ content.hero.subtitle }}</p>
-            <p class="hero__lead">{{ content.hero.lead }}</p>
+    {# =============================================================
+       1. HERO INSTITUTIONNEL
+       ============================================================= #}
+    <section class="inst-hero">
+        <div class="inst-hero__content">
+            <p class="inst-hero__eyebrow">
+                <svg viewBox="0 0 60 40" width="28" height="19" aria-hidden="true" focusable="false">
+                    <rect width="60" height="40" fill="#003399"/>
+                    <g fill="#ffcc00">
+                        <circle cx="30" cy="8" r="1.8"/>
+                        <circle cx="36" cy="9.6" r="1.8"/>
+                        <circle cx="40.39" cy="14" r="1.8"/>
+                        <circle cx="42" cy="20" r="1.8"/>
+                        <circle cx="40.39" cy="26" r="1.8"/>
+                        <circle cx="36" cy="30.4" r="1.8"/>
+                        <circle cx="30" cy="32" r="1.8"/>
+                        <circle cx="24" cy="30.4" r="1.8"/>
+                        <circle cx="19.61" cy="26" r="1.8"/>
+                        <circle cx="18" cy="20" r="1.8"/>
+                        <circle cx="19.61" cy="14" r="1.8"/>
+                        <circle cx="24" cy="9.6" r="1.8"/>
+                    </g>
+                </svg>
+                <span>{{ content.hero.eyebrow }}</span>
+            </p>
+            <h1 class="inst-hero__title">{{ content.hero.title }}</h1>
+            <p class="inst-hero__subtitle">{{ content.hero.subtitle }}</p>
+            <p class="inst-hero__lead">{{ content.hero.lead }}</p>
 
-            <div class="hero__actions">
-                <a class="button" href="{{ asset('documents/civitalisme-note-conceptuelle.md') }}" download>Télécharger la note conceptuelle</a>
-                <a class="button button--ghost" href="{{ path('app_civitalisme') }}">Revenir à la version grand public</a>
-            </div>
-        </div>
-
-        <div class="hero__panel surface-card">
-            <p class="panel-label">{{ content.heroPanel.label }}</p>
-            <h2>{{ content.heroPanel.title }}</h2>
-            <p>{{ content.heroPanel.body }}</p>
-
-            <div class="hero__tags">
+            <ul class="inst-hero__highlights">
                 {% for item in content.hero.highlights %}
-                    <span class="hero__tag">{{ item }}</span>
-                {% endfor %}
-            </div>
-
-            <ul class="feature-list">
-                {% for point in content.heroPanel.points %}
-                    <li>{{ point }}</li>
+                    <li>
+                        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+                            <path d="M5 12.5 L10 17.5 L19 7" fill="none" stroke="#ffcc00" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>{{ item }}</span>
+                    </li>
                 {% endfor %}
             </ul>
+
+            <div class="inst-hero__actions">
+                <a class="button" href="#telechargements">Télécharger les rapports</a>
+                <a class="button button--ghost" href="{{ path('app_civitalisme') }}">Version grand public</a>
+            </div>
         </div>
+
+        <aside class="inst-hero__panel">
+            <p class="inst-hero__panel-label">Document de travail ouvert</p>
+            <p class="inst-hero__panel-body">
+                Le Civitalisme publie l’intégralité de sa doctrine en accès libre.
+                Chaque rapport peut être cité, annoté, critiqué et amendé.
+            </p>
+            <dl class="inst-hero__meta">
+                <div><dt>Version</dt><dd>v1 · {{ "now"|date("Y") }}</dd></div>
+                <div><dt>Rapports</dt><dd>7 documents thématiques</dd></div>
+                <div><dt>Hébergement</dt><dd>Europe</dd></div>
+                <div><dt>Licence</dt><dd>Lecture libre, citation autorisée</dd></div>
+            </dl>
+        </aside>
     </section>
 
     {% include 'page/civitalisme/_partials/_page_switch.html.twig' with {
         active: 'technical',
         title: 'Navigation Civitalisme',
-        description: 'Cette page technique approfondit la doctrine. La version grand public reste disponible pour une lecture plus synthétique et narrative.',
+        description: 'Cette page technique approfondit la doctrine, l’architecture, le droit et la feuille de route. La version grand public reste disponible pour une lecture plus synthétique.',
     } only %}
 
-    <section class="section section--panel section--panel-civic-alt">
-        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.introduction only %}
+    {# =============================================================
+       2. SYNTHÈSE EXÉCUTIVE + TABLE DES 7 RAPPORTS
+       ============================================================= #}
+    <section class="inst-section">
+        <header class="inst-section__heading">
+            <p class="eyebrow">{{ content.executive.eyebrow }}</p>
+            <h2>{{ content.executive.title }}</h2>
+            <p class="inst-section__lead">{{ content.executive.lead }}</p>
+        </header>
 
-        <div class="metric-strip">
-            {% for metric in content.introduction.metrics %}
-                <article class="surface-card metric-chip">
-                    <strong>{{ metric.label }}</strong>
-                    <span>{{ metric.value }}</span>
+        <div class="inst-pillars">
+            {% for pillar in content.executive.pillars %}
+                <article class="inst-pillar">
+                    <div class="inst-pillar__number">{{ loop.index }}</div>
+                    <h3>{{ pillar.title }}</h3>
+                    <p>{{ pillar.body }}</p>
                 </article>
             {% endfor %}
         </div>
-    </section>
 
-    <section class="section section--panel section--panel-civic">
-        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.diagnostic only %}
-
-        {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
-            items: content.diagnostic.points,
-        } only %}
-    </section>
-
-    <section class="section section--panel section--panel-civic-alt">
-        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.doctrine only %}
-
-        {% include 'page/civitalisme/_partials/_comparison_table.html.twig' with {
-            title: 'Architecture du double circuit monétaire',
-            caption: 'Le Civitalisme conserve l’euro classique comme monnaie générale et attribue à l’EuroE une fonction sociale complémentaire, strictement encadrée.',
-            rowLabel: 'Instrument',
-            columns: content.doctrine.table.columns,
-            rows: content.doctrine.table.rows,
-        } only %}
-
-        {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
-            items: content.doctrine.points,
-        } only %}
-    </section>
-
-    <section class="section section--panel section--panel-civic">
-        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.architecture only %}
-
-        {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
-            items: content.architecture.points,
-        } only %}
-    </section>
-
-    <section class="section section--panel section--panel-civic-alt">
-        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.socle only %}
-
-        <div class="pill-grid pill-grid--wide">
-            {% for need in content.socle.needs %}
-                <article class="surface-card pill-card">
-                    <h3>{{ need }}</h3>
-                </article>
-            {% endfor %}
+        <div class="inst-reports">
+            <div class="inst-reports__header">
+                <h3>Les 7 rapports thématiques</h3>
+                <p>Téléchargement libre, PDF européen.</p>
+            </div>
+            <ul class="inst-reports__list">
+                {% for report in content.executive.reports %}
+                    <li class="inst-report">
+                        <div class="inst-report__index">{{ report.index }}</div>
+                        <div class="inst-report__body">
+                            <p class="inst-report__theme">{{ report.theme }}</p>
+                            <h4>{{ report.title }}</h4>
+                            <p>{{ report.body }}</p>
+                        </div>
+                        <a class="inst-report__link" href="{{ report.href }}" download>
+                            <span>PDF</span>
+                            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+                                <path d="M12 3 V16 M6 10 L12 16 L18 10 M4 20 H20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
     </section>
 
-    <section class="section section--panel section--panel-civic">
-        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.calculation only %}
+    {# =============================================================
+       3. DOCTRINE — DOUBLE CIRCUIT MONÉTAIRE
+       ============================================================= #}
+    <section class="inst-section inst-section--alt">
+        <header class="inst-section__heading">
+            <p class="eyebrow">{{ content.doctrine.eyebrow }}</p>
+            <h2>{{ content.doctrine.title }}</h2>
+            <p class="inst-section__lead">{{ content.doctrine.lead }}</p>
+        </header>
 
-        <div class="dual-grid">
-            <article class="surface-card formula-card">
-                <p class="panel-label">Formules</p>
-                <div class="formula-stack">
-                    {% for equation in content.calculation.equations %}
-                        <p class="case-study-card__equation">{{ equation }}</p>
+        <div class="inst-circuit">
+            <div class="inst-circuit__column inst-circuit__column--euro">
+                <p class="inst-circuit__badge">Euro classique</p>
+                <h3>Sphère de progression</h3>
+                <p class="inst-circuit__scope">Marché général · épargne · investissement · entrepreneuriat · salaires · luxe.</p>
+                <ul>
+                    <li>Fonctionne exactement comme aujourd’hui.</li>
+                    <li>Aucune atteinte à la liberté économique.</li>
+                    <li>Régulation actuelle maintenue (BCE, DORA, MiCA, CRR/CRD).</li>
+                </ul>
+            </div>
+            <div class="inst-circuit__divider" aria-hidden="true">
+                <svg viewBox="0 0 80 200" width="80" height="200">
+                    <defs>
+                        <linearGradient id="inst-divider" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#003399" stop-opacity="0.4"/>
+                            <stop offset="50%" stop-color="#ffcc00" stop-opacity="0.9"/>
+                            <stop offset="100%" stop-color="#003399" stop-opacity="0.4"/>
+                        </linearGradient>
+                    </defs>
+                    <rect x="37" y="0" width="6" height="200" fill="url(#inst-divider)" rx="3"/>
+                    <circle cx="40" cy="100" r="22" fill="#ffcc00"/>
+                    <text x="40" y="106" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="14" fill="#003399">⇄</text>
+                </svg>
+            </div>
+            <div class="inst-circuit__column inst-circuit__column--euroe">
+                <p class="inst-circuit__badge inst-circuit__badge--accent">EuroE</p>
+                <h3>Sphère vitale</h3>
+                <p class="inst-circuit__scope">Logement · alimentation · énergie · transport · santé · éducation.</p>
+                <ul>
+                    <li>Permissionné, auditable, non thésaurisable.</li>
+                    <li>Convertible en euro uniquement par commerçants agréés.</li>
+                    <li>Volume et périmètre encadrés par la BCE et le Parlement.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="inst-table-wrapper">
+            <table class="inst-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Instrument</th>
+                        {% for column in content.doctrine.table.columns %}
+                            <th scope="col">{{ column.label }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in content.doctrine.table.rows %}
+                        <tr>
+                            <th scope="row">{{ row.instrument }}</th>
+                            {% for column in content.doctrine.table.columns %}
+                                <td>{{ row[column.key] }}</td>
+                            {% endfor %}
+                        </tr>
                     {% endfor %}
-                </div>
-            </article>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-            <article class="surface-card formula-card">
-                <p class="panel-label">Paramètres de base</p>
-                <ul class="feature-list feature-list--tight">
-                    {% for parameter in content.calculation.parameters %}
-                        <li>{{ parameter }}</li>
+    {# =============================================================
+       4. ARCHITECTURE TECHNIQUE EUROE
+       ============================================================= #}
+    <section class="inst-section">
+        <header class="inst-section__heading">
+            <p class="eyebrow">{{ content.architecture.eyebrow }}</p>
+            <h2>{{ content.architecture.title }}</h2>
+            <p class="inst-section__lead">{{ content.architecture.lead }}</p>
+        </header>
+
+        <div class="inst-layers" role="list">
+            {% for layer in content.architecture.layers %}
+                <article class="inst-layer" role="listitem">
+                    <div class="inst-layer__index">{{ layer.index }}</div>
+                    <div class="inst-layer__body">
+                        <h3>{{ layer.title }}</h3>
+                        <p>{{ layer.body }}</p>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+
+        <h3 class="inst-lifecycle__title">Cycle de vie d’un EuroE</h3>
+        <ol class="inst-lifecycle">
+            {% for step in content.architecture.lifecycle %}
+                <li class="inst-lifecycle__step">
+                    <div class="inst-lifecycle__circle">{{ step.step }}</div>
+                    <div class="inst-lifecycle__body">
+                        <h4>{{ step.title }}</h4>
+                        <p>{{ step.body }}</p>
+                    </div>
+                    {% if not loop.last %}
+                        <svg class="inst-lifecycle__arrow" viewBox="0 0 40 16" width="40" height="16" aria-hidden="true" focusable="false">
+                            <path d="M2 8 H34 M28 2 L34 8 L28 14" fill="none" stroke="#003399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    {# =============================================================
+       5. FORMULE SVG
+       ============================================================= #}
+    <section class="inst-section inst-section--alt">
+        <header class="inst-section__heading">
+            <p class="eyebrow">{{ content.formula.eyebrow }}</p>
+            <h2>{{ content.formula.title }}</h2>
+            <p class="inst-section__lead">{{ content.formula.lead }}</p>
+        </header>
+
+        <div class="inst-formula">
+            <p class="inst-formula__equation">{{ content.formula.equation }}</p>
+        </div>
+
+        <div class="inst-formula-grid">
+            <div class="inst-formula-grid__params">
+                <h3>Paramètres</h3>
+                <ul>
+                    {% for param in content.formula.parameters %}
+                        <li>
+                            <span class="inst-formula-grid__symbol">{{ param.symbol }}</span>
+                            <span class="inst-formula-grid__label">{{ param.label }}</span>
+                            <span class="inst-formula-grid__value">{{ param.value }}</span>
+                        </li>
                     {% endfor %}
                 </ul>
-            </article>
+            </div>
+            <div class="inst-formula-grid__principles">
+                <h3>Principes</h3>
+                <ul>
+                    {% for principle in content.formula.principles %}
+                        <li>
+                            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+                                <path d="M5 12.5 L10 17.5 L19 7" fill="none" stroke="#003399" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>{{ principle }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <p class="inst-formula-grid__hint">
+                    Testez la formule ci-dessous avec votre propre situation de foyer.
+                </p>
+            </div>
         </div>
     </section>
 
-    <section class="section section--panel section--panel-civic-alt">
-        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with {
-            eyebrow: content.caseStudy.eyebrow,
-            title: content.caseStudy.title,
-            lead: 'Le cas de Prague montre comment l’EuroE augmente lorsque le revenu du foyer chute, tout en préservant la lecture économique du système.',
-        } only %}
+    {# =============================================================
+       5b. SIMULATEUR INTERACTIF
+       ============================================================= #}
+    <section class="inst-section inst-simulator"
+             data-controller="svg-simulator"
+             id="simulateur-svg"
+             aria-label="Simulateur interactif du Socle Vital Garanti">
+        <header class="inst-section__heading">
+            <p class="eyebrow">Simulateur interactif</p>
+            <h2>Calculez votre SVG en temps réel</h2>
+            <p class="inst-section__lead">
+                Ajustez la composition de votre foyer, la zone géographique et vos revenus.
+                Le montant se recalcule instantanément selon la formule officielle.
+            </p>
+        </header>
 
-        {% include 'page/civitalisme/_partials/_case_study_card.html.twig' with {
-            caseStudy: content.caseStudy,
-        } only %}
+        <div class="sim-layout">
+            {# ---- Colonne gauche : contrôles ---- #}
+            <div class="sim-controls">
+                <div class="sim-group">
+                    <label class="sim-label" for="sim-adults">Adultes dans le foyer</label>
+                    <div class="sim-stepper">
+                        <button type="button" onclick="this.nextElementSibling.stepDown(); this.nextElementSibling.dispatchEvent(new Event('input', {bubbles:true}))">−</button>
+                        <input id="sim-adults" type="number" min="1" max="4" value="1"
+                               data-svg-simulator-target="adults"
+                               data-action="input->svg-simulator#compute">
+                        <button type="button" onclick="this.previousElementSibling.stepUp(); this.previousElementSibling.dispatchEvent(new Event('input', {bubbles:true}))">+</button>
+                    </div>
+                </div>
+
+                <div class="sim-group">
+                    <label class="sim-label" for="sim-children">Enfants à charge</label>
+                    <div class="sim-stepper">
+                        <button type="button" onclick="this.nextElementSibling.stepDown(); this.nextElementSibling.dispatchEvent(new Event('input', {bubbles:true}))">−</button>
+                        <input id="sim-children" type="number" min="0" max="6" value="0"
+                               data-svg-simulator-target="children"
+                               data-action="input->svg-simulator#compute">
+                        <button type="button" onclick="this.previousElementSibling.stepUp(); this.previousElementSibling.dispatchEvent(new Event('input', {bubbles:true}))">+</button>
+                    </div>
+                </div>
+
+                <div class="sim-group">
+                    <label class="sim-label" for="sim-zone">Zone géographique</label>
+                    <select id="sim-zone" class="sim-select"
+                            data-svg-simulator-target="zone"
+                            data-action="change->svg-simulator#compute">
+                        <option value="expensive">Zone chère (Paris, Munich, Amsterdam…) +15 %</option>
+                        <option value="median" selected>Zone médiane</option>
+                        <option value="cheap">Zone basse (régions rurales, Europe centrale) −10 %</option>
+                    </select>
+                </div>
+
+                <div class="sim-group">
+                    <label class="sim-label" for="sim-year">Année de référence</label>
+                    <select id="sim-year" class="sim-select"
+                            data-svg-simulator-target="year"
+                            data-action="change->svg-simulator#compute">
+                        <option value="2026" selected>2026 (base)</option>
+                        <option value="2027">2027 (+2,1 %)</option>
+                        <option value="2028">2028 (+4,2 %)</option>
+                        <option value="2029">2029 (+6,4 %)</option>
+                        <option value="2030">2030 (+8,6 %)</option>
+                    </select>
+                </div>
+
+                <hr class="sim-divider">
+
+                <div class="sim-group">
+                    <label class="sim-label" for="sim-pension">Pensions du foyer (€/mois)</label>
+                    <p class="sim-hint">Retraites et pensions actuelles — elles sont préservées et simplement déduites.</p>
+                    <input id="sim-pension" type="range" min="0" max="3000" step="50" value="0"
+                           class="sim-range"
+                           data-svg-simulator-target="pension"
+                           data-action="input->svg-simulator#compute">
+                    <output class="sim-range-value" for="sim-pension"
+                            data-svg-simulator-target="pensionOutput">0 €</output>
+                </div>
+
+                <div class="sim-group">
+                    <label class="sim-label" for="sim-active-income">Revenus d'activité du foyer (€/mois)</label>
+                    <p class="sim-hint">Salaires nets. Franchise de 300 €/actif non déduite.</p>
+                    <input id="sim-active-income" type="range" min="0" max="4000" step="50" value="0"
+                           class="sim-range"
+                           data-svg-simulator-target="activeIncome"
+                           data-action="input->svg-simulator#compute">
+                    <output class="sim-range-value" for="sim-active-income"
+                            data-svg-simulator-target="activeIncomeOutput">0 €</output>
+                </div>
+
+                <div class="sim-group">
+                    <label class="sim-label" for="sim-active-workers">Nombre d'actifs dans le foyer</label>
+                    <div class="sim-stepper">
+                        <button type="button" onclick="this.nextElementSibling.stepDown(); this.nextElementSibling.dispatchEvent(new Event('input', {bubbles:true}))">−</button>
+                        <input id="sim-active-workers" type="number" min="0" max="4" value="0"
+                               data-svg-simulator-target="activeWorkers"
+                               data-action="input->svg-simulator#compute">
+                        <button type="button" onclick="this.previousElementSibling.stepUp(); this.previousElementSibling.dispatchEvent(new Event('input', {bubbles:true}))">+</button>
+                    </div>
+                </div>
+            </div>
+
+            {# ---- Colonne droite : résultat ---- #}
+            <div class="sim-result-panel">
+                <div class="sim-result">
+                    <p class="sim-result__label">SVG mensuel estimé</p>
+                    <p class="sim-result__amount" data-svg-simulator-target="result">1 650 €</p>
+                    <p class="sim-result__unit">EuroE / mois</p>
+                    <div class="sim-result__total-row">
+                        <span>Revenu total du foyer</span>
+                        <strong data-svg-simulator-target="totalResult">1 650 €</strong>
+                    </div>
+                </div>
+
+                <div class="sim-bar-legend">
+                    <span class="sim-bar-legend__item sim-bar-legend__item--svg">SVG (EuroE)</span>
+                    <span class="sim-bar-legend__item sim-bar-legend__item--franch">Franchise travail</span>
+                    <span class="sim-bar-legend__item sim-bar-legend__item--work">Revenu actif net</span>
+                </div>
+                <div class="sim-bar-wrapper" aria-hidden="true">
+                    <div class="sim-bar" data-svg-simulator-target="bar"></div>
+                </div>
+
+                <div class="sim-breakdown" data-svg-simulator-target="breakdown"></div>
+
+                <p class="sim-disclaimer">
+                    Ce simulateur est indicatif. Les montants réels dépendent des paramètres finaux
+                    adoptés par le Parlement européen. Les retraites existantes ne sont jamais supprimées.
+                </p>
+            </div>
+        </div>
     </section>
 
-    <section class="section section--panel section--panel-civic">
-        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.stakeholders only %}
+    {# =============================================================
+       6. CADRE JURIDIQUE
+       ============================================================= #}
+    <section class="inst-section">
+        <header class="inst-section__heading">
+            <p class="eyebrow">{{ content.legal.eyebrow }}</p>
+            <h2>{{ content.legal.title }}</h2>
+            <p class="inst-section__lead">{{ content.legal.lead }}</p>
+        </header>
 
-        {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
-            items: content.stakeholders.points,
-        } only %}
-    </section>
-
-    <section class="section section--panel section--panel-civic-alt">
-        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.governance only %}
-
-        <div class="governance-grid">
-            {% for actor in content.governance.actors %}
-                <article class="surface-card governance-card">
-                    <p class="panel-label">Rôle</p>
-                    <h3>{{ actor.title }}</h3>
-                    <p>{{ actor.body }}</p>
+        <div class="inst-legal-matrix">
+            {% for row in content.legal.matrix %}
+                <article class="inst-legal-cell inst-legal-cell--{{ row.status|replace({' ': '-'}) }}">
+                    <p class="inst-legal-cell__status">{{ row.status|title }}</p>
+                    <h3>{{ row.ref }}</h3>
+                    <p class="inst-legal-cell__scope">{{ row.scope }}</p>
+                    <p>{{ row.body }}</p>
                 </article>
             {% endfor %}
         </div>
-    </section>
 
-    <section class="section">
-        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with {
-            eyebrow: content.risks.eyebrow,
-            title: content.risks.title,
-            lead: 'Une doctrine crédible se construit avec ses objections, ses risques et ses garde-fous dès le départ.',
-        } only %}
-
-        <div class="risk-grid">
-            {% for risk in content.risks.items %}
-                <article class="surface-card risk-card">
-                    <h3>{{ risk.title }}</h3>
+        <h3 class="inst-risks__title">Matrice des risques</h3>
+        <div class="inst-risks">
+            {% for risk in content.legal.risks %}
+                <article class="inst-risk inst-risk--{{ risk.level }}">
+                    <p class="inst-risk__level">Risque {{ risk.level }}</p>
+                    <h4>{{ risk.title }}</h4>
                     <p>{{ risk.body }}</p>
                 </article>
             {% endfor %}
         </div>
     </section>
 
-    <section class="section">
-        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with {
-            eyebrow: content.roadmap.eyebrow,
-            title: content.roadmap.title,
-            lead: 'La montée en charge doit rester progressive, testable et démocratiquement contrôlée.',
-        } only %}
+    {# =============================================================
+       6b. ANALYSES ÉCONOMIQUES — 4 GRAPHIQUES
+       ============================================================= #}
+    <section class="inst-section inst-section--alt inst-charts-section"
+             data-controller="svg-charts">
+        <header class="inst-section__heading">
+            <p class="eyebrow">Analyses économiques</p>
+            <h2>Quatre figures du rapport économique SVG</h2>
+            <p class="inst-section__lead">
+                Ces graphiques illustrent les propriétés économiques clés du SVG :
+                couverture par type de foyer, préservation de l'incitation au travail,
+                sources de financement et impact simulé sur la pauvreté.
+            </p>
+        </header>
 
-        <div class="timeline-grid">
-            {% for item in content.roadmap.phases %}
-                <article class="surface-card timeline-phase">
-                    <p class="panel-label">{{ item.phase }}</p>
-                    <h3>{{ item.title }}</h3>
-                    <p>{{ item.body }}</p>
-                </article>
-            {% endfor %}
+        <div class="inst-charts-grid">
+            <div class="inst-chart-card">
+                <div class="inst-chart-canvas-wrapper">
+                    <canvas data-svg-charts-target="fig3" aria-label="SVG maximal par type de ménage" role="img"></canvas>
+                </div>
+            </div>
+            <div class="inst-chart-card">
+                <div class="inst-chart-canvas-wrapper">
+                    <canvas data-svg-charts-target="fig4" aria-label="Incitation au travail" role="img"></canvas>
+                </div>
+            </div>
+            <div class="inst-chart-card">
+                <div class="inst-chart-canvas-wrapper inst-chart-canvas-wrapper--sm">
+                    <canvas data-svg-charts-target="fig5" aria-label="Sources de financement" role="img"></canvas>
+                </div>
+            </div>
+            <div class="inst-chart-card">
+                <div class="inst-chart-canvas-wrapper">
+                    <canvas data-svg-charts-target="fig6" aria-label="Réduction de la pauvreté" role="img"></canvas>
+                </div>
+            </div>
         </div>
+
+        <p class="inst-charts-note">
+            Les données des figures 5 et 6 sont hypothétiques et à vocation illustrative.
+            Elles seront actualisées lors de la publication du rapport économique complet.
+        </p>
     </section>
 
-    {% include 'page/civitalisme/_partials/_updates_feed.html.twig' with {
-        eyebrow: 'Bloc institutionnel',
-        title: 'Notes et jalons éditoriaux',
-        lead: 'Les contenus ci-dessous restent pilotables depuis l’admin pour faire évoluer la doctrine, les partenaires visés ou les expérimentations.',
-        updates: institutionalHighlights,
-    } only %}
+    {# =============================================================
+       7. FEUILLE DE ROUTE
+       ============================================================= #}
+    <section class="inst-section inst-section--alt">
+        <header class="inst-section__heading">
+            <p class="eyebrow">{{ content.roadmap.eyebrow }}</p>
+            <h2>{{ content.roadmap.title }}</h2>
+            <p class="inst-section__lead">{{ content.roadmap.lead }}</p>
+        </header>
 
-    {% include 'page/civitalisme/_partials/_call_to_action.html.twig' with {
-        eyebrow: 'Conclusion',
-        title: content.conclusion.title,
-        body: content.conclusion.body,
-        actions: [
-            {
-                label: 'Télécharger la note conceptuelle',
-                href: asset('documents/civitalisme-note-conceptuelle.md'),
-                variant: '',
-                download: true,
-            },
-            {
-                label: 'Revenir à la version grand public',
-                href: path('app_civitalisme'),
-                variant: 'button--ghost',
-            },
-            {
-                label: 'Découvrir les autres projets',
-                href: path('app_home'),
-                variant: 'button--ghost',
-            },
-        ],
-    } only %}
+        <ol class="inst-timeline">
+            {% for phase in content.roadmap.phases %}
+                <li class="inst-timeline__item">
+                    <div class="inst-timeline__marker">
+                        <span class="inst-timeline__year">{{ phase.year }}</span>
+                        <span class="inst-timeline__phase">{{ phase.phase }}</span>
+                    </div>
+                    <div class="inst-timeline__body">
+                        <h3>{{ phase.title }}</h3>
+                        <p>{{ phase.body }}</p>
+                        <p class="inst-timeline__kpi">
+                            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+                                <circle cx="12" cy="12" r="8" fill="none" stroke="#003399" stroke-width="2"/>
+                                <circle cx="12" cy="12" r="3" fill="#ffcc00"/>
+                            </svg>
+                            <span>{{ phase.kpi }}</span>
+                        </p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    {# =============================================================
+       8. TÉLÉCHARGEMENTS
+       ============================================================= #}
+    <section class="inst-section" id="telechargements">
+        <header class="inst-section__heading">
+            <p class="eyebrow">{{ content.downloads.eyebrow }}</p>
+            <h2>{{ content.downloads.title }}</h2>
+            <p class="inst-section__lead">{{ content.downloads.lead }}</p>
+        </header>
+
+        <ul class="inst-downloads">
+            {% for item in content.downloads.items %}
+                <li>
+                    <a href="{{ item.href }}" download>
+                        <svg class="inst-downloads__icon" viewBox="0 0 48 60" width="40" height="50" aria-hidden="true" focusable="false">
+                            <path d="M4 4 H30 L44 18 V56 H4 Z" fill="#ffffff" stroke="#003399" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M30 4 V18 H44" fill="none" stroke="#003399" stroke-width="2" stroke-linejoin="round"/>
+                            <rect x="10" y="32" width="28" height="4" rx="1" fill="#003399"/>
+                            <rect x="10" y="40" width="20" height="4" rx="1" fill="#003399" opacity="0.6"/>
+                            <rect x="10" y="48" width="24" height="4" rx="1" fill="#003399" opacity="0.4"/>
+                            <rect x="2" y="44" width="22" height="12" rx="2" fill="#003399"/>
+                            <text x="13" y="53" font-family="Inter, sans-serif" font-weight="700" font-size="8" fill="#ffcc00">PDF</text>
+                        </svg>
+                        <div>
+                            <h3>{{ item.title }}</h3>
+                            <small>{{ item.size }} — téléchargement libre</small>
+                        </div>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    {# =============================================================
+       9. CONTACT INSTITUTIONNEL
+       ============================================================= #}
+    <section class="inst-section inst-contact" id="contact-institutionnel">
+        <div class="inst-contact__intro">
+            <p class="eyebrow">{{ content.cta.eyebrow }}</p>
+            <h2>{{ content.cta.title }}</h2>
+            <p class="inst-section__lead">{{ content.cta.body }}</p>
+        </div>
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="inst-flash inst-flash--{{ label }}">
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+                        {% if label == 'success' %}
+                            <path d="M5 12.5 L10 17.5 L19 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        {% else %}
+                            <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 8 V12 M12 16 V16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        {% endif %}
+                    </svg>
+                    <span>{{ message }}</span>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        {{ form_start(contactForm, {
+            attr: { class: 'inst-contact-form', novalidate: 'novalidate' }
+        }) }}
+
+        <div class="inst-contact-form__grid">
+            <div class="inst-contact-form__field">
+                {{ form_label(contactForm.name) }}
+                {{ form_widget(contactForm.name, { attr: { class: 'inst-input' } }) }}
+                {{ form_errors(contactForm.name) }}
+            </div>
+            <div class="inst-contact-form__field">
+                {{ form_label(contactForm.email) }}
+                {{ form_widget(contactForm.email, { attr: { class: 'inst-input' } }) }}
+                {{ form_errors(contactForm.email) }}
+            </div>
+            <div class="inst-contact-form__field">
+                {{ form_label(contactForm.company) }}
+                {{ form_widget(contactForm.company, { attr: { class: 'inst-input' } }) }}
+                {{ form_errors(contactForm.company) }}
+            </div>
+            <div class="inst-contact-form__field">
+                {{ form_label(contactForm.subject) }}
+                {{ form_widget(contactForm.subject, { attr: { class: 'inst-select' } }) }}
+                {{ form_errors(contactForm.subject) }}
+            </div>
+            <div class="inst-contact-form__field inst-contact-form__field--full">
+                {{ form_label(contactForm.message) }}
+                {{ form_widget(contactForm.message, { attr: { class: 'inst-textarea' } }) }}
+                {{ form_errors(contactForm.message) }}
+            </div>
+            <div class="inst-contact-form__field inst-contact-form__field--full inst-contact-form__field--consent">
+                {{ form_widget(contactForm.consent) }}
+                {{ form_label(contactForm.consent) }}
+                {{ form_errors(contactForm.consent) }}
+            </div>
+        </div>
+
+        {# Honeypot anti-spam — caché #}
+        <div style="display:none" aria-hidden="true">
+            {{ form_widget(contactForm.website) }}
+        </div>
+
+        {{ form_rest(contactForm) }}
+
+        <div class="inst-contact-form__footer">
+            <button class="button" type="submit">Envoyer le message</button>
+            <p class="inst-contact-form__rgpd">
+                Vos données sont traitées conformément au RGPD, hébergées en Europe,
+                et utilisées uniquement pour répondre à votre demande.
+            </p>
+        </div>
+
+        {{ form_end(contactForm) }}
+
+        <p class="inst-cta__footnote">Projet Civitalisme — Hébergé en Europe — Données protégées — Document de travail ouvert.</p>
+    </section>
 {% endblock %}

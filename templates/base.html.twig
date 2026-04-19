@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ app.request.locale|default('fr') }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
     <meta name="description" content="{% block meta_description %}Portfolio, parcours et projet Civitalisme dans une application Symfony sobre, éditable et maintenable.{% endblock %}">
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
     <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+    {% block extra_head %}{% endblock %}
     {{ importmap('app') }}
 </head>
 {% set currentRoute = app.request.attributes.get('_route') ?? '' %}

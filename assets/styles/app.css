@@ -48,23 +48,25 @@ body {
 }
 
 body.theme-civitalisme {
-    --bg: #001a4d;
-    --bg-deep: #003399;
-    --surface: rgba(0, 51, 153, 0.55);
-    --surface-strong: rgba(0, 40, 120, 0.82);
-    --line: rgba(234, 234, 234, 0.12);
-    --text: #eaeaea;
-    --muted: #c8d6e8;
+    --bg: #f4f7fd;
+    --bg-deep: #e8eefc;
+    --surface: rgba(255, 255, 255, 0.88);
+    --surface-strong: rgba(255, 255, 255, 0.96);
+    --line: rgba(0, 51, 153, 0.14);
+    --text: #003399;
+    --muted: #5a73b5;
     --accent: #ffcc00;
-    --accent-deep: #fee5b1;
-    --accent-soft: #fee5b1;
-    --forest: #7bb1df;
-    --shadow: 0 28px 90px rgba(0, 10, 36, 0.40);
-    --bg-gradient-start: #001240;
-    --bg-gradient-end: #003399;
-    --orb-primary: rgba(255, 204, 0, 0.18);
-    --orb-secondary: rgba(254, 229, 177, 0.14);
-    --grid-color: rgba(234, 234, 234, 0.035);
+    --accent-deep: #e0b300;
+    --accent-soft: #fff3b8;
+    --forest: #9faee5;
+    --shadow: 0 24px 70px rgba(0, 51, 153, 0.14);
+    --bg-gradient-start: #f4f7fd;
+    --bg-gradient-end: #e4ecfb;
+    --orb-primary: rgba(0, 51, 153, 0.16);
+    --orb-secondary: rgba(255, 204, 0, 0.14);
+    --grid-color: rgba(0, 51, 153, 0.05);
+    --font-display: "Inter", "DM Sans", "Helvetica Neue", sans-serif;
+    --font-body: "Inter", "DM Sans", "Segoe UI", "Helvetica Neue", sans-serif;
 }
 
 a {
@@ -221,6 +223,216 @@ body.has-mobile-nav {
     color: var(--text);
     transform: translateY(-1px);
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+
+/* ---------- Language switcher ---------- */
+.lang-switcher {
+    position: relative;
+    margin-left: 0.4rem;
+    display: inline-flex;
+    align-items: center;
+}
+
+.lang-switcher__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 0.75rem;
+    border: 1px solid rgba(0, 51, 153, 0.18);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.72);
+    color: var(--text);
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+.lang-switcher__toggle:hover {
+    background: rgba(255, 255, 255, 0.96);
+    border-color: rgba(0, 51, 153, 0.36);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(0, 51, 153, 0.10);
+}
+
+.lang-switcher__flag {
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0, 51, 153, 0.25);
+    flex-shrink: 0;
+}
+
+.lang-switcher__current {
+    line-height: 1;
+}
+
+.lang-switcher__caret {
+    color: currentColor;
+    opacity: 0.65;
+    transition: transform 200ms ease;
+}
+
+.lang-switcher.is-open .lang-switcher__caret {
+    transform: rotate(180deg);
+}
+
+.lang-switcher__menu {
+    position: absolute;
+    top: calc(100% + 0.55rem);
+    right: 0;
+    min-width: 14rem;
+    max-height: 26rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0.4rem;
+    margin: 0;
+    list-style: none;
+    background: #ffffff;
+    border: 1px solid rgba(0, 51, 153, 0.14);
+    border-radius: 14px;
+    box-shadow: 0 22px 48px rgba(0, 51, 153, 0.18);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
+    z-index: 60;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 51, 153, 0.20) transparent;
+}
+
+.lang-switcher.is-open .lang-switcher__menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.lang-switcher__menu li {
+    margin: 0;
+}
+
+.lang-switcher__menu button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.55rem 0.8rem;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: background-color 140ms ease, color 140ms ease;
+}
+
+.lang-switcher__menu button:hover {
+    background: rgba(0, 51, 153, 0.08);
+}
+
+.lang-switcher__menu button.is-active {
+    background: rgba(255, 204, 0, 0.22);
+    color: #003399;
+    font-weight: 600;
+}
+
+.lang-switcher__menu button small {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.lang-switcher__menu button.is-active small {
+    color: #003399;
+}
+
+/* Séparateur de groupe */
+.lang-switcher__group-label {
+    padding: 0.45rem 0.8rem 0.25rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(0, 51, 153, 0.45);
+    border-top: 1px solid rgba(0, 51, 153, 0.10);
+    margin-top: 0.25rem;
+}
+
+/* Langues non disponibles */
+.lang-switcher__menu button.is-unavailable {
+    opacity: 0.65;
+}
+
+.lang-switcher__menu button.is-unavailable:hover {
+    opacity: 0.9;
+}
+
+/* Badge "bientôt" */
+.lang-switcher__soon {
+    margin-left: auto;
+    padding: 0.1rem 0.45rem;
+    background: rgba(255, 204, 0, 0.28);
+    color: #003399;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    border-radius: 999px;
+    text-transform: lowercase;
+    flex-shrink: 0;
+}
+
+.lang-switcher__notice {
+    position: absolute;
+    top: calc(100% + 0.55rem);
+    right: 0;
+    padding: 0.6rem 0.95rem;
+    background: #003399;
+    color: #ffffff;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    white-space: nowrap;
+    box-shadow: 0 14px 32px rgba(0, 51, 153, 0.28);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition: opacity 200ms ease, transform 200ms ease, visibility 200ms ease;
+    pointer-events: none;
+    z-index: 65;
+}
+
+.lang-switcher__notice.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+@media (max-width: 860px) {
+    .lang-switcher {
+        margin-left: 0;
+        margin-top: 0.5rem;
+        width: 100%;
+    }
+
+    .lang-switcher__toggle {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .lang-switcher__menu {
+        right: auto;
+        left: 0;
+        width: 100%;
+    }
+
+    .lang-switcher__notice {
+        right: auto;
+        left: 0;
+        width: 100%;
+        white-space: normal;
+    }
 }
 
 .site-header__panel,
@@ -2496,58 +2708,58 @@ h3 {
 }
 
 .theme-civitalisme .site-header {
-    background: rgba(0, 18, 54, 0.72);
+    background: rgba(255, 255, 255, 0.78);
 }
 
 .theme-civitalisme .site-nav__link:hover,
 .theme-civitalisme .site-nav__link.is-active {
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    background: rgba(0, 51, 153, 0.06);
+    box-shadow: inset 0 0 0 1px rgba(0, 51, 153, 0.12);
 }
 
 .theme-civitalisme .nav-toggle {
-    background: linear-gradient(180deg, rgba(0, 36, 108, 0.92), rgba(0, 18, 54, 0.92));
+    background: linear-gradient(180deg, rgba(0, 51, 153, 0.96), rgba(0, 33, 102, 0.96));
 }
 
 .theme-civitalisme .nav-toggle__line {
-    background: #eaeaea;
+    background: #ffffff;
 }
 
 .theme-civitalisme .hero__subtitle,
 .theme-civitalisme .section-link,
 .theme-civitalisme .page-switch__state,
 .theme-civitalisme .metric-chip strong {
-    color: var(--accent);
+    color: var(--accent-deep);
 }
 
 .theme-civitalisme .hero__tag {
-    background: rgba(255, 204, 0, 0.12);
-    border-color: rgba(255, 204, 0, 0.18);
-    color: #fee5b1;
+    background: rgba(255, 204, 0, 0.14);
+    border-color: rgba(255, 204, 0, 0.32);
+    color: var(--text);
 }
 
 .theme-civitalisme .button {
-    color: #001a4d;
-    font-weight: 600;
+    color: #003399;
+    font-weight: 700;
     background: linear-gradient(135deg, var(--accent), var(--accent-deep));
-    box-shadow: 0 16px 34px rgba(255, 204, 0, 0.22);
+    box-shadow: 0 16px 34px rgba(255, 204, 0, 0.32);
 }
 
 .theme-civitalisme .button:hover {
-    box-shadow: 0 20px 44px rgba(255, 204, 0, 0.30);
+    box-shadow: 0 20px 44px rgba(255, 204, 0, 0.42);
 }
 
 .theme-civitalisme .button--ghost,
 .theme-civitalisme .button--subtle {
     color: var(--text);
-    border-color: rgba(255, 204, 0, 0.18);
-    background: rgba(255, 204, 0, 0.05);
+    border-color: rgba(0, 51, 153, 0.24);
+    background: rgba(255, 255, 255, 0.70);
 }
 
 .theme-civitalisme .button--ghost:hover,
 .theme-civitalisme .button--subtle:hover {
-    background: rgba(255, 204, 0, 0.12);
-    border-color: rgba(255, 204, 0, 0.28);
+    background: rgba(0, 51, 153, 0.08);
+    border-color: rgba(0, 51, 153, 0.38);
 }
 
 .theme-civitalisme .hero__panel,
@@ -2566,23 +2778,23 @@ h3 {
 .theme-civitalisme .page-switch__card,
 .theme-civitalisme .section-note,
 .theme-civitalisme .case-study-card__panel {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 204, 0, 0.10);
+    background: rgba(255, 255, 255, 0.88);
+    border-color: rgba(0, 51, 153, 0.10);
 }
 
 .theme-civitalisme .insight-card h3 {
-    color: var(--accent);
+    color: var(--text);
 }
 
 .theme-civitalisme .governance-card h3,
 .theme-civitalisme .timeline-phase h3 {
-    color: var(--accent-deep);
+    color: var(--text);
 }
 
 .theme-civitalisme .insight-card .resource-pill {
-    background: rgba(255, 204, 0, 0.10);
-    border: 1px solid rgba(255, 204, 0, 0.20);
-    color: var(--accent-deep);
+    background: rgba(255, 204, 0, 0.18);
+    border: 1px solid rgba(255, 204, 0, 0.36);
+    color: var(--text);
     padding: 0.35rem 0.75rem;
     border-radius: 6px;
     font-size: 0.82rem;
@@ -2590,22 +2802,22 @@ h3 {
 }
 
 .theme-civitalisme .insight-card .resource-pill:hover {
-    background: rgba(255, 204, 0, 0.20);
+    background: rgba(255, 204, 0, 0.30);
 }
 
 .theme-civitalisme .case-study-card__equation {
-    background: rgba(0, 51, 153, 0.35);
-    border: 1px solid rgba(255, 204, 0, 0.12);
-    color: #fee5b1 !important;
+    background: rgba(159, 174, 229, 0.22);
+    border: 1px solid rgba(0, 51, 153, 0.18);
+    color: var(--text) !important;
 }
 
 .theme-civitalisme .page-switch__card.is-active {
-    background: linear-gradient(160deg, rgba(255, 204, 0, 0.14), rgba(0, 51, 153, 0.25));
-    border-color: rgba(255, 204, 0, 0.28);
+    background: linear-gradient(160deg, rgba(255, 204, 0, 0.20), rgba(159, 174, 229, 0.28));
+    border-color: rgba(255, 204, 0, 0.40);
 }
 
 .theme-civitalisme .civic-quote h3 {
-    color: #fee5b1;
+    color: var(--text);
 }
 
 .theme-civitalisme .pill-card,
@@ -2640,7 +2852,7 @@ h3 {
 
 .theme-civitalisme .site-footer__meta a:hover,
 .theme-civitalisme .stack-line {
-    color: #fee5b1 !important;
+    color: var(--accent-deep) !important;
 }
 
 @keyframes drift {
@@ -2924,8 +3136,8 @@ h3 {
 
     .theme-civitalisme .site-header__backdrop {
         background:
-            radial-gradient(circle at 82% 0%, rgba(255, 204, 0, 0.16), transparent 42%),
-            linear-gradient(180deg, rgba(0, 12, 40, 0.60), rgba(0, 12, 40, 0.80));
+            radial-gradient(circle at 82% 0%, rgba(255, 204, 0, 0.18), transparent 42%),
+            linear-gradient(180deg, rgba(0, 51, 153, 0.22), rgba(0, 51, 153, 0.42));
     }
 
     .site-header__panel {
@@ -2954,9 +3166,9 @@ h3 {
     }
 
     .theme-civitalisme .site-nav {
-        border-color: rgba(255, 204, 0, 0.10);
-        background: linear-gradient(180deg, rgba(0, 36, 108, 0.96), rgba(0, 18, 54, 0.96));
-        box-shadow: 0 24px 36px rgba(0, 8, 28, 0.30);
+        border-color: rgba(0, 51, 153, 0.12);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 247, 253, 0.96));
+        box-shadow: 0 24px 36px rgba(0, 51, 153, 0.14);
     }
 
     .site-nav__link {
@@ -3170,4 +3382,2352 @@ h3 {
     .civitalisme-video__placeholder {
         padding: 0.9rem;
     }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Civitalisme — Grand Public page (gp-*)
+   Scoped under .page-civitalisme--public, uses theme palette variables.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.page-civitalisme--public .section--panel,
+.page-civitalisme--public .section {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.page-civitalisme--public .surface-card {
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(0, 51, 153, 0.10);
+    border-radius: var(--radius-md);
+    box-shadow: 0 12px 32px rgba(0, 51, 153, 0.08);
+}
+
+/* -- Hero --------------------------------------------------------------- */
+.gp-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 2.5rem;
+    align-items: center;
+    padding: 3rem 2rem;
+}
+
+.gp-hero__title {
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    line-height: 1.08;
+    margin: 0.5rem 0 0.8rem;
+    color: var(--text);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.gp-hero__subtitle {
+    font-size: 1.15rem;
+    color: var(--forest);
+    font-weight: 600;
+    margin: 0 0 1rem;
+}
+
+.gp-hero__lead {
+    font-size: 1.05rem;
+    color: var(--muted);
+    margin: 0 0 1.6rem;
+    max-width: 36rem;
+}
+
+.gp-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.gp-hero__illustration {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0, 51, 153, 0.18);
+    background: #ffffff;
+}
+
+.gp-hero__illustration svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* -- Shared centered section heading ----------------------------------- */
+.section-heading--centered {
+    text-align: center;
+    max-width: 46rem;
+    margin: 0 auto 2rem;
+}
+
+.section-heading--centered h2 {
+    font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+    line-height: 1.15;
+    margin: 0.4rem 0 0.8rem;
+    color: var(--text);
+    font-weight: 700;
+}
+
+.section-heading--centered .section-intro {
+    color: var(--muted);
+    font-size: 1.02rem;
+    margin: 0;
+}
+
+/* -- 2. Problem grid --------------------------------------------------- */
+.gp-problem-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.gp-problem-card {
+    padding: 1.6rem 1.4rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.gp-problem-card__illustration {
+    width: 96px;
+    height: 96px;
+    margin-bottom: 0.4rem;
+}
+
+.gp-problem-card__illustration svg {
+    width: 100%;
+    height: 100%;
+}
+
+.gp-problem-card h3 {
+    font-size: 1.08rem;
+    color: var(--text);
+    margin: 0;
+    line-height: 1.25;
+}
+
+.gp-problem-card p {
+    color: var(--muted);
+    margin: 0;
+    font-size: 0.97rem;
+    line-height: 1.55;
+}
+
+.gp-problem__transition {
+    margin: 2.2rem auto 0;
+    max-width: 38rem;
+    text-align: center;
+    padding: 1.2rem 1.5rem;
+    border-left: 3px solid var(--accent);
+    background: rgba(255, 204, 0, 0.08);
+    border-radius: var(--radius-sm);
+}
+
+.gp-problem__transition p {
+    margin: 0;
+    font-size: 1.12rem;
+    color: var(--text);
+    font-weight: 500;
+}
+
+/* -- 3. Solution diagram ----------------------------------------------- */
+.gp-solution__diagram {
+    max-width: 520px;
+    margin: 1.5rem auto;
+}
+
+.gp-solution__diagram svg {
+    width: 100%;
+    height: auto;
+}
+
+.gp-solution__subtext {
+    text-align: center;
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 34rem;
+    margin: 1.2rem auto 0;
+}
+
+/* -- 4. Steps list ----------------------------------------------------- */
+.gp-step-list {
+    list-style: none;
+    counter-reset: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.4rem;
+}
+
+.gp-step-card {
+    position: relative;
+    padding: 1.6rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.9rem;
+}
+
+.gp-step-card__number {
+    position: absolute;
+    top: -14px;
+    left: 1.4rem;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.05rem;
+    box-shadow: 0 8px 18px rgba(255, 204, 0, 0.35);
+}
+
+.gp-step-card__illustration {
+    width: 100px;
+    height: 100px;
+    margin-top: 0.4rem;
+    align-self: center;
+}
+
+.gp-step-card__illustration svg {
+    width: 100%;
+    height: 100%;
+}
+
+.gp-step-card__copy h3 {
+    font-size: 1.08rem;
+    margin: 0 0 0.4rem;
+    color: var(--text);
+    line-height: 1.25;
+}
+
+.gp-step-card__copy p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.97rem;
+    line-height: 1.55;
+}
+
+/* -- 5. Work incentive chart ------------------------------------------- */
+.gp-incentive-chart {
+    padding: 1.8rem 1.6rem;
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.gp-incentive-chart__caption {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin-bottom: 1.3rem;
+}
+
+.gp-incentive-chart__bars {
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+}
+
+.gp-incentive-bar__label {
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+    font-size: 0.98rem;
+}
+
+.gp-incentive-bar__track {
+    display: flex;
+    min-width: 140px;
+    height: 52px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(0, 51, 153, 0.08);
+    transition: width 0.6s ease;
+}
+
+.gp-incentive-bar__segment {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 0.9rem;
+    color: #ffffff;
+    font-size: 0.82rem;
+    line-height: 1.2;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.gp-incentive-bar__segment span {
+    opacity: 0.92;
+}
+
+.gp-incentive-bar__segment strong {
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.gp-incentive-bar__segment--svg {
+    background: linear-gradient(135deg, #4266b8, #003399);
+}
+
+.gp-incentive-bar__segment--work {
+    background: linear-gradient(135deg, #ffcc00, #e0b300);
+    color: #003399;
+}
+
+.gp-incentive-bar__total {
+    margin-top: 0.45rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-weight: 500;
+}
+
+.gp-incentive-chart__gain {
+    margin-top: 1.6rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.65rem 1.1rem;
+    background: rgba(255, 204, 0, 0.18);
+    border: 1px solid rgba(224, 179, 0, 0.45);
+    border-radius: 999px;
+    color: var(--accent-deep);
+    font-weight: 600;
+}
+
+.gp-incentive-chart__gain-label {
+    font-size: 0.95rem;
+}
+
+.gp-incentive-chart__gain strong {
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.gp-incentive__note {
+    margin: 1.3rem auto 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.95rem;
+    max-width: 36rem;
+    font-style: italic;
+}
+
+/* -- 6. Personas grid -------------------------------------------------- */
+.gp-persona-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.4rem;
+    margin-top: 1.5rem;
+}
+
+.gp-persona-card {
+    padding: 1.4rem 1.2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.gp-persona-card__avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--bg-deep);
+    box-shadow: 0 8px 20px rgba(0, 51, 153, 0.12);
+}
+
+.gp-persona-card__avatar svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.gp-persona-card__copy h3 {
+    margin: 0;
+    font-size: 1.04rem;
+    color: var(--text);
+}
+
+.gp-persona-card__situation {
+    margin: 0.15rem 0 0.6rem;
+    color: var(--accent-deep);
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.gp-persona-card__body {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+/* -- 7. Shield / preserved rights -------------------------------------- */
+.gp-shield {
+    display: grid;
+    grid-template-columns: minmax(0, 240px) minmax(0, 1fr);
+    gap: 2.5rem;
+    align-items: center;
+    padding: 2.2rem 2rem;
+    background: linear-gradient(135deg, rgba(66, 102, 184, 0.08), rgba(255, 204, 0, 0.06));
+    border-radius: var(--radius-lg);
+}
+
+.gp-shield__illustration {
+    justify-self: center;
+    max-width: 200px;
+}
+
+.gp-shield__illustration svg {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 16px 34px rgba(0, 51, 153, 0.22));
+}
+
+.gp-shield__copy h2 {
+    font-size: clamp(1.5rem, 2.4vw, 1.9rem);
+    margin: 0.4rem 0 0.6rem;
+    color: var(--text);
+}
+
+.gp-shield__copy .section-intro {
+    color: var(--muted);
+    margin: 0 0 1.2rem;
+}
+
+.gp-shield__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.gp-shield__list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.gp-shield__list svg {
+    flex-shrink: 0;
+}
+
+/* -- 8. Europe section ------------------------------------------------- */
+.gp-europe__map {
+    max-width: 680px;
+    margin: 1.5rem auto;
+}
+
+.gp-europe__map svg {
+    width: 100%;
+    height: auto;
+}
+
+.gp-europe__pillars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1.4rem;
+}
+
+.gp-europe-pillar {
+    padding: 1.2rem 1.2rem;
+    text-align: left;
+}
+
+.gp-europe-pillar strong {
+    display: block;
+    color: var(--forest);
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+    font-weight: 700;
+}
+
+.gp-europe-pillar p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* -- 9. Final CTA ------------------------------------------------------ */
+.gp-cta {
+    padding: 3rem 2rem;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(0, 51, 153, 0.95), rgba(66, 102, 184, 0.92));
+    border-radius: var(--radius-lg);
+    color: #ffffff;
+    margin-top: 1rem;
+}
+
+.gp-cta__copy h2 {
+    color: #ffffff;
+    font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+    margin: 0.4rem 0 0.8rem;
+}
+
+.gp-cta__copy .eyebrow {
+    color: var(--accent-soft);
+    opacity: 0.95;
+}
+
+.gp-cta__copy .section-intro {
+    color: rgba(255, 255, 255, 0.85);
+    max-width: 40rem;
+    margin: 0 auto 1.5rem;
+}
+
+.gp-cta__actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.gp-cta .button--ghost {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.gp-cta .button--ghost:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.65);
+}
+
+/* -- Responsive layout (< 860px) --------------------------------------- */
+@media (max-width: 860px) {
+    .gp-hero {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+        padding: 2rem 1.25rem;
+    }
+
+    .gp-hero__illustration {
+        order: -1;
+        max-width: 420px;
+        margin: 0 auto;
+    }
+
+    .gp-shield {
+        grid-template-columns: 1fr;
+        gap: 1.4rem;
+        padding: 1.8rem 1.4rem;
+        text-align: center;
+    }
+
+    .gp-shield__illustration {
+        max-width: 140px;
+    }
+
+    .gp-shield__list li {
+        justify-content: center;
+    }
+
+    .gp-incentive-chart {
+        padding: 1.4rem 1.1rem;
+    }
+
+    .gp-incentive-bar__segment {
+        padding: 0 0.6rem;
+        font-size: 0.78rem;
+    }
+
+    .gp-incentive-bar__segment strong {
+        font-size: 0.85rem;
+    }
+}
+
+
+/* =====================================================================
+   Civitalisme — Cadre institutionnel (page--institution)
+   All rules are scoped to .page-civitalisme--institution so they can
+   never leak to the portfolio side.
+   ===================================================================== */
+
+.page-civitalisme--institution {
+    --inst-border: rgba(0, 51, 153, 0.14);
+    --inst-border-strong: rgba(0, 51, 153, 0.28);
+    --inst-shadow: 0 18px 42px rgba(0, 51, 153, 0.10);
+    --inst-shadow-lg: 0 26px 60px rgba(0, 51, 153, 0.16);
+}
+
+/* ---------- Shared section container ---------- */
+.page-civitalisme--institution .inst-section {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 4.5rem 1.5rem;
+}
+
+.page-civitalisme--institution .inst-section--alt {
+    background: linear-gradient(180deg, rgba(0, 51, 153, 0.03), rgba(255, 204, 0, 0.04));
+    border-top: 1px solid var(--inst-border);
+    border-bottom: 1px solid var(--inst-border);
+    max-width: none;
+}
+
+.page-civitalisme--institution .inst-section--alt > * {
+    max-width: 1180px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.page-civitalisme--institution .inst-section__heading {
+    margin-bottom: 2.4rem;
+    max-width: 760px;
+}
+
+.page-civitalisme--institution .inst-section__heading .eyebrow {
+    color: #003399;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+}
+
+.page-civitalisme--institution .inst-section__heading h2 {
+    font-size: clamp(1.75rem, 2.6vw, 2.4rem);
+    line-height: 1.15;
+    margin: 0.55rem 0 0.9rem;
+    color: #003399;
+    letter-spacing: -0.01em;
+}
+
+.page-civitalisme--institution .inst-section__lead {
+    color: var(--muted);
+    font-size: 1.05rem;
+    line-height: 1.65;
+}
+
+/* ---------- 1. Hero ---------- */
+.page-civitalisme--institution .inst-hero {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 4.5rem 1.5rem 3rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+    gap: 3rem;
+    align-items: start;
+}
+
+.page-civitalisme--institution .inst-hero__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0 0 1rem;
+    padding: 0.35rem 0.85rem 0.35rem 0.4rem;
+    background: #ffffff;
+    border: 1px solid var(--inst-border);
+    border-radius: 999px;
+    color: #003399;
+    font-weight: 600;
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    box-shadow: 0 6px 14px rgba(0, 51, 153, 0.08);
+}
+
+.page-civitalisme--institution .inst-hero__title {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    line-height: 1.08;
+    color: #003399;
+    letter-spacing: -0.02em;
+    margin: 0 0 1rem;
+}
+
+.page-civitalisme--institution .inst-hero__subtitle {
+    font-size: 1.12rem;
+    color: #003399;
+    font-weight: 500;
+    margin: 0 0 1.1rem;
+    opacity: 0.85;
+}
+
+.page-civitalisme--institution .inst-hero__lead {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 60ch;
+}
+
+.page-civitalisme--institution .inst-hero__highlights {
+    list-style: none;
+    padding: 0;
+    margin: 1.8rem 0 1.6rem;
+    display: grid;
+    gap: 0.55rem;
+}
+
+.page-civitalisme--institution .inst-hero__highlights li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(0, 51, 153, 0.94);
+    color: #ffffff;
+    padding: 0.55rem 0.95rem;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-weight: 500;
+}
+
+.page-civitalisme--institution .inst-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.4rem;
+}
+
+.page-civitalisme--institution .inst-hero__panel {
+    padding: 1.8rem;
+    background: #ffffff;
+    border: 1px solid var(--inst-border);
+    border-radius: 18px;
+    box-shadow: var(--inst-shadow-lg);
+    position: relative;
+}
+
+.page-civitalisme--institution .inst-hero__panel::before {
+    content: "";
+    position: absolute;
+    top: -3px;
+    left: 1.8rem;
+    right: 1.8rem;
+    height: 4px;
+    background: linear-gradient(90deg, #003399, #ffcc00);
+    border-radius: 2px;
+}
+
+.page-civitalisme--institution .inst-hero__panel-label {
+    margin: 0 0 0.8rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #003399;
+}
+
+.page-civitalisme--institution .inst-hero__panel-body {
+    color: var(--muted);
+    line-height: 1.6;
+    font-size: 0.95rem;
+    margin: 0 0 1.3rem;
+}
+
+.page-civitalisme--institution .inst-hero__meta {
+    margin: 0;
+    display: grid;
+    gap: 0.7rem;
+}
+
+.page-civitalisme--institution .inst-hero__meta > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.8rem;
+    padding-bottom: 0.55rem;
+    border-bottom: 1px solid var(--inst-border);
+}
+
+.page-civitalisme--institution .inst-hero__meta > div:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.page-civitalisme--institution .inst-hero__meta dt {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.page-civitalisme--institution .inst-hero__meta dd {
+    margin: 0;
+    color: #003399;
+    font-weight: 600;
+    font-size: 0.92rem;
+}
+
+/* ---------- 2. Pillars + Reports ---------- */
+.page-civitalisme--institution .inst-pillars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.3rem;
+    margin-bottom: 3rem;
+}
+
+.page-civitalisme--institution .inst-pillar {
+    background: #ffffff;
+    border: 1px solid var(--inst-border);
+    border-radius: 16px;
+    padding: 1.6rem;
+    box-shadow: var(--inst-shadow);
+    position: relative;
+}
+
+.page-civitalisme--institution .inst-pillar__number {
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #003399, #4266b8);
+    color: #ffcc00;
+    font-weight: 700;
+    display: grid;
+    place-items: center;
+    margin-bottom: 0.9rem;
+    font-size: 1rem;
+}
+
+.page-civitalisme--institution .inst-pillar h3 {
+    font-size: 1.1rem;
+    color: #003399;
+    margin: 0 0 0.55rem;
+}
+
+.page-civitalisme--institution .inst-pillar p {
+    color: var(--muted);
+    line-height: 1.6;
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.page-civitalisme--institution .inst-reports {
+    background: #ffffff;
+    border: 1px solid var(--inst-border);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: var(--inst-shadow);
+}
+
+.page-civitalisme--institution .inst-reports__header {
+    padding: 1.3rem 1.6rem;
+    background: linear-gradient(135deg, #003399, #1f4aa8);
+    color: #ffffff;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.page-civitalisme--institution .inst-reports__header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #ffffff;
+}
+
+.page-civitalisme--institution .inst-reports__header p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: #ffcc00;
+    font-weight: 500;
+}
+
+.page-civitalisme--institution .inst-reports__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.page-civitalisme--institution .inst-report {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr) auto;
+    gap: 1.2rem;
+    padding: 1.1rem 1.6rem;
+    align-items: center;
+    border-top: 1px solid var(--inst-border);
+    transition: background-color 140ms ease;
+}
+
+.page-civitalisme--institution .inst-report:first-child {
+    border-top: none;
+}
+
+.page-civitalisme--institution .inst-report:hover {
+    background: rgba(0, 51, 153, 0.04);
+}
+
+.page-civitalisme--institution .inst-report__index {
+    width: 3rem;
+    height: 3rem;
+    display: grid;
+    place-items: center;
+    background: rgba(255, 204, 0, 0.22);
+    color: #003399;
+    font-weight: 700;
+    border-radius: 12px;
+    letter-spacing: 0.04em;
+}
+
+.page-civitalisme--institution .inst-report__theme {
+    margin: 0 0 0.2rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #4266b8;
+}
+
+.page-civitalisme--institution .inst-report__body h4 {
+    margin: 0 0 0.3rem;
+    font-size: 1rem;
+    color: #003399;
+}
+
+.page-civitalisme--institution .inst-report__body p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+.page-civitalisme--institution .inst-report__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 0.95rem;
+    background: #003399;
+    color: #ffcc00;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.page-civitalisme--institution .inst-report__link:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 24px rgba(0, 51, 153, 0.24);
+}
+
+/* ---------- 3. Double circuit + table ---------- */
+.page-civitalisme--institution .inst-circuit {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 80px minmax(0, 1fr);
+    gap: 1.4rem;
+    align-items: stretch;
+    margin-bottom: 2.6rem;
+}
+
+.page-civitalisme--institution .inst-circuit__column {
+    background: #ffffff;
+    border: 1px solid var(--inst-border);
+    border-radius: 18px;
+    padding: 1.7rem;
+    box-shadow: var(--inst-shadow);
+}
+
+.page-civitalisme--institution .inst-circuit__column--euroe {
+    background: linear-gradient(160deg, #ffffff, rgba(255, 204, 0, 0.10));
+    border-color: rgba(255, 204, 0, 0.55);
+}
+
+.page-civitalisme--institution .inst-circuit__badge {
+    display: inline-block;
+    padding: 0.3rem 0.7rem;
+    background: rgba(0, 51, 153, 0.10);
+    color: #003399;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+}
+
+.page-civitalisme--institution .inst-circuit__badge--accent {
+    background: #ffcc00;
+    color: #003399;
+}
+
+.page-civitalisme--institution .inst-circuit__column h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+    color: #003399;
+}
+
+.page-civitalisme--institution .inst-circuit__scope {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin: 0 0 1rem;
+    line-height: 1.6;
+}
+
+.page-civitalisme--institution .inst-circuit__column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.55rem;
+}
+
+.page-civitalisme--institution .inst-circuit__column li {
+    padding-left: 1.3rem;
+    position: relative;
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.55;
+}
+
+.page-civitalisme--institution .inst-circuit__column li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.55rem;
+    width: 8px;
+    height: 8px;
+    background: #ffcc00;
+    border: 2px solid #003399;
+    border-radius: 50%;
+}
+
+.page-civitalisme--institution .inst-circuit__divider {
+    display: grid;
+    place-items: center;
+    align-self: stretch;
+}
+
+.page-civitalisme--institution .inst-table-wrapper {
+    background: #ffffff;
+    border: 1px solid var(--inst-border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--inst-shadow);
+    overflow-x: auto;
+}
+
+.page-civitalisme--institution .inst-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.93rem;
+}
+
+.page-civitalisme--institution .inst-table thead th {
+    background: #003399;
+    color: #ffcc00;
+    text-align: left;
+    padding: 0.95rem 1.1rem;
+    font-weight: 600;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.page-civitalisme--institution .inst-table tbody th,
+.page-civitalisme--institution .inst-table tbody td {
+    padding: 1rem 1.1rem;
+    border-top: 1px solid var(--inst-border);
+    color: var(--muted);
+    line-height: 1.55;
+    vertical-align: top;
+}
+
+.page-civitalisme--institution .inst-table tbody th {
+    color: #003399;
+    font-weight: 700;
+    background: rgba(0, 51, 153, 0.03);
+    min-width: 140px;
+}
+
+/* ---------- 4. Architecture layers + lifecycle ---------- */
+.page-civitalisme--institution .inst-layers {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.page-civitalisme--institution .inst-layer {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    gap: 0.9rem;
+    padding: 1.1rem;
+    background: #ffffff;
+    border: 1px solid var(--inst-border);
+    border-radius: 14px;
+    box-shadow: var(--inst-shadow);
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.page-civitalisme--institution .inst-layer:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--inst-shadow-lg);
+}
+
+.page-civitalisme--institution .inst-layer__index {
+    width: 3rem;
+    height: 3rem;
+    display: grid;
+    place-items: center;
+    background: #003399;
+    color: #ffcc00;
+    font-weight: 700;
+    border-radius: 12px;
+    font-size: 0.92rem;
+    letter-spacing: 0.04em;
+}
+
+.page-civitalisme--institution .inst-layer h3 {
+    margin: 0.05rem 0 0.3rem;
+    font-size: 1rem;
+    color: #003399;
+}
+
+.page-civitalisme--institution .inst-layer p {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--muted);
+}
+
+.page-civitalisme--institution .inst-lifecycle__title {
+    font-size: 1.2rem;
+    color: #003399;
+    margin: 0 0 1.3rem;
+}
+
+.page-civitalisme--institution .inst-lifecycle {
+    list-style: none;
+    counter-reset: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: stretch;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.page-civitalisme--institution .inst-lifecycle__step {
+    flex: 1 1 200px;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 0;
+}
+
+.page-civitalisme--institution .inst-lifecycle__circle {
+    flex-shrink: 0;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ffcc00, #e0b300);
+    color: #003399;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    box-shadow: 0 8px 18px rgba(255, 204, 0, 0.35);
+}
+
+.page-civitalisme--institution .inst-lifecycle__body {
+    flex: 1;
+    min-width: 0;
+}
+
+.page-civitalisme--institution .inst-lifecycle__body h4 {
+    margin: 0 0 0.15rem;
+    font-size: 0.95rem;
+    color: #003399;
+}
+
+.page-civitalisme--institution .inst-lifecycle__body p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.page-civitalisme--institution .inst-lifecycle__arrow {
+    flex-shrink: 0;
+    opacity: 0.5;
+}
+
+/* ---------- 5. Formule ---------- */
+.page-civitalisme--institution .inst-formula {
+    background: linear-gradient(135deg, #003399, #1a4aa8);
+    color: #ffffff;
+    padding: 2rem 1.5rem;
+    border-radius: 18px;
+    box-shadow: var(--inst-shadow-lg);
+    margin-bottom: 2.2rem;
+    text-align: center;
+    overflow-x: auto;
+}
+
+.page-civitalisme--institution .inst-formula__equation {
+    font-family: "JetBrains Mono", "SF Mono", "Consolas", monospace;
+    font-size: clamp(0.85rem, 1.6vw, 1.1rem);
+    line-height: 1.7;
+    color: #ffcc00;
+    margin: 0;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+}
+
+.page-civitalisme--institution .inst-formula-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 1.6rem;
+}
+
+.page-civitalisme--institution .inst-formula-grid__params,
+.page-civitalisme--institution .inst-formula-grid__principles {
+    background: #ffffff;
+    border: 1px solid var(--inst-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: var(--inst-shadow);
+}
+
+.page-civitalisme--institution .inst-formula-grid h3 {
+    margin: 0 0 1rem;
+    font-size: 1.05rem;
+    color: #003399;
+}
+
+.page-civitalisme--institution .inst-formula-grid__params ul,
+.page-civitalisme--institution .inst-formula-grid__principles ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.7rem;
+}
+
+.page-civitalisme--institution .inst-formula-grid__params li {
+    display: grid;
+    grid-template-columns: 5rem minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0.8rem;
+    align-items: baseline;
+    padding-bottom: 0.55rem;
+    border-bottom: 1px dashed var(--inst-border);
+}
+
+.page-civitalisme--institution .inst-formula-grid__params li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.page-civitalisme--institution .inst-formula-grid__symbol {
+    font-family: "JetBrains Mono", "SF Mono", monospace;
+    font-weight: 700;
+    color: #003399;
+    background: rgba(255, 204, 0, 0.22);
+    border-radius: 6px;
+    padding: 0.15rem 0.45rem;
+    font-size: 0.88rem;
+    text-align: center;
+}
+
+.page-civitalisme--institution .inst-formula-grid__label {
+    color: #003399;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.page-civitalisme--institution .inst-formula-grid__value {
+    color: var(--muted);
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.page-civitalisme--institution .inst-formula-grid__principles li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.55;
+}
+
+.page-civitalisme--institution .inst-formula-grid__principles svg {
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+.page-civitalisme--institution .inst-formula-grid__hint {
+    margin: 1.2rem 0 0;
+    padding: 0.8rem 0.95rem;
+    background: rgba(255, 204, 0, 0.18);
+    border-left: 3px solid #ffcc00;
+    border-radius: 6px;
+    color: #003399;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* ---------- 6. Cadre juridique + risques ---------- */
+.page-civitalisme--institution .inst-legal-matrix {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.8rem;
+}
+
+.page-civitalisme--institution .inst-legal-cell {
+    background: #ffffff;
+    border: 1px solid var(--inst-border);
+    border-radius: 14px;
+    padding: 1.4rem;
+    box-shadow: var(--inst-shadow);
+    border-top: 4px solid #003399;
+    position: relative;
+}
+
+.page-civitalisme--institution .inst-legal-cell--hors-champ {
+    border-top-color: #4266b8;
+    opacity: 0.85;
+}
+
+.page-civitalisme--institution .inst-legal-cell__status {
+    display: inline-block;
+    margin: 0 0 0.6rem;
+    padding: 0.2rem 0.6rem;
+    background: rgba(0, 51, 153, 0.10);
+    color: #003399;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.page-civitalisme--institution .inst-legal-cell--hors-champ .inst-legal-cell__status {
+    background: rgba(66, 102, 184, 0.14);
+    color: #4266b8;
+}
+
+.page-civitalisme--institution .inst-legal-cell h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1.1rem;
+    color: #003399;
+}
+
+.page-civitalisme--institution .inst-legal-cell__scope {
+    margin: 0 0 0.7rem;
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+.page-civitalisme--institution .inst-legal-cell > p:last-child {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+.page-civitalisme--institution .inst-risks__title {
+    font-size: 1.2rem;
+    color: #003399;
+    margin: 0 0 1.2rem;
+}
+
+.page-civitalisme--institution .inst-risks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+.page-civitalisme--institution .inst-risk {
+    padding: 1.3rem;
+    border-radius: 14px;
+    box-shadow: var(--inst-shadow);
+    background: #ffffff;
+    border: 1px solid var(--inst-border);
+}
+
+.page-civitalisme--institution .inst-risk--faible {
+    background: linear-gradient(160deg, #ffffff, rgba(159, 174, 229, 0.14));
+    border-left: 4px solid #4266b8;
+}
+
+.page-civitalisme--institution .inst-risk--moyen {
+    background: linear-gradient(160deg, #ffffff, rgba(255, 204, 0, 0.14));
+    border-left: 4px solid #ffcc00;
+}
+
+.page-civitalisme--institution .inst-risk--élevé,
+.page-civitalisme--institution .inst-risk--eleve {
+    background: linear-gradient(160deg, #ffffff, rgba(0, 51, 153, 0.10));
+    border-left: 4px solid #003399;
+}
+
+.page-civitalisme--institution .inst-risk__level {
+    margin: 0 0 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #003399;
+}
+
+.page-civitalisme--institution .inst-risk h4 {
+    margin: 0 0 0.4rem;
+    font-size: 1.02rem;
+    color: #003399;
+}
+
+.page-civitalisme--institution .inst-risk p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+/* ---------- 7. Timeline ---------- */
+.page-civitalisme--institution .inst-timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1.1rem;
+    position: relative;
+}
+
+.page-civitalisme--institution .inst-timeline::before {
+    content: "";
+    position: absolute;
+    left: 5.25rem;
+    top: 1rem;
+    bottom: 1rem;
+    width: 2px;
+    background: linear-gradient(180deg, #003399, #ffcc00, #003399);
+    border-radius: 2px;
+    opacity: 0.4;
+}
+
+.page-civitalisme--institution .inst-timeline__item {
+    display: grid;
+    grid-template-columns: 10.5rem minmax(0, 1fr);
+    gap: 1.2rem;
+    align-items: start;
+    background: #ffffff;
+    border: 1px solid var(--inst-border);
+    border-radius: 14px;
+    padding: 1.3rem 1.5rem;
+    box-shadow: var(--inst-shadow);
+    position: relative;
+}
+
+.page-civitalisme--institution .inst-timeline__marker {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding-right: 1rem;
+    border-right: 2px solid rgba(255, 204, 0, 0.5);
+    position: relative;
+}
+
+.page-civitalisme--institution .inst-timeline__marker::after {
+    content: "";
+    position: absolute;
+    right: -7px;
+    top: 0.35rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ffcc00;
+    border: 3px solid #003399;
+}
+
+.page-civitalisme--institution .inst-timeline__year {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #003399;
+    line-height: 1;
+    letter-spacing: -0.02em;
+}
+
+.page-civitalisme--institution .inst-timeline__phase {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.page-civitalisme--institution .inst-timeline__body h3 {
+    margin: 0.2rem 0 0.45rem;
+    font-size: 1.1rem;
+    color: #003399;
+}
+
+.page-civitalisme--institution .inst-timeline__body p {
+    margin: 0 0 0.75rem;
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.6;
+}
+
+.page-civitalisme--institution .inst-timeline__kpi {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0.4rem 0.8rem;
+    background: rgba(255, 204, 0, 0.18);
+    border: 1px solid rgba(255, 204, 0, 0.5);
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #003399;
+}
+
+/* ---------- 8. Downloads ---------- */
+.page-civitalisme--institution .inst-downloads {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+}
+
+.page-civitalisme--institution .inst-downloads a {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 1rem;
+    align-items: center;
+    padding: 1.1rem 1.3rem;
+    background: #ffffff;
+    border: 1px solid var(--inst-border);
+    border-radius: 14px;
+    box-shadow: var(--inst-shadow);
+    transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.page-civitalisme--institution .inst-downloads a:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--inst-shadow-lg);
+    border-color: rgba(255, 204, 0, 0.6);
+}
+
+.page-civitalisme--institution .inst-downloads__icon {
+    flex-shrink: 0;
+}
+
+.page-civitalisme--institution .inst-downloads h3 {
+    margin: 0 0 0.2rem;
+    font-size: 0.98rem;
+    color: #003399;
+    line-height: 1.35;
+}
+
+.page-civitalisme--institution .inst-downloads small {
+    color: var(--muted);
+    font-size: 0.8rem;
+}
+
+/* ---------- 9. CTA institutionnel ---------- */
+.page-civitalisme--institution .inst-cta {
+    padding: 4rem 1.5rem;
+}
+
+.page-civitalisme--institution .inst-cta__card {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 2.4rem;
+    background: linear-gradient(135deg, #003399, #1a4aa8);
+    color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 30px 70px rgba(0, 51, 153, 0.35);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-civitalisme--institution .inst-cta__card::before {
+    content: "";
+    position: absolute;
+    inset: -40px;
+    background: radial-gradient(circle at 20% 10%, rgba(255, 204, 0, 0.22), transparent 60%);
+    pointer-events: none;
+}
+
+.page-civitalisme--institution .inst-cta__card > * {
+    position: relative;
+}
+
+.page-civitalisme--institution .inst-cta__card .eyebrow {
+    color: #ffcc00;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+}
+
+.page-civitalisme--institution .inst-cta__card h2 {
+    font-size: clamp(1.65rem, 2.6vw, 2.2rem);
+    color: #ffffff;
+    margin: 0.6rem 0 0.9rem;
+}
+
+.page-civitalisme--institution .inst-cta__card p {
+    color: rgba(255, 255, 255, 0.88);
+    line-height: 1.65;
+    margin: 0 auto 1.5rem;
+    max-width: 58ch;
+}
+
+.page-civitalisme--institution .inst-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1.3rem;
+}
+
+.page-civitalisme--institution .inst-cta__footnote {
+    margin: 0;
+    font-size: 0.8rem;
+    color: rgba(255, 204, 0, 0.85);
+    letter-spacing: 0.02em;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 960px) {
+    .page-civitalisme--institution .inst-hero {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.8rem;
+    }
+
+    .page-civitalisme--institution .inst-circuit {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .page-civitalisme--institution .inst-circuit__divider {
+        transform: rotate(90deg);
+        margin: 0.5rem 0;
+    }
+
+    .page-civitalisme--institution .inst-timeline::before {
+        left: 1.25rem;
+    }
+
+    .page-civitalisme--institution .inst-timeline__item {
+        grid-template-columns: minmax(0, 1fr);
+        padding-left: 2.5rem;
+    }
+
+    .page-civitalisme--institution .inst-timeline__marker {
+        flex-direction: row;
+        align-items: baseline;
+        gap: 0.6rem;
+        padding-right: 0;
+        padding-bottom: 0.4rem;
+        border-right: none;
+        border-bottom: 2px solid rgba(255, 204, 0, 0.5);
+    }
+
+    .page-civitalisme--institution .inst-timeline__marker::after {
+        left: -1.8rem;
+        right: auto;
+        top: 0.35rem;
+    }
+
+    .page-civitalisme--institution .inst-formula-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .page-civitalisme--institution .inst-formula-grid__params li {
+        grid-template-columns: 4rem minmax(0, 1fr);
+    }
+
+    .page-civitalisme--institution .inst-formula-grid__value {
+        grid-column: 1 / -1;
+        padding-left: 4.8rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .page-civitalisme--institution .inst-section {
+        padding: 3rem 1.1rem;
+    }
+
+    .page-civitalisme--institution .inst-report {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.6rem;
+    }
+
+    .page-civitalisme--institution .inst-report__link {
+        justify-self: start;
+    }
+
+    .page-civitalisme--institution .inst-reports__list .inst-report {
+        padding: 1rem;
+    }
+
+    .page-civitalisme--institution .inst-lifecycle__arrow {
+        display: none;
+    }
+
+    .page-civitalisme--institution .inst-lifecycle__step {
+        flex: 1 1 100%;
+    }
+}
+
+/* =====================================================================
+   Phase 3 — Simulateur SVG interactif
+   ===================================================================== */
+.page-civitalisme--institution .inst-simulator {
+    background: linear-gradient(180deg, rgba(0, 51, 153, 0.04), rgba(255, 204, 0, 0.04));
+    border-top: 1px solid rgba(0, 51, 153, 0.14);
+    border-bottom: 1px solid rgba(0, 51, 153, 0.14);
+    max-width: none;
+    padding: 4rem 1.5rem;
+}
+
+.page-civitalisme--institution .inst-simulator > * {
+    max-width: 1180px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.page-civitalisme--institution .sim-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 2rem;
+    align-items: start;
+}
+
+.page-civitalisme--institution .sim-controls {
+    background: #ffffff;
+    border: 1px solid rgba(0, 51, 153, 0.14);
+    border-radius: 18px;
+    padding: 1.8rem;
+    box-shadow: 0 18px 42px rgba(0, 51, 153, 0.10);
+    display: grid;
+    gap: 1.4rem;
+}
+
+.page-civitalisme--institution .sim-group {
+    display: grid;
+    gap: 0.4rem;
+}
+
+.page-civitalisme--institution .sim-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #003399;
+}
+
+.page-civitalisme--institution .sim-hint {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.4;
+}
+
+.page-civitalisme--institution .sim-stepper {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border: 1px solid rgba(0, 51, 153, 0.22);
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f8f9fd;
+}
+
+.page-civitalisme--institution .sim-stepper button {
+    flex: 0 0 2.8rem;
+    height: 2.8rem;
+    border: none;
+    background: transparent;
+    color: #003399;
+    font-size: 1.3rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 140ms ease;
+}
+
+.page-civitalisme--institution .sim-stepper button:hover {
+    background: rgba(0, 51, 153, 0.10);
+}
+
+.page-civitalisme--institution .sim-stepper input {
+    flex: 1;
+    height: 2.8rem;
+    border: none;
+    background: transparent;
+    text-align: center;
+    color: #003399;
+    font-size: 1.1rem;
+    font-weight: 700;
+    font-family: inherit;
+    -moz-appearance: textfield;
+}
+
+.page-civitalisme--institution .sim-stepper input::-webkit-outer-spin-button,
+.page-civitalisme--institution .sim-stepper input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.page-civitalisme--institution .sim-select {
+    width: 100%;
+    padding: 0.7rem 0.95rem;
+    border: 1px solid rgba(0, 51, 153, 0.22);
+    border-radius: 10px;
+    background: #f8f9fd;
+    color: #003399;
+    font-size: 0.92rem;
+    font-family: inherit;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5 L6 6.5 L11 1.5' fill='none' stroke='%23003399' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.95rem center;
+    background-size: 12px 8px;
+    cursor: pointer;
+}
+
+.page-civitalisme--institution .sim-range {
+    width: 100%;
+    height: 6px;
+    accent-color: #003399;
+    cursor: pointer;
+    margin-top: 0.4rem;
+}
+
+.page-civitalisme--institution .sim-range-value {
+    display: block;
+    text-align: right;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #003399;
+    margin-top: 0.2rem;
+}
+
+.page-civitalisme--institution .sim-divider {
+    border: none;
+    border-top: 1px dashed rgba(0, 51, 153, 0.20);
+    margin: 0;
+}
+
+/* Résultat */
+.page-civitalisme--institution .sim-result-panel {
+    display: grid;
+    gap: 1.4rem;
+}
+
+.page-civitalisme--institution .sim-result {
+    background: linear-gradient(135deg, #003399, #1a4aa8);
+    color: #ffffff;
+    border-radius: 18px;
+    padding: 2rem 1.6rem;
+    text-align: center;
+    box-shadow: 0 24px 56px rgba(0, 51, 153, 0.30);
+    position: relative;
+    overflow: hidden;
+}
+
+.page-civitalisme--institution .sim-result::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 20%, rgba(255, 204, 0, 0.20), transparent 60%);
+    pointer-events: none;
+}
+
+.page-civitalisme--institution .sim-result > * {
+    position: relative;
+}
+
+.page-civitalisme--institution .sim-result__label {
+    margin: 0 0 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.page-civitalisme--institution .sim-result__amount {
+    margin: 0;
+    font-size: clamp(2.4rem, 4vw, 3.8rem);
+    font-weight: 700;
+    color: #ffcc00;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    transition: color 200ms ease;
+}
+
+.page-civitalisme--institution .sim-result__amount.is-zero {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.page-civitalisme--institution .sim-result__unit {
+    margin: 0.5rem 0 0;
+    font-size: 0.92rem;
+    color: rgba(255, 255, 255, 0.80);
+}
+
+/* Barre visuelle */
+.page-civitalisme--institution .sim-bar-wrapper {
+    background: rgba(0, 51, 153, 0.06);
+    border: 1px solid rgba(0, 51, 153, 0.14);
+    border-radius: 12px;
+    overflow: hidden;
+    height: 3.2rem;
+    position: relative;
+}
+
+.page-civitalisme--institution .sim-bar {
+    position: relative;
+    height: 100%;
+}
+
+.page-civitalisme--institution .sim-bar__fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    padding: 0 0.8rem;
+    transition: width 300ms ease;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.page-civitalisme--institution .sim-bar__fill--base {
+    background: rgba(0, 51, 153, 0.18);
+}
+
+.page-civitalisme--institution .sim-bar__fill--svg {
+    background: linear-gradient(90deg, #003399, #4266b8);
+}
+
+.page-civitalisme--institution .sim-bar__fill--deduct {
+    background: rgba(255, 204, 0, 0.55);
+}
+
+.page-civitalisme--institution .sim-bar__label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.page-civitalisme--institution .sim-bar__label--svg {
+    color: #ffffff;
+}
+
+/* Décomposition */
+.page-civitalisme--institution .sim-breakdown {
+    background: #ffffff;
+    border: 1px solid rgba(0, 51, 153, 0.14);
+    border-radius: 14px;
+    padding: 1.2rem;
+    box-shadow: 0 8px 20px rgba(0, 51, 153, 0.08);
+    display: grid;
+    gap: 0.3rem;
+}
+
+.page-civitalisme--institution .sim-breakdown__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.8rem;
+    padding: 0.35rem 0;
+    border-bottom: 1px dashed rgba(0, 51, 153, 0.10);
+    font-size: 0.88rem;
+    color: var(--muted);
+}
+
+.page-civitalisme--institution .sim-breakdown__row:last-child {
+    border-bottom: none;
+}
+
+.page-civitalisme--institution .sim-breakdown__row--total {
+    font-weight: 700;
+    color: #003399;
+    font-size: 1rem;
+    padding-top: 0.55rem;
+    border-top: 2px solid rgba(255, 204, 0, 0.7);
+    margin-top: 0.3rem;
+}
+
+.page-civitalisme--institution .sim-breakdown__row strong {
+    font-weight: 700;
+    color: #003399;
+    white-space: nowrap;
+}
+
+.page-civitalisme--institution .sim-disclaimer {
+    margin: 0;
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.5;
+    padding: 0.8rem 0.9rem;
+    background: rgba(0, 51, 153, 0.04);
+    border-radius: 8px;
+    border-left: 3px solid rgba(0, 51, 153, 0.22);
+}
+
+@media (max-width: 860px) {
+    .page-civitalisme--institution .sim-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* =====================================================================
+   Phase 4 — Graphiques Chart.js
+   ===================================================================== */
+.page-civitalisme--institution .inst-charts-section {
+    padding: 4rem 1.5rem;
+}
+
+.page-civitalisme--institution .inst-charts-section > * {
+    max-width: 1180px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.page-civitalisme--institution .inst-charts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.4rem;
+    margin-bottom: 1.4rem;
+}
+
+.page-civitalisme--institution .inst-chart-card {
+    background: #ffffff;
+    border: 1px solid rgba(0, 51, 153, 0.14);
+    border-radius: 16px;
+    padding: 1.4rem;
+    box-shadow: 0 12px 32px rgba(0, 51, 153, 0.09);
+    overflow: hidden;
+}
+
+.page-civitalisme--institution .inst-chart-canvas-wrapper {
+    position: relative;
+    height: 340px;
+}
+
+.page-civitalisme--institution .inst-chart-canvas-wrapper--sm {
+    height: 300px;
+}
+
+.page-civitalisme--institution .inst-chart-canvas-wrapper canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.page-civitalisme--institution .inst-charts-note {
+    margin: 0 auto;
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--muted);
+    max-width: 60ch;
+    font-style: italic;
+}
+
+@media (max-width: 860px) {
+    .page-civitalisme--institution .inst-charts-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .page-civitalisme--institution .inst-chart-canvas-wrapper {
+        height: 280px;
+    }
+}
+
+/* =====================================================================
+   Phase 5 — Formulaire de contact institutionnel
+   ===================================================================== */
+.page-civitalisme--institution .inst-contact {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+}
+
+.page-civitalisme--institution .inst-contact__intro {
+    margin-bottom: 2.5rem;
+}
+
+.page-civitalisme--institution .inst-flash {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.2rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 1.6rem;
+}
+
+.page-civitalisme--institution .inst-flash--success {
+    background: rgba(0, 51, 153, 0.08);
+    border: 1px solid rgba(0, 51, 153, 0.25);
+    color: #003399;
+}
+
+.page-civitalisme--institution .inst-flash--error {
+    background: rgba(200, 30, 30, 0.07);
+    border: 1px solid rgba(200, 30, 30, 0.25);
+    color: #c81e1e;
+}
+
+.page-civitalisme--institution .inst-contact-form {
+    background: #ffffff;
+    border: 1px solid rgba(0, 51, 153, 0.14);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 24px 56px rgba(0, 51, 153, 0.12);
+    position: relative;
+}
+
+.page-civitalisme--institution .inst-contact-form::before {
+    content: "";
+    position: absolute;
+    top: -3px;
+    left: 2rem;
+    right: 2rem;
+    height: 4px;
+    background: linear-gradient(90deg, #003399, #ffcc00);
+    border-radius: 2px;
+}
+
+.page-civitalisme--institution .inst-contact-form__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.2rem;
+}
+
+.page-civitalisme--institution .inst-contact-form__field {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.page-civitalisme--institution .inst-contact-form__field--full {
+    grid-column: 1 / -1;
+}
+
+.page-civitalisme--institution .inst-contact-form__field--consent {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.65rem;
+}
+
+.page-civitalisme--institution .inst-contact-form__field label,
+.page-civitalisme--institution .inst-contact-form__field .form-label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #003399;
+    display: block;
+}
+
+.page-civitalisme--institution .inst-contact-form__field--consent label {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--muted);
+    cursor: pointer;
+    margin: 0;
+}
+
+.page-civitalisme--institution .inst-input,
+.page-civitalisme--institution .inst-select,
+.page-civitalisme--institution .inst-textarea {
+    width: 100%;
+    padding: 0.75rem 0.95rem;
+    border: 1px solid rgba(0, 51, 153, 0.22);
+    border-radius: 10px;
+    background: #f8f9fd;
+    color: #003399;
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+    box-sizing: border-box;
+}
+
+.page-civitalisme--institution .inst-input:focus,
+.page-civitalisme--institution .inst-select:focus,
+.page-civitalisme--institution .inst-textarea:focus {
+    outline: none;
+    border-color: #003399;
+    box-shadow: 0 0 0 3px rgba(0, 51, 153, 0.15);
+    background: #ffffff;
+}
+
+.page-civitalisme--institution .inst-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5 L6 6.5 L11 1.5' fill='none' stroke='%23003399' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.95rem center;
+    background-size: 12px 8px;
+    cursor: pointer;
+}
+
+.page-civitalisme--institution .inst-textarea {
+    resize: vertical;
+    min-height: 130px;
+}
+
+.page-civitalisme--institution .inst-contact-form__field--consent input[type="checkbox"] {
+    flex-shrink: 0;
+    width: 1.2rem;
+    height: 1.2rem;
+    accent-color: #003399;
+    margin-top: 0.1rem;
+    cursor: pointer;
+}
+
+.page-civitalisme--institution .inst-contact-form .form-error,
+.page-civitalisme--institution .inst-contact-form ul.form-errors {
+    list-style: none;
+    padding: 0;
+    margin: 0.2rem 0 0;
+    font-size: 0.8rem;
+    color: #c81e1e;
+}
+
+.page-civitalisme--institution .inst-contact-form__footer {
+    margin-top: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.page-civitalisme--institution .inst-contact-form__rgpd {
+    margin: 0;
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.5;
+    max-width: 50ch;
+}
+
+.page-civitalisme--institution .inst-cta__footnote {
+    margin: 2rem 0 0;
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+}
+
+@media (max-width: 640px) {
+    .page-civitalisme--institution .inst-contact-form__grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* =====================================================================
+   Simulator — compléments Phase 3 (bug fixes + total row + légende barre)
+   ===================================================================== */
+
+/* Ligne revenu total dans le panneau résultat */
+.page-civitalisme--institution .sim-result__total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin-top: 1rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid rgba(255, 204, 0, 0.35);
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.80);
+}
+
+.page-civitalisme--institution .sim-result__total-row strong {
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+/* Légende de la barre */
+.page-civitalisme--institution .sim-bar-legend {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.45rem;
+}
+
+.page-civitalisme--institution .sim-bar-legend__item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 500;
+}
+
+.page-civitalisme--institution .sim-bar-legend__item::before {
+    content: "";
+    width: 14px;
+    height: 10px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+.page-civitalisme--institution .sim-bar-legend__item--svg::before    { background: linear-gradient(90deg, #003399, #4266b8); }
+.page-civitalisme--institution .sim-bar-legend__item--franch::before { background: rgba(255, 204, 0, 0.65); border: 1px solid rgba(224,179,0,0.5); }
+.page-civitalisme--institution .sim-bar-legend__item--work::before   { background: linear-gradient(90deg, #ffcc00, #e0b300); }
+
+/* Nouveau segment franchise dans la barre */
+.page-civitalisme--institution .sim-bar__fill--franch {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background: rgba(255, 204, 0, 0.50);
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem;
+    transition: width 300ms ease, left 300ms ease;
+    overflow: hidden;
+}
+
+.page-civitalisme--institution .sim-bar__fill--work {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background: linear-gradient(90deg, #ffcc00, #e0b300);
+    border-radius: 0 12px 12px 0;
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem;
+    transition: width 300ms ease, left 300ms ease;
+    overflow: hidden;
+    color: #003399;
+}
+
+/* Grand total dans la décomposition */
+.page-civitalisme--institution .sim-breakdown__row--grand-total {
+    font-weight: 700;
+    color: #003399;
+    font-size: 1.02rem;
+    padding-top: 0.55rem;
+    border-top: 2px solid #003399;
+    margin-top: 0.2rem;
+    background: rgba(255, 204, 0, 0.12);
+    margin: 0.3rem -1.2rem -1.2rem;
+    padding: 0.7rem 1.2rem;
+    border-radius: 0 0 10px 10px;
+}
+
+.page-civitalisme--institution .sim-breakdown__row--grand-total strong {
+    color: #003399;
+    font-size: 1.1rem;
 }

@@ -19,4 +19,7 @@ const registerOptionalController = async (name, loader) => {
     }
 };
 
-void registerOptionalController('pretext', () => import('./controllers/pretext_controller.js'));
+void registerOptionalController('pretext',       () => import('./controllers/pretext_controller.js'));
+void registerOptionalController('lang-switcher', () => import('./controllers/lang_switcher_controller.js'));
+void registerOptionalController('svg-simulator', () => import('./controllers/svg_simulator_controller.js'));
+void registerOptionalController('svg-charts',    () => import('./controllers/svg_charts_controller.js'));

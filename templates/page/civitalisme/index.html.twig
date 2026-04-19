@@ -1,57 +1,94 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Civitalisme | Doctrine prospective européenne{% endblock %}
-{% block meta_description %}Présentation grand public du Civitalisme : double circuit monétaire, EuroE, Socle vital européen et vision européenne de long terme.{% endblock %}
+{% block title %}Civitalisme — Socle Vital Garanti européen{% endblock %}
+{% block meta_description %}Le Civitalisme porte le projet Socle Vital Garanti : un filet de sécurité européen qui protège le vital pour chaque citoyen, financé par l'euro social numérique EuroE.{% endblock %}
 {% block body_class %}theme-civitalisme page-civitalisme page-civitalisme--public{% endblock %}
 
 {% block body %}
-    <section class="hero hero--inner section--panel section--panel-civic">
-        <div class="hero__copy">
+    {# ── 1. Hero ────────────────────────────────────────────────────────── #}
+    <section class="gp-hero section--panel">
+        <div class="gp-hero__copy">
             <p class="eyebrow">{{ content.hero.eyebrow }}</p>
-            <h1 class="hero__title" data-controller="pretext" data-pretext-line-height-value="74">
-                {{ content.hero.title }}
-            </h1>
-            <p class="hero__subtitle">{{ content.hero.subtitle }}</p>
-            <p class="hero__lead">{{ content.hero.lead }}</p>
+            <h1 class="gp-hero__title">{{ content.hero.title }}</h1>
+            <p class="gp-hero__subtitle">{{ content.hero.subtitle }}</p>
+            <p class="gp-hero__lead">{{ content.hero.lead }}</p>
 
-            <div class="hero__actions">
-                <a class="button" href="{{ path('app_civitalisme_technical') }}">Découvrir le cadre institutionnel</a>
-                <a class="button button--ghost" href="{{ path('app_home') }}">Voir les autres projets</a>
+            <div class="gp-hero__actions">
+                <a class="button" href="{{ content.hero.primaryCta.href }}">
+                    {{ content.hero.primaryCta.label }}
+                    <span aria-hidden="true">↓</span>
+                </a>
+                <a class="button button--ghost" href="{{ path('app_civitalisme_technical') }}">
+                    {{ content.hero.secondaryCta.label }}
+                </a>
             </div>
         </div>
 
-        <div class="hero__panel surface-card">
-            <p class="panel-label">{{ content.heroPanel.label }}</p>
-            <h2>{{ content.heroPanel.title }}</h2>
-            <p>{{ content.heroPanel.body }}</p>
-
-            <div class="hero__tags">
-                {% for item in content.hero.highlights %}
-                    <span class="hero__tag">{{ item }}</span>
-                {% endfor %}
-            </div>
-
-            <ul class="feature-list">
-                {% for point in content.heroPanel.points %}
-                    <li>{{ point }}</li>
-                {% endfor %}
-            </ul>
+        <div class="gp-hero__illustration" aria-hidden="true">
+            <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" role="img">
+                <title>Une famille traverse un pont lumineux au-dessus d'un gouffre</title>
+                <defs>
+                    <linearGradient id="gp-sky" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#f5f8fc"/>
+                        <stop offset="60%" stop-color="#ffe6cc"/>
+                        <stop offset="100%" stop-color="#fff3b8"/>
+                    </linearGradient>
+                    <linearGradient id="gp-bridge" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#4266b8"/>
+                        <stop offset="100%" stop-color="#003399"/>
+                    </linearGradient>
+                    <linearGradient id="gp-chasm" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#003399" stop-opacity="0.15"/>
+                        <stop offset="100%" stop-color="#003399" stop-opacity="0.45"/>
+                    </linearGradient>
+                </defs>
+                <rect width="480" height="360" fill="url(#gp-sky)"/>
+                <circle cx="370" cy="90" r="38" fill="#ffcc00" opacity="0.85"/>
+                <circle cx="370" cy="90" r="52" fill="#ffcc00" opacity="0.18"/>
+                <path d="M0 240 L160 230 L170 360 L0 360 Z" fill="url(#gp-chasm)"/>
+                <path d="M320 230 L480 240 L480 360 L310 360 Z" fill="url(#gp-chasm)"/>
+                <path d="M140 220 Q240 140 340 220" stroke="url(#gp-bridge)" stroke-width="6" fill="none" stroke-linecap="round"/>
+                <path d="M150 230 Q240 160 330 230 L330 240 Q240 170 150 240 Z" fill="url(#gp-bridge)"/>
+                <rect x="145" y="218" width="190" height="8" rx="4" fill="#003399"/>
+                <g transform="translate(168 168)">
+                    <circle cx="0" cy="0" r="8" fill="#003399"/>
+                    <path d="M-6 8 Q-6 30 -4 44 L 4 44 Q 6 30 6 8 Z" fill="#003399"/>
+                    <line x1="8" y1="10" x2="12" y2="48" stroke="#003399" stroke-width="2" stroke-linecap="round"/>
+                </g>
+                <g transform="translate(210 158)">
+                    <circle cx="0" cy="0" r="9" fill="#003399"/>
+                    <path d="M-8 10 Q-9 36 -6 52 L 6 52 Q 9 36 8 10 Z" fill="#003399"/>
+                </g>
+                <g transform="translate(244 178)">
+                    <circle cx="0" cy="0" r="6" fill="#003399"/>
+                    <path d="M-5 7 Q-6 24 -4 36 L 4 36 Q 6 24 5 7 Z" fill="#003399"/>
+                </g>
+                <g transform="translate(282 158)">
+                    <circle cx="0" cy="0" r="9" fill="#003399"/>
+                    <path d="M-8 10 Q-9 36 -6 52 L 6 52 Q 9 36 8 10 Z" fill="#003399"/>
+                </g>
+                <circle cx="180" cy="110" r="3" fill="#ffcc00" opacity="0.6"/>
+                <circle cx="220" cy="80" r="2" fill="#ffcc00" opacity="0.5"/>
+                <circle cx="280" cy="95" r="2.5" fill="#ffcc00" opacity="0.55"/>
+                <circle cx="310" cy="125" r="3" fill="#ffcc00" opacity="0.5"/>
+            </svg>
         </div>
     </section>
 
-    <section class="section section--panel section--panel-civic-alt civitalisme-video">
-        <div class="section-heading section-heading--stack">
-            <div>
-                <p class="eyebrow">Présentation vidéo</p>
-                <h2>Le projet en quelques minutes</h2>
+    {# ── Optional video presentation (kept from prior version) ──────────── #}
+    {% if civitalismeVideoUrl %}
+        <section class="section section--panel civitalisme-video">
+            <div class="section-heading section-heading--stack">
+                <div>
+                    <p class="eyebrow">Présentation vidéo</p>
+                    <h2>Le Civitalisme en quelques minutes</h2>
+                </div>
+                <p class="section-intro">
+                    Une capsule courte pour poser les idées avant d'entrer dans les sections qui suivent.
+                </p>
             </div>
-            <p class="section-intro">
-                Cette capsule permet de présenter le Civitalisme de façon simple et visuelle avant d’entrer dans le parcours de lecture.
-            </p>
-        </div>
 
-        <article class="surface-card civitalisme-video__frame">
-            {% if civitalismeVideoUrl %}
+            <article class="surface-card civitalisme-video__frame">
                 {% set isEmbedVideo = ('youtube.com' in civitalismeVideoUrl) or ('youtu.be' in civitalismeVideoUrl) or ('vimeo.com' in civitalismeVideoUrl) or ('synthesia.io' in civitalismeVideoUrl) %}
                 {% set embedUrl = civitalismeVideoUrl %}
 
@@ -72,252 +109,404 @@
                             referrerpolicy="strict-origin-when-cross-origin"
                         ></iframe>
                     </div>
-                    <a class="button button--ghost civitalisme-video__link" href="{{ civitalismeVideoUrl }}" target="_blank" rel="noreferrer">
-                        Ouvrir la vidéo dans un nouvel onglet
-                    </a>
                 {% else %}
                     <video class="civitalisme-video__player" controls preload="metadata">
                         <source src="{{ civitalismeVideoUrl }}">
                         Votre navigateur ne prend pas en charge la lecture vidéo intégrée.
                     </video>
                 {% endif %}
-            {% else %}
-                <div class="civitalisme-video__placeholder">
-                    <p class="panel-label">Emplacement prêt</p>
-                    <h3>Ajoute ta vidéo promotionnelle</h3>
-                    <p>
-                        Renseigne l’URL via <code>APP_CIVITALISME_VIDEO_URL</code> dans <code>.env.local</code>.
-                        Tu peux utiliser un lien d’embed YouTube/Vimeo, ou un fichier MP4 hébergé.
-                    </p>
-                </div>
-            {% endif %}
-        </article>
-    </section>
-
-    {% include 'page/civitalisme/_partials/_page_switch.html.twig' with {
-        active: 'public',
-        title: 'Deux pages, deux niveaux de lecture',
-        description: 'La version grand public pose la vision. La page technique expose l’architecture monétaire, la gouvernance et les hypothèses de mise en œuvre.',
-    } only %}
-
-    <section class="section section--panel section--panel-civic">
-        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.problem only %}
-
-        <div class="split-section">
-            <article class="surface-card narrative-card narrative-card--emphasis">
-                <h3>{{ content.problem.narrativeTitle }}</h3>
-                {% for paragraph in content.problem.narrative %}
-                    <p>{{ paragraph }}</p>
-                {% endfor %}
             </article>
+        </section>
+    {% endif %}
 
-            {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
-                items: content.problem.points,
-                modifier: 'insight-grid--compact',
-            } only %}
-        </div>
-    </section>
+    {# ── 2. Problem ─────────────────────────────────────────────────────── #}
+    <section id="{{ content.problem.anchor }}" class="section section--panel gp-problem">
+        <header class="section-heading section-heading--centered">
+            <p class="eyebrow">{{ content.problem.eyebrow }}</p>
+            <h2>{{ content.problem.title }}</h2>
+            <p class="section-intro">{{ content.problem.lead }}</p>
+        </header>
 
-    <section class="section section--panel section--panel-civic">
-        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.financing only %}
-
-        <div class="split-section">
-            <article class="surface-card narrative-card narrative-card--emphasis">
-                <h3>{{ content.financing.narrativeTitle }}</h3>
-                {% for paragraph in content.financing.narrative %}
-                    <p>{{ paragraph }}</p>
-                {% endfor %}
-            </article>
-
-            {% if content.financing.resources is defined and content.financing.resources %}
-                <article class="surface-card narrative-card">
-                    <p class="panel-label">{{ content.financing.resourcesTitle|default('Pour aller plus loin') }}</p>
-                    <ul class="feature-list feature-list--tight">
-                        {% for resource in content.financing.resources %}
-                            <li>
-                                <a class="section-link" href="{{ resource.href }}" target="_blank" rel="noreferrer">{{ resource.label }}</a>
-                                {% if resource.meta is defined and resource.meta %}
-                                    <br><small>{{ resource.meta }}</small>
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                    </ul>
+        <div class="gp-problem-grid">
+            {% for card in content.problem.cards %}
+                <article class="gp-problem-card surface-card">
+                    <div class="gp-problem-card__illustration" aria-hidden="true">
+                        {% if card.illustration == 'robot-desk' %}
+                            <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="14" y="78" width="92" height="6" rx="2" fill="#003399"/>
+                                <rect x="20" y="84" width="6" height="24" fill="#003399"/>
+                                <rect x="94" y="84" width="6" height="24" fill="#003399"/>
+                                <rect x="40" y="40" width="40" height="36" rx="6" fill="#4266b8"/>
+                                <circle cx="52" cy="56" r="4" fill="#ffcc00"/>
+                                <circle cx="68" cy="56" r="4" fill="#ffcc00"/>
+                                <rect x="50" y="66" width="20" height="4" rx="2" fill="#f5f8fc"/>
+                                <line x1="60" y1="28" x2="60" y2="40" stroke="#003399" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="60" cy="26" r="4" fill="#ffcc00"/>
+                                <rect x="46" y="76" width="28" height="4" fill="#003399"/>
+                            </svg>
+                        {% elseif card.illustration == 'falling-chart' %}
+                            <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="16" y="100" width="88" height="4" rx="2" fill="#003399"/>
+                                <rect x="24" y="42" width="14" height="60" rx="2" fill="#4266b8"/>
+                                <rect x="44" y="58" width="14" height="44" rx="2" fill="#4266b8" opacity="0.75"/>
+                                <rect x="64" y="72" width="14" height="30" rx="2" fill="#4266b8" opacity="0.55"/>
+                                <rect x="84" y="86" width="14" height="16" rx="2" fill="#4266b8" opacity="0.4"/>
+                                <path d="M28 36 L 50 52 L 70 66 L 92 82" stroke="#ffcc00" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                <polygon points="88,80 98,84 92,92" fill="#ffcc00"/>
+                            </svg>
+                        {% elseif card.illustration == 'household-bill' %}
+                            <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="28" y="22" width="60" height="80" rx="4" fill="#ffffff" stroke="#003399" stroke-width="2"/>
+                                <line x1="38" y1="38" x2="78" y2="38" stroke="#4266b8" stroke-width="2"/>
+                                <line x1="38" y1="48" x2="68" y2="48" stroke="#4266b8" stroke-width="2" opacity="0.7"/>
+                                <line x1="38" y1="58" x2="72" y2="58" stroke="#4266b8" stroke-width="2" opacity="0.7"/>
+                                <line x1="38" y1="68" x2="60" y2="68" stroke="#4266b8" stroke-width="2" opacity="0.7"/>
+                                <text x="58" y="92" font-family="Inter, sans-serif" font-size="18" font-weight="700" fill="#003399" text-anchor="middle">€</text>
+                                <circle cx="82" cy="28" r="10" fill="#ffcc00"/>
+                                <text x="82" y="32" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#003399" text-anchor="middle">!</text>
+                            </svg>
+                        {% endif %}
+                    </div>
+                    <h3>{{ card.title }}</h3>
+                    <p>{{ card.body }}</p>
                 </article>
-            {% endif %}
+            {% endfor %}
         </div>
 
-        <div class="section-note">
-            <strong>Conclusion simple :</strong> Aujourd’hui, la majorité de l’argent est créée par la dette.
+        <div class="gp-problem__transition">
+            <p>{{ content.problem.transition }}</p>
         </div>
     </section>
 
-    <section class="section section--panel section--panel-civic-alt">
-        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with {
-            eyebrow: 'Ce qui change avec le Civitalisme',
-            title: 'Ce que le projet apporte, et comment il tient debout',
-            lead: 'Le Civitalisme complète le système actuel avec un mécanisme social en euro, progressif et encadré.',
-        } only %}
+    {# ── 3. Solution (SVG central) ──────────────────────────────────────── #}
+    <section class="section section--panel gp-solution">
+        <header class="section-heading section-heading--centered">
+            <p class="eyebrow">{{ content.solution.eyebrow }}</p>
+            <h2>{{ content.solution.title }}</h2>
+            <p class="section-intro">{{ content.solution.lead }}</p>
+        </header>
 
-        {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
-            items: content.financing.points,
-            modifier: 'insight-grid--compact',
-        } only %}
-
-        {% include 'page/civitalisme/_partials/_comparison_table.html.twig' with {
-            title: content.financing.infography.title,
-            caption: content.financing.infography.caption,
-            rowLabel: content.financing.infography.rowLabel,
-            columns: content.financing.infography.columns,
-            rows: content.financing.infography.rows,
-        } only %}
-
-        <article class="surface-card civic-quote civic-quote--center">
-            <p class="panel-label">Phrase clé</p>
-            <h3>{{ content.financing.infography.quote }}</h3>
-        </article>
-
-        <div class="section-note">
-            <strong>{{ content.financing.noteLabel|default('Idée clé :') }}</strong> {{ content.financing.note|default('Le Civitalisme ne remplace pas le système actuel. Il le complète.') }}
+        <div class="gp-solution__diagram" aria-hidden="true">
+            <svg viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg">
+                <title>Les 6 besoins essentiels couverts par le Socle Vital Garanti</title>
+                <circle cx="240" cy="240" r="200" fill="none" stroke="#4266b8" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.5"/>
+                <circle cx="240" cy="240" r="72" fill="#ffffff" stroke="#003399" stroke-width="2"/>
+                <g transform="translate(240 240)">
+                    <circle cx="-20" cy="-8" r="10" fill="#003399"/>
+                    <path d="M-30 2 Q-32 28 -28 40 L-12 40 Q-10 28 -10 2 Z" fill="#003399"/>
+                    <circle cx="20" cy="-8" r="10" fill="#4266b8"/>
+                    <path d="M10 2 Q10 28 12 40 L28 40 Q32 28 30 2 Z" fill="#4266b8"/>
+                    <circle cx="0" cy="8" r="6" fill="#ffcc00"/>
+                    <path d="M-5 14 Q-6 28 -4 36 L4 36 Q6 28 5 14 Z" fill="#ffcc00"/>
+                </g>
+                {% set positions = [
+                    {x: 240, y: 80},
+                    {x: 380, y: 170},
+                    {x: 380, y: 310},
+                    {x: 240, y: 400},
+                    {x: 100, y: 310},
+                    {x: 100, y: 170}
+                ] %}
+                {% for i in 0..5 %}
+                    {% set pos = positions[i] %}
+                    {% set need = content.solution.needs[i] %}
+                    <g transform="translate({{ pos.x }} {{ pos.y }})">
+                        <circle cx="0" cy="0" r="40" fill="#ffffff" stroke="#ffcc00" stroke-width="2"/>
+                        <g transform="translate(-14 -22)">
+                            {% if need.icon == 'home' %}
+                                <path d="M14 4 L28 18 L28 34 L0 34 L0 18 Z" fill="none" stroke="#003399" stroke-width="2" stroke-linejoin="round"/>
+                                <rect x="10" y="22" width="8" height="12" fill="#ffcc00"/>
+                            {% elseif need.icon == 'food' %}
+                                <path d="M4 6 Q14 0 24 6 L24 28 Q14 34 4 28 Z" fill="none" stroke="#003399" stroke-width="2"/>
+                                <circle cx="14" cy="17" r="3" fill="#ffcc00"/>
+                            {% elseif need.icon == 'energy' %}
+                                <polygon points="16,4 8,22 14,22 10,32 22,16 16,16" fill="#ffcc00" stroke="#003399" stroke-width="1.5" stroke-linejoin="round"/>
+                            {% elseif need.icon == 'transport' %}
+                                <rect x="2" y="10" width="26" height="16" rx="3" fill="none" stroke="#003399" stroke-width="2"/>
+                                <circle cx="8" cy="28" r="3" fill="#ffcc00"/>
+                                <circle cx="22" cy="28" r="3" fill="#ffcc00"/>
+                                <rect x="5" y="13" width="7" height="6" fill="#4266b8" opacity="0.4"/>
+                                <rect x="18" y="13" width="7" height="6" fill="#4266b8" opacity="0.4"/>
+                            {% elseif need.icon == 'communication' %}
+                                <rect x="8" y="2" width="14" height="30" rx="3" fill="none" stroke="#003399" stroke-width="2"/>
+                                <circle cx="15" cy="28" r="1.5" fill="#ffcc00"/>
+                                <line x1="12" y1="7" x2="18" y2="7" stroke="#4266b8" stroke-width="1.5"/>
+                            {% elseif need.icon == 'education' %}
+                                <path d="M2 12 L16 6 L30 12 L16 18 Z" fill="#ffcc00" stroke="#003399" stroke-width="1.5" stroke-linejoin="round"/>
+                                <line x1="16" y1="18" x2="16" y2="28" stroke="#003399" stroke-width="2"/>
+                                <path d="M8 14 L8 22 Q16 26 24 22 L24 14" fill="none" stroke="#003399" stroke-width="1.5"/>
+                            {% endif %}
+                        </g>
+                        <text y="58" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#003399" text-anchor="middle">{{ need.label }}</text>
+                    </g>
+                {% endfor %}
+            </svg>
         </div>
 
-        {% if content.financing.euroe is defined and content.financing.euroe %}
-            <article class="surface-card narrative-card narrative-card--emphasis">
-                <p class="panel-label">EuroE</p>
-                <h3>{{ content.financing.euroe.title }}</h3>
-                <p>{{ content.financing.euroe.lead }}</p>
-            </article>
-
-            {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
-                items: content.financing.euroe.steps,
-                modifier: 'insight-grid--compact',
-            } only %}
-
-            {% include 'page/civitalisme/_partials/_comparison_table.html.twig' with {
-                title: content.financing.euroe.table.title,
-                caption: content.financing.euroe.table.caption,
-                rowLabel: content.financing.euroe.table.rowLabel,
-                columns: content.financing.euroe.table.columns,
-                rows: content.financing.euroe.table.rows,
-            } only %}
-
-            <div class="section-note">
-                <strong>{{ content.financing.euroe.noteLabel|default('Repère :') }}</strong> {{ content.financing.euroe.note }}
-            </div>
-        {% endif %}
+        <p class="gp-solution__subtext">{{ content.solution.subtext }}</p>
     </section>
 
-    <section class="section section--panel section--panel-civic-alt">
-        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.howItWorks only %}
+    {# ── 4. How it works ────────────────────────────────────────────────── #}
+    <section class="section section--panel gp-steps">
+        <header class="section-heading section-heading--centered">
+            <p class="eyebrow">{{ content.howItWorks.eyebrow }}</p>
+            <h2>{{ content.howItWorks.title }}</h2>
+            <p class="section-intro">{{ content.howItWorks.lead }}</p>
+        </header>
 
-        {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
-            items: content.howItWorks.points,
-        } only %}
+        <ol class="gp-step-list">
+            {% for step in content.howItWorks.steps %}
+                <li class="gp-step-card surface-card">
+                    <div class="gp-step-card__number" aria-hidden="true">{{ step.number }}</div>
+                    <div class="gp-step-card__illustration" aria-hidden="true">
+                        {% if step.illustration == 'phone-app' %}
+                            <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="36" y="14" width="48" height="92" rx="8" fill="#ffffff" stroke="#003399" stroke-width="2.5"/>
+                                <rect x="40" y="22" width="40" height="64" rx="3" fill="#f5f8fc"/>
+                                <rect x="46" y="28" width="28" height="6" rx="2" fill="#4266b8"/>
+                                <rect x="46" y="40" width="22" height="4" rx="1" fill="#4266b8" opacity="0.6"/>
+                                <text x="60" y="68" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#003399" text-anchor="middle">€</text>
+                                <rect x="46" y="76" width="28" height="6" rx="3" fill="#ffcc00"/>
+                                <circle cx="60" cy="96" r="3" fill="#003399"/>
+                            </svg>
+                        {% elseif step.illustration == 'payment-card' %}
+                            <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="14" y="34" width="92" height="58" rx="6" fill="#003399"/>
+                                <rect x="14" y="46" width="92" height="10" fill="#4266b8"/>
+                                <rect x="22" y="64" width="18" height="14" rx="2" fill="#ffcc00"/>
+                                <text x="96" y="84" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#ffffff" text-anchor="end">EuroE</text>
+                                <circle cx="88" cy="72" r="8" fill="none" stroke="#ffcc00" stroke-width="2"/>
+                                <circle cx="80" cy="72" r="8" fill="none" stroke="#ffffff" stroke-width="2"/>
+                            </svg>
+                        {% elseif step.illustration == 'shopping' %}
+                            <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="42" cy="38" r="10" fill="#003399"/>
+                                <path d="M32 50 Q30 80 34 96 L50 96 Q54 80 52 50 Z" fill="#4266b8"/>
+                                <path d="M52 56 Q62 58 72 64" stroke="#4266b8" stroke-width="5" fill="none" stroke-linecap="round"/>
+                                <path d="M38 42 Q42 46 46 42" stroke="#ffffff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                                <path d="M70 58 L94 58 L98 100 L66 100 Z" fill="#ffcc00"/>
+                                <path d="M76 58 Q76 50 84 50 Q92 50 92 58" stroke="#003399" stroke-width="2" fill="none"/>
+                                <text x="82" y="85" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#003399" text-anchor="middle">€</text>
+                            </svg>
+                        {% endif %}
+                    </div>
+                    <div class="gp-step-card__copy">
+                        <h3>{{ step.title }}</h3>
+                        <p>{{ step.body }}</p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ol>
     </section>
 
-    <section class="section section--panel section--panel-civic">
-        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.usage only %}
+    {# ── 5. Work incentive chart ────────────────────────────────────────── #}
+    <section class="section section--panel gp-incentive">
+        <header class="section-heading section-heading--centered">
+            <p class="eyebrow">{{ content.workIncentive.eyebrow }}</p>
+            <h2>{{ content.workIncentive.title }}</h2>
+            <p class="section-intro">{{ content.workIncentive.lead }}</p>
+        </header>
 
-        <div class="split-section">
-            <div class="pill-grid">
-                {% for need in content.usage.needs %}
-                    <article class="surface-card pill-card">
-                        <h3>{{ need }}</h3>
-                    </article>
+        <figure class="gp-incentive-chart surface-card">
+            <figcaption class="gp-incentive-chart__caption">{{ content.workIncentive.chart.caption }}</figcaption>
+
+            {% set maxTotal = content.workIncentive.chart.bars|reduce((m, b) => b.total > m ? b.total : m, 0) %}
+
+            <div class="gp-incentive-chart__bars">
+                {% for bar in content.workIncentive.chart.bars %}
+                    <div class="gp-incentive-bar">
+                        <div class="gp-incentive-bar__label">{{ bar.label }}</div>
+                        <div class="gp-incentive-bar__track" style="width: {{ (bar.total / maxTotal * 100)|round }}%;">
+                            {% for segment in bar.breakdown %}
+                                <div class="gp-incentive-bar__segment gp-incentive-bar__segment--{{ segment.kind }}"
+                                     style="flex: {{ segment.amount }};">
+                                    <span>{{ segment.label }}</span>
+                                    <strong>{{ segment.amount|number_format(0, ',', ' ') }} €</strong>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="gp-incentive-bar__total">{{ bar.total|number_format(0, ',', ' ') }} €/mois</div>
+                    </div>
                 {% endfor %}
             </div>
 
-            {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
-                items: content.usage.points,
-                modifier: 'insight-grid--compact',
-            } only %}
-        </div>
+            <div class="gp-incentive-chart__gain">
+                <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+                    <path d="M4 12 L20 12 M14 6 L20 12 L14 18" stroke="#ffcc00" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="gp-incentive-chart__gain-label">{{ content.workIncentive.chart.gain.label }}</span>
+                <strong>{{ content.workIncentive.chart.gain.value }}</strong>
+            </div>
+        </figure>
 
-        <div class="section-note">
-            <strong>En clair :</strong> l’euro classique reste la monnaie principale, et l’EuroE protège le vital.
-        </div>
+        <p class="gp-incentive__note">{{ content.workIncentive.note }}</p>
     </section>
 
-    <section class="section section--panel section--panel-civic-alt">
-        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with {
-            eyebrow: content.caseStudy.eyebrow,
-            title: content.caseStudy.title,
-            lead: 'Lecture rapide : quatre situations réelles, dans une grande ville européenne.',
-        } only %}
+    {# ── 6. Personas ────────────────────────────────────────────────────── #}
+    <section class="section section--panel gp-personas">
+        <header class="section-heading section-heading--centered">
+            <p class="eyebrow">{{ content.personas.eyebrow }}</p>
+            <h2>{{ content.personas.title }}</h2>
+            <p class="section-intro">{{ content.personas.lead }}</p>
+        </header>
 
-        {% include 'page/civitalisme/_partials/_case_study_card.html.twig' with {
-            caseStudy: content.caseStudy,
-        } only %}
-
-        <div class="section-note">
-            <strong>À retenir :</strong> le mécanisme agit comme stabilisateur automatique et limite les ruptures de vie.
-            <a class="section-link" href="{{ path('app_civitalisme_technical') }}">Voir les calculs détaillés et la méthode</a>
-        </div>
-    </section>
-
-    <section class="section section--panel section--panel-civic-alt">
-        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.work only %}
-
-        <article class="surface-card civic-quote">
-            <p class="panel-label">Phrase directrice</p>
-            <h3>{{ content.work.quote }}</h3>
-        </article>
-
-        {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
-            items: content.work.points,
-        } only %}
-
-        <div class="pill-grid pill-grid--wide">
-            {% for item in content.work.benefits %}
-                <article class="surface-card pill-card pill-card--benefit">
-                    <h3>{{ item }}</h3>
+        <div class="gp-persona-grid">
+            {% for persona in content.personas.cards %}
+                <article class="gp-persona-card surface-card">
+                    <div class="gp-persona-card__avatar" aria-hidden="true">
+                        {% if persona.illustration == 'persona-marie' %}
+                            <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="60" cy="60" r="56" fill="#fff3b8"/>
+                                <path d="M30 52 Q30 24 60 24 Q90 24 90 52 L90 70 Q88 56 82 54 L38 54 Q32 56 30 70 Z" fill="#003399"/>
+                                <circle cx="60" cy="60" r="22" fill="#ffdcb8"/>
+                                <circle cx="52" cy="60" r="2" fill="#003399"/>
+                                <circle cx="68" cy="60" r="2" fill="#003399"/>
+                                <path d="M52 70 Q60 75 68 70" stroke="#003399" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                                <circle cx="94" cy="88" r="8" fill="#ffcc00"/>
+                                <path d="M88 94 Q87 108 90 116 L98 116 Q101 108 100 94 Z" fill="#ffcc00"/>
+                            </svg>
+                        {% elseif persona.illustration == 'persona-lucas' %}
+                            <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="60" cy="60" r="56" fill="#e8eefc"/>
+                                <path d="M38 48 Q38 30 60 30 Q82 30 82 48 L82 58 L38 58 Z" fill="#4266b8"/>
+                                <circle cx="60" cy="62" r="22" fill="#ffdcb8"/>
+                                <circle cx="52" cy="62" r="5" fill="none" stroke="#003399" stroke-width="1.8"/>
+                                <circle cx="68" cy="62" r="5" fill="none" stroke="#003399" stroke-width="1.8"/>
+                                <line x1="57" y1="62" x2="63" y2="62" stroke="#003399" stroke-width="1.8"/>
+                                <path d="M52 74 Q60 78 68 74" stroke="#003399" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                                <rect x="86" y="86" width="16" height="12" fill="#ffcc00"/>
+                                <line x1="94" y1="86" x2="94" y2="98" stroke="#ffffff" stroke-width="1"/>
+                            </svg>
+                        {% elseif persona.illustration == 'persona-fatima' %}
+                            <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="60" cy="60" r="56" fill="#fff3b8"/>
+                                <path d="M28 60 Q28 26 60 26 Q92 26 92 60 L92 90 Q88 78 78 76 L42 76 Q32 78 28 90 Z" fill="#4266b8"/>
+                                <circle cx="60" cy="62" r="22" fill="#ffdcb8"/>
+                                <circle cx="52" cy="62" r="2" fill="#003399"/>
+                                <circle cx="68" cy="62" r="2" fill="#003399"/>
+                                <path d="M46 60 Q48 58 50 60" stroke="#c89477" stroke-width="1" fill="none"/>
+                                <path d="M70 60 Q72 58 74 60" stroke="#c89477" stroke-width="1" fill="none"/>
+                                <path d="M52 72 Q60 76 68 72" stroke="#003399" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                            </svg>
+                        {% elseif persona.illustration == 'persona-thomas' %}
+                            <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="60" cy="60" r="56" fill="#e8eefc"/>
+                                <path d="M36 48 Q36 32 60 32 Q84 32 84 48 L86 54 L34 54 Z" fill="#003399"/>
+                                <rect x="50" y="54" width="20" height="4" rx="1" fill="#ffcc00"/>
+                                <circle cx="60" cy="64" r="22" fill="#ffdcb8"/>
+                                <path d="M42 66 Q44 86 60 88 Q76 86 78 66 L76 74 Q60 80 44 74 Z" fill="#4266b8" opacity="0.7"/>
+                                <circle cx="52" cy="64" r="2" fill="#003399"/>
+                                <circle cx="68" cy="64" r="2" fill="#003399"/>
+                                <path d="M52 74 Q60 78 68 74" stroke="#003399" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                            </svg>
+                        {% endif %}
+                    </div>
+                    <div class="gp-persona-card__copy">
+                        <h3>{{ persona.name }}</h3>
+                        <p class="gp-persona-card__situation">{{ persona.situation }}</p>
+                        <p class="gp-persona-card__body">« {{ persona.body }} »</p>
+                    </div>
                 </article>
             {% endfor %}
         </div>
     </section>
 
-    <section class="section section--panel section--panel-civic">
-        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.business only %}
-
-        {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
-            items: content.business.points,
-        } only %}
+    {# ── 7. Preserved rights ────────────────────────────────────────────── #}
+    <section class="section section--panel gp-shield">
+        <div class="gp-shield__illustration" aria-hidden="true">
+            <svg viewBox="0 0 180 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="gp-shield-grad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#4266b8"/>
+                        <stop offset="100%" stop-color="#003399"/>
+                    </linearGradient>
+                </defs>
+                <path d="M90 10 L170 40 L170 100 Q170 160 90 190 Q10 160 10 100 L10 40 Z" fill="url(#gp-shield-grad)"/>
+                <path d="M90 22 L158 46 L158 100 Q158 150 90 178 Q22 150 22 100 L22 46 Z" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.35"/>
+                <path d="M54 100 L80 124 L130 72" stroke="#ffcc00" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div class="gp-shield__copy">
+            <p class="eyebrow">{{ content.preservedRights.eyebrow }}</p>
+            <h2>{{ content.preservedRights.title }}</h2>
+            <p class="section-intro">{{ content.preservedRights.lead }}</p>
+            <ul class="gp-shield__list">
+                {% for point in content.preservedRights.points %}
+                    <li>
+                        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                            <circle cx="12" cy="12" r="11" fill="#ffcc00"/>
+                            <path d="M7 12 L10.5 15.5 L17 9" stroke="#003399" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>{{ point }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </section>
 
-    <section class="section section--panel section--panel-civic">
-        {% include 'page/civitalisme/_partials/_section_heading.html.twig' with content.privacy only %}
+    {# ── 8. Europe ──────────────────────────────────────────────────────── #}
+    <section class="section section--panel gp-europe">
+        <header class="section-heading section-heading--centered">
+            <p class="eyebrow">{{ content.europe.eyebrow }}</p>
+            <h2>{{ content.europe.title }}</h2>
+            <p class="section-intro">{{ content.europe.lead }}</p>
+        </header>
 
-        {% include 'page/civitalisme/_partials/_key_points_grid.html.twig' with {
-            items: content.privacy.points,
-        } only %}
+        <div class="gp-europe__map" aria-hidden="true">
+            <svg viewBox="0 0 560 360" xmlns="http://www.w3.org/2000/svg">
+                <title>Carte stylisée de l'Europe avec capitales connectées</title>
+                <path d="M120 90 Q150 60 210 70 Q260 50 310 70 Q360 60 400 90 Q440 100 460 140 Q480 170 470 210 Q460 260 420 280 Q380 300 330 290 Q280 310 220 290 Q170 300 130 270 Q90 240 100 190 Q90 130 120 90 Z"
+                      fill="#e8eefc" stroke="#4266b8" stroke-width="1.5" opacity="0.9"/>
+                <path d="M100 120 Q120 100 135 120 Q140 150 125 170 Q105 170 100 150 Z" fill="#e8eefc" stroke="#4266b8" stroke-width="1.5"/>
+                <g stroke="#ffcc00" stroke-width="1.5" fill="none" stroke-dasharray="3 4" opacity="0.7">
+                    <line x1="220" y1="180" x2="300" y2="160"/>
+                    <line x1="300" y1="160" x2="360" y2="210"/>
+                    <line x1="220" y1="180" x2="260" y2="240"/>
+                    <line x1="260" y1="240" x2="360" y2="210"/>
+                    <line x1="220" y1="180" x2="180" y2="130"/>
+                    <line x1="300" y1="160" x2="340" y2="120"/>
+                    <line x1="360" y1="210" x2="410" y2="170"/>
+                    <line x1="260" y1="240" x2="320" y2="270"/>
+                </g>
+                {% set capitals = [
+                    {x: 220, y: 180},
+                    {x: 300, y: 160},
+                    {x: 260, y: 240},
+                    {x: 360, y: 210},
+                    {x: 180, y: 130},
+                    {x: 340, y: 120},
+                    {x: 410, y: 170},
+                    {x: 320, y: 270}
+                ] %}
+                {% for c in capitals %}
+                    <g>
+                        <circle cx="{{ c.x }}" cy="{{ c.y }}" r="8" fill="#ffcc00" opacity="0.25"/>
+                        <circle cx="{{ c.x }}" cy="{{ c.y }}" r="4" fill="#ffcc00"/>
+                    </g>
+                {% endfor %}
+            </svg>
+        </div>
+
+        <div class="gp-europe__pillars">
+            {% for pillar in content.europe.pillars %}
+                <article class="gp-europe-pillar surface-card">
+                    <strong>{{ pillar.label }}</strong>
+                    <p>{{ pillar.body }}</p>
+                </article>
+            {% endfor %}
+        </div>
     </section>
 
-    {% include 'page/civitalisme/_partials/_faq_list.html.twig' with {
-        eyebrow: 'FAQ',
-        title: 'Questions simples, réponses claires',
-        lead: 'Des réponses courtes pour comprendre sans jargon.',
-        items: content.faq,
-    } only %}
-
-    {% include 'page/civitalisme/_partials/_call_to_action.html.twig' with {
-        eyebrow: 'Suite',
-        title: content.conclusion.title,
-        body: content.conclusion.body,
-        actions: [
-            {
-                label: 'Découvrir le cadre institutionnel',
-                href: path('app_civitalisme_technical'),
-                variant: '',
-            },
-            {
-                label: 'Voir les autres projets',
-                href: path('app_home'),
-                variant: 'button--ghost',
-            },
-            {
-                label: 'Prendre contact',
-                href: path('app_contact'),
-                variant: 'button--ghost',
-            },
-        ],
-    } only %}
+    {# ── 9. Final CTA ───────────────────────────────────────────────────── #}
+    <section class="section section--panel gp-cta">
+        <div class="gp-cta__copy">
+            <p class="eyebrow">{{ content.cta.eyebrow }}</p>
+            <h2>{{ content.cta.title }}</h2>
+            <p class="section-intro">{{ content.cta.body }}</p>
+            <div class="gp-cta__actions">
+                <a class="button" href="{{ path('app_civitalisme_technical') }}">Lire le projet complet</a>
+                <a class="button button--ghost" href="{{ path('app_contact') }}">Prendre contact</a>
+            </div>
+        </div>
+    </section>
 {% endblock %}

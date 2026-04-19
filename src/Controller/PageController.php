@@ -7,6 +7,7 @@ use App\Entity\ContactMessage;
 use App\Entity\ProfileLink;
 use App\Enum\LinkCategory;
 use App\Enum\ProjectAudience;
+use App\Form\CivitalismeContactType;
 use App\Form\ContactType;
 use App\Form\Model\ContactRequest;
 use App\Repository\ExperienceRepository;
@@ -144,24 +145,70 @@ class PageController extends AbstractController
 
     #[Route('/civitalisme', name: 'app_civitalisme', methods: ['GET'])]
     public function civitalisme(
-        ProjectUpdateRepository $projectUpdateRepository,
         CivitalismeContentProvider $contentProvider,
     ): Response {
+        // Both Civitalisme pages are entirely data-driven via CivitalismeContentProvider.
+        // No DB calls: keeps them fast, version-controllable and resilient when the
+        // admin/database is offline.
         return $this->render('page/civitalisme/index.html.twig', [
             'content' => $contentProvider->publicPage(),
-            'publicHighlights' => $projectUpdateRepository->findPublishedByAudience(ProjectAudience::Public, 3),
             'civitalismeVideoUrl' => $this->civitalismeVideoUrl,
         ]);
     }
 
-    #[Route('/civitalisme/cadre-institutionnel', name: 'app_civitalisme_technical', methods: ['GET'])]
+    #[Route('/civitalisme/cadre-institutionnel', name: 'app_civitalisme_technical', methods: ['GET', 'POST'])]
     public function civitalismeTechnical(
-        ProjectUpdateRepository $projectUpdateRepository,
+        Request $request,
         CivitalismeContentProvider $contentProvider,
+        EntityManagerInterface $entityManager,
+        MailerInterface $mailer,
     ): Response {
+        $contactRequest = new ContactRequest();
+        $contactForm    = $this->createForm(CivitalismeContactType::class, $contactRequest);
+        $contactForm->handleRequest($request);
+
+        if ($contactForm->isSubmitted() && $contactForm->isValid()) {
+            // Honeypot anti-spam
+            if (!empty($contactRequest->getWebsite())) {
+                $this->addFlash('success', 'Merci, votre message a bien été enregistré.');
+                return $this->redirectToRoute('app_civitalisme_technical', ['_fragment' => 'contact-institutionnel']);
+            }
+
+            $message = (new ContactMessage())
+                ->setName((string) $contactRequest->getName())
+                ->setEmail((string) $contactRequest->getEmail())
+                ->setCompany($contactRequest->getCompany())
+                ->setSubject((string) $contactRequest->getSubject())
+                ->setMessage((string) $contactRequest->getMessage());
+
+            $entityManager->persist($message);
+            $entityManager->flush();
+
+            try {
+                $notification = (new TemplatedEmail())
+                    ->to($this->adminEmail)
+                    ->replyTo((string) $contactRequest->getEmail())
+                    ->subject(sprintf('[Civitalisme] %s — %s', $contactRequest->getName(), $contactRequest->getSubject()))
+                    ->htmlTemplate('email/contact_notification.html.twig')
+                    ->context([
+                        'name'         => $contactRequest->getName(),
+                        'contactEmail' => $contactRequest->getEmail(),
+                        'company'      => $contactRequest->getCompany(),
+                        'subject'      => $contactRequest->getSubject(),
+                        'message'      => $contactRequest->getMessage(),
+                    ]);
+                $mailer->send($notification);
+            } catch (\Throwable) {
+                // L'e-mail n'est pas critique — le message est déjà en base
+            }
+
+            $this->addFlash('success', 'Merci, votre message a bien été reçu. Nous vous répondrons dans les meilleurs délais.');
+            return $this->redirectToRoute('app_civitalisme_technical', ['_fragment' => 'contact-institutionnel']);
+        }
+
         return $this->render('page/civitalisme/technical.html.twig', [
-            'content' => $contentProvider->technicalPage(),
-            'institutionalHighlights' => $projectUpdateRepository->findPublishedByAudience(ProjectAudience::Institutional, 4),
+            'content'     => $contentProvider->technicalPage(),
+            'contactForm' => $contactForm,
         ]);
     }
 

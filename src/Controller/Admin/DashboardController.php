@@ -42,5 +42,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToRoute('Blocs Civitalisme', 'fa fa-landmark', 'admin_dashboard_project_update_index');
         yield MenuItem::section('Messages');
         yield MenuItem::linkToRoute('Contacts', 'fa fa-envelope', 'admin_dashboard_contact_message_index');
+        yield MenuItem::section('Internationalisation');
+        yield MenuItem::linkToRoute('Traductions', 'fa fa-language', 'admin_translations_index');
     }
 }
