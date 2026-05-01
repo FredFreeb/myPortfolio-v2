@@ -46,7 +46,7 @@ final class SecurityHeadersSubscriber implements EventSubscriberInterface
         // media-src and frame-src allow the Synthesia video embed used on the civitalisme page.
         $csp = implode('; ', [
             "default-src 'self'",
-            "script-src 'self' 'unsafe-inline'",
+            "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net",
             "style-src 'self' 'unsafe-inline'",
             "img-src 'self' data: blob:",
             "media-src 'self' https://share.synthesia.io",
