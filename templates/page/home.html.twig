@@ -38,7 +38,7 @@
 		</div>
 	</section>
 
-	<section class="section section--panel section--panel-sun">
+	<section class="section section--panel section--panel-sun section--work-showcase">
 		<div class="section-heading">
 			<div>
 				<p class="eyebrow">Travaux</p>
@@ -49,28 +49,33 @@
 
 		<div class="card-grid card-grid--works">
 			{% for work in featuredWorks %}
-				<article class="work-card surface-card">
+				<article class="work-card surface-card {{ loop.first ? 'work-card--featured' : '' }}">
 					<div class="work-card__cover {{ work.imagePath ? '' : 'work-card__cover--placeholder' }}">
 						{% if work.imagePath %}
 							<img src="{{ asset(work.imagePath) }}" alt="{{ work.title }}">
 						{% else %}
 							<span>{{ work.title|slice(0, 2)|upper }}</span>
 						{% endif %}
+						{% if loop.first %}
+							<span class="work-card__featured-label">Projet mis en avant</span>
+						{% endif %}
 					</div>
 
 					<div class="work-card__body">
+                        <h3>{{ work.title }}</h3>
 						<div class="meta-row">
 							<span>{{ work.clientName ?: 'Projet personnel' }}</span>
 							{% if work.roleLabel %}
 								<span>{{ work.roleLabel }}</span>
 							{% endif %}
 						</div>
-                        <h3>{{ work.title }}</h3>
                         <p class="work-card__excerpt">{{ work.excerpt }}</p>
-                        <p class="stack-line">{{ work.stackSummary }}</p>
-                        {% if work.toolsUsed %}
-                            <p class="stack-line">Outils : {{ work.toolsUsed }}</p>
-                        {% endif %}
+						<div class="work-card__stack">
+							<p class="stack-line">{{ work.stackSummary }}</p>
+							{% if work.toolsUsed %}
+								<p class="stack-line">Outils : {{ work.toolsUsed }}</p>
+							{% endif %}
+						</div>
                     </div>
 
 					<div class="work-card__actions">
