@@ -2,6 +2,7 @@ FROM php:8.4-fpm-bookworm
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV APP_ENV=prod
+ENV TRUSTED_PROXIES=127.0.0.1,REMOTE_ADDR
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
