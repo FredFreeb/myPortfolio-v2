@@ -49,15 +49,12 @@
 
 		<div class="card-grid card-grid--works">
 			{% for work in featuredWorks %}
-				<article class="work-card surface-card {{ loop.first ? 'work-card--featured' : '' }}">
+				<article class="work-card surface-card">
 					<div class="work-card__cover {{ work.imagePath ? '' : 'work-card__cover--placeholder' }}">
 						{% if work.imagePath %}
 							<img src="{{ asset(work.imagePath) }}" alt="{{ work.title }}">
 						{% else %}
 							<span>{{ work.title|slice(0, 2)|upper }}</span>
-						{% endif %}
-						{% if loop.first %}
-							<span class="work-card__featured-label">Projet mis en avant</span>
 						{% endif %}
 					</div>
 
