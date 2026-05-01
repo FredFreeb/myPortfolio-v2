@@ -23,10 +23,13 @@ if ! docker network inspect web >/dev/null 2>&1; then
 fi
 run docker compose --env-file .env.prod.local -f compose.prod.yaml build --pull
 run docker compose --env-file .env.prod.local -f compose.prod.yaml up -d database php nginx
+run docker compose --env-file .env.prod.local -f compose.prod.yaml exec -T --user root php chown -R www-data:www-data /app/var
 run docker compose --env-file .env.prod.local -f compose.prod.yaml exec -T php composer install --prefer-dist --no-dev --no-interaction --no-progress --optimize-autoloader
 run docker compose --env-file .env.prod.local -f compose.prod.yaml exec -T php php bin/console doctrine:migrations:migrate --no-interaction --env=prod
 run docker compose --env-file .env.prod.local -f compose.prod.yaml exec -T php php bin/console cache:clear --env=prod --no-debug
 run docker compose --env-file .env.prod.local -f compose.prod.yaml exec -T php php bin/console cache:warmup --env=prod --no-debug
+run docker compose --env-file .env.prod.local -f compose.prod.yaml exec -T --user root php chown -R www-data:www-data /app/var
 run docker compose --env-file .env.prod.local -f compose.prod.yaml up -d --no-deps --build php nginx
+run docker compose --env-file .env.prod.local -f compose.prod.yaml exec -T --user root php chown -R www-data:www-data /app/var
 
 printf '\n[deploy] OK: production containers are running.\n'

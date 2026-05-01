@@ -3867,11 +3867,17 @@ h3 {
 
 /* -- 9. Final CTA ------------------------------------------------------ */
 .gp-cta {
-    padding: 3rem 2rem;
+    position: relative;
+    overflow: hidden;
+    padding: 3.25rem 2rem;
     text-align: center;
-    background: linear-gradient(135deg, rgba(0, 51, 153, 0.95), rgba(66, 102, 184, 0.92));
+    background:
+        linear-gradient(135deg, rgba(0, 31, 91, 0.98), rgba(0, 51, 153, 0.96) 52%, rgba(23, 68, 162, 0.98)),
+        radial-gradient(circle at top right, rgba(255, 204, 0, 0.22), transparent 22rem);
     border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     color: #ffffff;
+    box-shadow: 0 26px 70px rgba(0, 28, 84, 0.24);
     margin-top: 1rem;
 }
 
@@ -3879,15 +3885,23 @@ h3 {
     color: #ffffff;
     font-size: clamp(1.6rem, 2.6vw, 2.1rem);
     margin: 0.4rem 0 0.8rem;
+    text-shadow: 0 2px 18px rgba(0, 16, 48, 0.28);
 }
 
 .gp-cta__copy .eyebrow {
-    color: var(--accent-soft);
-    opacity: 0.95;
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid rgba(255, 204, 0, 0.4);
+    border-radius: 999px;
+    background: rgba(255, 204, 0, 0.14);
+    color: #fff3b8;
+    opacity: 1;
 }
 
 .gp-cta__copy .section-intro {
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.94);
     max-width: 40rem;
     margin: 0 auto 1.5rem;
 }
@@ -3901,13 +3915,20 @@ h3 {
 
 .gp-cta .button--ghost {
     color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.45);
-    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.62);
+    background: rgba(255, 255, 255, 0.13);
+    box-shadow: none;
 }
 
 .gp-cta .button--ghost:hover {
-    background: rgba(255, 255, 255, 0.18);
-    border-color: rgba(255, 255, 255, 0.65);
+    background: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.82);
+}
+
+.gp-cta .button:not(.button--ghost) {
+    background: linear-gradient(135deg, #ffdc3d, #ffbf00);
+    color: #102a56;
+    box-shadow: 0 16px 34px rgba(0, 16, 48, 0.24);
 }
 
 /* -- Responsive layout (< 860px) --------------------------------------- */
