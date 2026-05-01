@@ -4,6 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      target: app_runtime
     restart: unless-stopped
     depends_on:
       database:
@@ -26,7 +27,8 @@ services:
     init: true
     build:
       context: .
-      dockerfile: docker/nginx/Dockerfile
+      dockerfile: Dockerfile
+      target: app_nginx
     restart: unless-stopped
     depends_on:
       - php

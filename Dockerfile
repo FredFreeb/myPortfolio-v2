@@ -1,4 +1,4 @@
-FROM php:8.4-fpm-bookworm
+FROM php:8.4-fpm-bookworm AS app_php
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV APP_ENV=prod
@@ -37,5 +37,14 @@ RUN composer install --prefer-dist --no-dev --no-interaction --no-progress --opt
     && php bin/console cache:clear --env=prod --no-debug \
     && php bin/console asset-map:compile --env=prod --no-debug \
     && chown -R www-data:www-data var public/uploads
+
+FROM nginx:1.27-alpine AS app_nginx
+
+WORKDIR /app
+
+COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=app_php /app/public /app/public
+
+FROM app_php AS app_runtime
 
 EXPOSE 9000
