@@ -5209,21 +5209,72 @@ h3 {
 }
 
 @media (max-width: 640px) {
+    .page-civitalisme--institution {
+        overflow-x: hidden;
+    }
+
     .page-civitalisme--institution .inst-section {
-        padding: 3rem 1.1rem;
+        width: 100%;
+        padding: 2.75rem 1rem;
+    }
+
+    .page-civitalisme--institution .inst-hero {
+        padding: 2.6rem 1rem 2rem;
+    }
+
+    .page-civitalisme--institution .inst-hero__title,
+    .page-civitalisme--institution .inst-section__heading h2 {
+        font-size: clamp(1.8rem, 9vw, 2.35rem);
+        line-height: 1.08;
+    }
+
+    .page-civitalisme--institution .inst-hero__lead,
+    .page-civitalisme--institution .inst-section__lead {
+        font-size: 0.98rem;
+        line-height: 1.58;
+    }
+
+    .page-civitalisme--institution .inst-hero__panel,
+    .page-civitalisme--institution .inst-pillar,
+    .page-civitalisme--institution .inst-reports,
+    .page-civitalisme--institution .inst-chart-card {
+        border-radius: 12px;
+    }
+
+    .page-civitalisme--institution .inst-hero__meta > div {
+        display: grid;
+        gap: 0.15rem;
+    }
+
+    .page-civitalisme--institution .inst-reports__header {
+        padding: 1rem;
+        display: grid;
+        gap: 0.35rem;
     }
 
     .page-civitalisme--institution .inst-report {
         grid-template-columns: minmax(0, 1fr);
-        gap: 0.6rem;
+        gap: 0.65rem;
     }
 
     .page-civitalisme--institution .inst-report__link {
         justify-self: start;
+        border-radius: 8px;
     }
 
     .page-civitalisme--institution .inst-reports__list .inst-report {
         padding: 1rem;
+    }
+
+    .page-civitalisme--institution .inst-report__index {
+        width: 2.45rem;
+        height: 2.45rem;
+        border-radius: 10px;
+    }
+
+    .page-civitalisme--institution .inst-report__body h4,
+    .page-civitalisme--institution .inst-report__body p {
+        overflow-wrap: anywhere;
     }
 
     .page-civitalisme--institution .inst-lifecycle__arrow {
@@ -5600,6 +5651,21 @@ h3 {
 
     .page-civitalisme--institution .inst-chart-canvas-wrapper {
         height: 280px;
+    }
+}
+
+@media (max-width: 640px) {
+    .page-civitalisme--institution .inst-charts-section {
+        padding: 2.75rem 1rem;
+    }
+
+    .page-civitalisme--institution .inst-chart-card {
+        padding: 0.85rem;
+    }
+
+    .page-civitalisme--institution .inst-chart-canvas-wrapper,
+    .page-civitalisme--institution .inst-chart-canvas-wrapper--sm {
+        height: 310px;
     }
 }
 
