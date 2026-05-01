@@ -25,3 +25,15 @@
 
     reverse_proxy soundofmemories-nginx:80
 }
+
+{$EXPEDITIONSMYSTERIEUSES_DOMAINS} {
+    encode zstd gzip
+
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "strict-origin-when-cross-origin"
+    }
+
+    reverse_proxy expeditionsmysterieuses-nginx:80
+}
