@@ -25,7 +25,7 @@ class Training
     #[ORM\Column(length: 150)]
     private string $program = '';
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 80)]
     private string $period = '';
 
     #[ORM\Column(type: Types::TEXT)]
