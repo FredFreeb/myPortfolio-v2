@@ -1,0 +1,21 @@
+{
+    email {$CADDY_EMAIL}
+}
+
+{$PORTFOLIO_DOMAINS} {
+    encode zstd gzip
+
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "strict-origin-when-cross-origin"
+    }
+
+    reverse_proxy portfolio-nginx:80
+}
+
+# Future sites can reuse the same external Docker network:
+# {$BLOG_DOMAINS} {
+#     encode zstd gzip
+#     reverse_proxy blog-nginx:80
+# }

@@ -1,8 +1,10 @@
 
 ###> symfony/framework-bundle ###
+/.env.prod
 /.env.local
 /.env.local.php
 /.env.*.local
+/.env.*.secret
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
@@ -21,6 +23,8 @@
 
 /legacy-static/
 /var/docker-cli/
+/docker/db/data/
+/deploy/caddy/.env
 
 # macOS Finder metadata
 .DS_Store

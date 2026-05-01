@@ -1,6 +1,7 @@
 FROM php:8.4-fpm-bookworm
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV APP_ENV=prod
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -31,6 +32,9 @@ WORKDIR /app
 
 COPY . /app
 
-RUN composer install --prefer-dist --no-interaction --optimize-autoloader
+RUN composer install --prefer-dist --no-dev --no-interaction --no-progress --optimize-autoloader \
+    && php bin/console cache:clear --env=prod --no-debug \
+    && php bin/console asset-map:compile --env=prod --no-debug \
+    && chown -R www-data:www-data var public/uploads
 
 EXPOSE 9000

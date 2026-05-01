@@ -5,5 +5,11 @@
 var
 vendor
 node_modules
+.DS_Store
 .env.local
 .env.*.local
+.env.prod
+.env.prod.local
+.env.*.secret
+.phpunit.cache
+docker/db/data
