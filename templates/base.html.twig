@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Portfolio + Civitalisme{% endblock %}</title>
     <meta name="description" content="{% block meta_description %}Portfolio, parcours et projet Civitalisme dans une application Symfony sobre, éditable et maintenable.{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ app.request.uri }}">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:site_name" content="Portfolio + Civitalisme — Frédéric Fribel">
+    <meta property="og:title" content="{% block og_title %}{% if block('title') is not empty %}{{ block('title') }}{% else %}Portfolio + Civitalisme{% endif %}{% endblock %}">
+    <meta property="og:description" content="{{ block('meta_description') }}">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{{ block('og_title') }}">
+    <meta name="twitter:description" content="{{ block('meta_description') }}">
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
     <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
     {% block extra_head %}{% endblock %}

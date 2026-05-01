@@ -12,6 +12,7 @@ services:
     environment:
       APP_ENV: ${APP_ENV:-dev}
       APP_DEBUG: ${APP_DEBUG:-1}
+      APP_DOMAIN: ${APP_DOMAIN:-localhost}
     mem_limit: 768m
     pids_limit: 128
     working_dir: /app
@@ -29,7 +30,6 @@ services:
     ports:
       - "${APP_PORT:-8080}:80"
 
-###> doctrine/doctrine-bundle ###
   database:
     image: postgres:${POSTGRES_VERSION:-16}-alpine
     command: >
@@ -43,8 +43,7 @@ services:
     cpus: 0.75
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
       POSTGRES_USER: ${POSTGRES_USER:-app}
     healthcheck:
       test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
@@ -58,9 +57,7 @@ services:
       - database_data:/var/lib/postgresql/data:rw
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
 
-###> symfony/mailer ###
   mailer:
     image: axllent/mailpit
     cpus: 0.20
@@ -70,9 +67,6 @@ services:
     mem_limit: 128m
     pids_limit: 64
     profiles: ["tools"]
-###< symfony/mailer ###
 
 volumes:
-###> doctrine/doctrine-bundle ###
   database_data:
-###< doctrine/doctrine-bundle ###

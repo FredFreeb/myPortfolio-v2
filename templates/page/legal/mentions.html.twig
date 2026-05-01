@@ -48,7 +48,10 @@
             <p class="eyebrow">Hebergement</p>
             <h2>{{ hosting.name }}</h2>
             <p>{{ hosting.body }}</p>
-            <p class="hint-text">A completer avant une mise en production publique definitive si un hebergeur nomme doit etre mentionne.</p>
+            <ul class="feature-list">
+                <li>Adresse : {{ hosting.address }}</li>
+                <li>Site web : <a href="{{ hosting.website }}" target="_blank" rel="noreferrer">{{ hosting.website }}</a></li>
+            </ul>
         </article>
 
         <article class="surface-card">

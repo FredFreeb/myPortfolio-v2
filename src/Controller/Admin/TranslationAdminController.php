@@ -37,17 +37,30 @@ class TranslationAdminController extends AbstractController
     #[Route('', name: 'index', methods: ['GET'])]
     public function index(): Response
     {
-        $locales  = LocaleCatalog::supportedLocales();
-        $stats    = $this->repo->getCompletionStats($locales);
-        $available = $this->availability->availableLocales();
+        $locales = LocaleCatalog::supportedLocales();
+        $missingTable = false;
+
+        try {
+            $stats     = $this->repo->getCompletionStats($locales);
+            $available = $this->availability->availableLocales();
+        } catch (\Throwable $e) {
+            // Table pas encore créée : afficher un écran d'aide plutôt qu'une 500
+            $missingTable = str_contains($e->getMessage(), 'translation') || str_contains($e->getMessage(), 'relation');
+            if (!$missingTable) {
+                throw $e;
+            }
+            $stats = array_fill_keys($locales, ['total' => 0, 'done' => 0, 'percent' => 0]);
+            $available = ['fr'];
+        }
 
         return $this->render('admin/translation/index.html.twig', [
-            'locales'   => $locales,
-            'names'     => LocaleCatalog::LOCALES,
-            'stats'     => $stats,
-            'available' => $available,
-            'threshold' => LocaleCatalog::AVAILABILITY_THRESHOLD,
-            'total'     => $stats['fr']['total'] ?? 0,
+            'locales'      => $locales,
+            'names'        => LocaleCatalog::LOCALES,
+            'stats'        => $stats,
+            'available'    => $available,
+            'threshold'    => LocaleCatalog::AVAILABILITY_THRESHOLD,
+            'total'        => $stats['fr']['total'] ?? 0,
+            'missingTable' => $missingTable,
         ]);
     }
 

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Cadre institutionnel — Socle Vital Garanti européen | Civitalisme{% endblock %}
-{% block meta_description %}Doctrine, architecture EuroE, cadre juridique et feuille de route du Socle Vital Garanti européen, projet du Civitalisme. Accès libre aux 7 rapports.{% endblock %}
+{% block meta_description %}Doctrine, architecture EuroE, cadre juridique, dialogue social et feuille de route du Socle Vital Garanti européen, projet du Civitalisme. Accès libre aux 8 rapports.{% endblock %}
 {% block body_class %}theme-civitalisme page-civitalisme page-civitalisme--institution{% endblock %}
 
 {% block extra_head %}
@@ -414,7 +414,91 @@
     </section>
 
     {# =============================================================
-       6. CADRE JURIDIQUE
+       6. DIALOGUE SOCIAL ET PARTENAIRES SYNDICAUX
+       ============================================================= #}
+    {% if content.syndical is defined %}
+    <section class="inst-section inst-section--panel" id="dialogue-social">
+        <header class="inst-section__heading">
+            <p class="eyebrow">{{ content.syndical.eyebrow }}</p>
+            <h2>{{ content.syndical.title }}</h2>
+            <p class="inst-section__lead">{{ content.syndical.lead }}</p>
+        </header>
+
+        <div class="surface-card inst-thesis-card">
+            <p class="panel-label">Thèse</p>
+            <p>{{ content.syndical.thesis }}</p>
+        </div>
+
+        <div class="inst-syndical-grid">
+            <div>
+                <p class="panel-label">Diagnostic : pourquoi le système actuel ne suffit plus</p>
+                <ul class="feature-list">
+                    {% for item in content.syndical.diagnosis %}
+                        <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div>
+                <p class="panel-label">Garde-fous structurels</p>
+                <div class="card-grid card-grid--two">
+                    {% for item in content.syndical.guardrails %}
+                        <article class="surface-card narrative-card">
+                            <h3>{{ item.title }}</h3>
+                            <p>{{ item.body }}</p>
+                        </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="inst-section__heading inst-section__heading--mid">
+            <p class="eyebrow">{{ content.syndical.roleShift.eyebrow }}</p>
+            <p class="inst-section__lead">{{ content.syndical.roleShift.lead }}</p>
+        </div>
+
+        <div class="inst-comparison-grid">
+            {% for shift in content.syndical.roleShift.shifts %}
+                <div class="inst-comparison-row">
+                    <div class="inst-comparison-row__before">
+                        <p class="panel-label">Avant</p>
+                        <p>{{ shift.before }}</p>
+                    </div>
+                    <div class="inst-comparison-row__arrow" aria-hidden="true">→</div>
+                    <div class="inst-comparison-row__after">
+                        <p class="panel-label">Maintenant</p>
+                        <p>{{ shift.after }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="inst-section__heading inst-section__heading--mid">
+            <p class="panel-label">Positions des grandes confédérations syndicales européennes</p>
+        </div>
+        <div class="insight-grid">
+            {% for pos in content.syndical.positions %}
+                <article class="surface-card insight-card">
+                    <p class="panel-label">{{ pos.stance }}</p>
+                    <h3>{{ pos.org }}</h3>
+                    <p>{{ pos.argument }}</p>
+                </article>
+            {% endfor %}
+        </div>
+
+        <div class="surface-card inst-recommendations-card">
+            <p class="panel-label">Recommandations pour le dialogue social</p>
+            <ul class="feature-list">
+                {% for rec in content.syndical.recommendations %}
+                    <li>{{ rec }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+    {% endif %}
+
+    {# =============================================================
+       7. CADRE JURIDIQUE
        ============================================================= #}
     <section class="inst-section">
         <header class="inst-section__heading">

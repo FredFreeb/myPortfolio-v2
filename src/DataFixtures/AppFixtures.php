@@ -315,7 +315,7 @@ class AppFixtures extends Fixture
                 $experience->setMonogram($data['logoMonogram']);
             }
             if (isset($data['logoPath'])) {
-                $experience->setImagePath($data['logoPath']);
+                $experience->setLogoPath($data['logoPath']);
             }
 
             $manager->persist($experience);
@@ -424,9 +424,7 @@ class AppFixtures extends Fixture
             return;
         }
 
-        $albumUrl = '' !== trim($this->albumUrl)
-            ? trim($this->albumUrl)
-            : 'https://open.spotify.com/';
+        $albumUrl = null;
 
         $items = [
             [
@@ -455,11 +453,11 @@ class AppFixtures extends Fixture
                 'category' => LinkCategory::Hobby,
                 'title' => 'Album et univers personnel',
                 'subtitle' => 'Musique et écriture',
-                'url' => $albumUrl,
+                'url' => null,
                 'description' => 'Une autre facette de mon travail, plus sensible et musicale, qui nourrit aussi ma manière de concevoir le web.',
                 'badge' => null,
                 'theme' => 'music',
-                'year' => '2026',
+                'year' => null,
                 'sortOrder' => 30,
             ],
         ];

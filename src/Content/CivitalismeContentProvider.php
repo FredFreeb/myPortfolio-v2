@@ -17,6 +17,7 @@ namespace App\Content;
  *  - SVG-Partie-Juridique.pdf       (base legale et conformite)
  *  - SVG-Parite-Sociologie.pdf      (impact social et dignite)
  *  - SVG-Partie-Entrepreneuriale.pdf (PME, reconversion, impact sectoriel)
+ *  - SVG-Partie-Syndicale.pdf       (dialogue social, conventions collectives, nouveau role syndical)
  *
  * Sections in publicPage()
  * -------------------------
@@ -216,8 +217,11 @@ final class CivitalismeContentProvider
                 'lead' => 'Le Socle Vital Garanti s’ajoute au système existant. Il ne le remplace pas.',
                 'points' => [
                     'Votre retraite reste votre retraite.',
-                    'Votre salaire reste votre salaire.',
+                    'Votre salaire reste votre salaire — le SMIC et les minima conventionnels sont inchangés.',
+                    'Vos droits au chômage (ARE) sont maintenus comme droits liés à l\'emploi.',
+                    'Vos conventions collectives et droits syndicaux sont pleinement préservés.',
                     'Vos aides actuelles ne sont pas supprimées — elles sont simplifiées.',
+                    'Un licenciement ne signifie plus la précarité immédiate : le SVG couvre les besoins essentiels dès le mois suivant.',
                 ],
             ],
 
@@ -327,6 +331,13 @@ final class CivitalismeContentProvider
                         'body' => 'Conséquences pour les commerçants agréés, les PME, les secteurs en transition et les entrepreneurs.',
                         'href' => '/documents/SVG-Partie-Entrepreneuriale.pdf',
                     ],
+                    [
+                        'index' => '08',
+                        'theme' => 'Dialogue social',
+                        'title' => 'SVG et partenaires sociaux',
+                        'body' => 'Articulation avec les conventions collectives, le SMIC et le chômage contributif. Le SVG comme plancher inconditionnel, pas comme substitut au salaire.',
+                        'href' => '/documents/SVG-Partie-Syndicale.pdf',
+                    ],
                 ],
             ],
 
@@ -402,7 +413,105 @@ final class CivitalismeContentProvider
                 ],
             ],
 
-            // -- 6. Cadre juridique européen -----------------------------------------
+
+            // -- 6. Dialogue social et partenaires syndicaux -------------------------
+            'syndical' => [
+                'eyebrow' => 'Dialogue social',
+                'title' => 'Le SVG et les partenaires sociaux',
+                'lead' => 'Le principal point de vigilance syndical est direct : si l\'Etat garantit un revenu de base, qu\'est-ce qui empeche les employeurs de baisser les salaires ? La reponse est structurelle.',
+                'thesis' => 'Le SVG n\'est pas un concurrent du salaire. C\'est un plancher inconditionnel qui lib\xc3\xa8re les salari\xc3\xa9s de la peur du licenciement et permet aux syndicats de recentrer leur action sur la qualit\xc3\xa9 du travail plut\xc3\xb4t que sur la survie mat\xc3\xa9rielle.',
+                'diagnosis' => [
+                    'Eurostat (2024) : 8,5 % des travailleurs europ\xc3\xa9ens sont en situation de pauvret\xc3\xa9 au travail malgr\xc3\xa9 un emploi.',
+                    'La peur du licenciement structure le rapport de force dans l\'entreprise : un salari\xc3\xa9 qui sait qu\'il tombera dans la pr\xc3\xa9carit\xc3\xa9 accepte des conditions d\xc3\xa9grad\xc3\xa9es.',
+                    'L\'IA acc\xc3\xa9l\xc3\xa8re la fragmentation des emplois, rendant les transitions plus fr\xc3\xa9quentes et les comp\xc3\xa9tences plus rapidement obsoletes.',
+                    '40 % des personnes \xc3\xa9ligibles aux aides actuelles n\'y ont pas recours (non-recours massif). Le SVG est automatique, non stigmatisant, calibr\xc3\xa9 sur M-1.',
+                ],
+                'guardrails' => [
+                    [
+                        'title' => 'SMIC et minima conventionnels inchang\xc3\xa9s',
+                        'body' => 'Le texte fondateur affirme explicitement que le SVG ne se substitue pas aux obligations salariales l\xc3\xa9gales. Aucun employeur ne peut invoquer le SVG pour r\xc3\xa9duire un salaire sous le SMIC ou le minimum de branche.',
+                    ],
+                    [
+                        'title' => 'Le SVG est un droit du citoyen, pas une subvention \xc3\xa0 l\'employeur',
+                        'body' => 'Il est vers\xc3\xa9 sur la base de la situation personnelle du citoyen, ind\xc3\xa9pendamment de son contrat de travail. L\'employeur n\'a aucune visibilit\xc3\xa9 ni contr\xc3\xb4le sur le montant re\xc3\xa7u.',
+                    ],
+                    [
+                        'title' => 'La franchise de travail prot\xc3\xa8ge l\'incitation',
+                        'body' => 'Les 300 premiers euros de revenu d\'activit\xc3\xa9 par actif ne r\xc3\xa9duisent pas le SVG. Toute baisse de salaire r\xc3\xa9duit donc les ressources totales du salari\xc3\xa9 \xe2\x80\x94 il a un int\xc3\xa9r\xc3\xaat \xc3\xa9conomique \xc3\xa0 la refuser.',
+                    ],
+                    [
+                        'title' => 'Conventions collectives pleinement maintenues',
+                        'body' => 'Les conventions collectives continuent de fixer les grilles salariales, les conditions de travail et les droits conventionnels. Le SVG ajoute une couche de s\xc3\xa9curit\xc3\xa9 en dessous ; il ne les remplace pas.',
+                    ],
+                    [
+                        'title' => 'R\xc3\xa9duction des charges conditionnelle et progressive',
+                        'body' => 'Aucune baisse de cotisation n\'intervient avant que les effets du SVG aient \xc3\xa9t\xc3\xa9 mesur\xc3\xa9s et valid\xc3\xa9s. La logique : d\'abord prouver que le socle vital fonctionne, ensuite ajuster le financement. Jamais l\'inverse.',
+                    ],
+                ],
+                'roleShift' => [
+                    'eyebrow' => 'Nouveau r\xc3\xb4le syndical',
+                    'lead' => 'Le Civitalisme ne marginalise pas les syndicats \xe2\x80\x94 il transforme leur mission. Avec le SVG comme filet de s\xc3\xa9curit\xc3\xa9, les syndicats peuvent adopter une posture offensive plut\xc3\xb4t que d\xc3\xa9fensive.',
+                    'shifts' => [
+                        [
+                            'before' => 'R\xc3\xa9sister aux licenciements li\xc3\xa9s \xc3\xa0 l\'IA',
+                            'after' => 'N\xc3\xa9gocier les conditions de la transition IA : calendrier, formation, maintien du revenu pendant la reconversion.',
+                        ],
+                        [
+                            'before' => 'Se battre pour maintenir des emplois condamn\xc3\xa9s',
+                            'after' => 'N\xc3\xa9gocier la cr\xc3\xa9ation de nouveaux postes : superviseurs IA, contr\xc3\xb4leurs qualit\xc3\xa9, formateurs, coordinateurs de transition.',
+                        ],
+                        [
+                            'before' => 'D\xc3\xa9fendre les minima salariaux',
+                            'after' => 'N\xc3\xa9gocier le partage du dividende technologique : si l\'IA augmente la productivit\xc3\xa9 de 30 %, quelle part revient aux salari\xc3\xa9s ?',
+                        ],
+                        [
+                            'before' => 'G\xc3\xa9rer les plans sociaux',
+                            'after' => 'Co-construire les parcours de reconversion avec l\'entreprise et les organismes de formation.',
+                        ],
+                    ],
+                ],
+                'positions' => [
+                    [
+                        'org' => 'CES \xe2\x80\x94 Conf\xc3\xa9d\xc3\xa9ration europ\xc3\xa9enne des syndicats',
+                        'stance' => 'Favorable sous conditions',
+                        'argument' => 'Le SVG reprend les objectifs du Socle europ\xc3\xa9en des droits sociaux (principe 14). La franchise de travail pr\xc3\xa9serve l\'incitation. Le pouvoir de n\xc3\xa9gociation des salari\xc3\xa9s est renforc\xc3\xa9.',
+                    ],
+                    [
+                        'org' => 'CGT (France)',
+                        'stance' => 'M\xc3\xa9fiante puis int\xc3\xa9ress\xc3\xa9e',
+                        'argument' => 'Insister sur le renforcement du rapport de force salarial, le maintien des conventions collectives et le refus de toute substitution salaire/SVG.',
+                    ],
+                    [
+                        'org' => 'CFDT (France)',
+                        'stance' => 'Plut\xc3\xb4t favorable',
+                        'argument' => 'Alignement avec la culture du compromis et de la n\xc3\xa9gociation. Le SVG comme outil d\'accompagnement des transitions.',
+                    ],
+                    [
+                        'org' => 'DGB (Allemagne)',
+                        'stance' => 'Prudent',
+                        'argument' => 'Pr\xc3\xa9senter le SVG comme compatible avec le mod\xc3\xa8le de cogestion allemand. Insister sur la n\xc3\xa9gociation branche par branche.',
+                    ],
+                    [
+                        'org' => 'CCOO / UGT (Espagne)',
+                        'stance' => 'Favorable',
+                        'argument' => 'Forte exposition \xc3\xa0 la pr\xc3\xa9carit\xc3\xa9 et au travail temporaire. Le SVG r\xc3\xa9pond \xc3\xa0 un besoin urgent.',
+                    ],
+                    [
+                        'org' => 'Syndicats nordiques',
+                        'stance' => 'Int\xc3\xa9ress\xc3\xa9s mais vigilants',
+                        'argument' => 'Ils ont d\xc3\xa9j\xc3\xa0 des filets de s\xc3\xa9curit\xc3\xa9 forts. Le SVG doit \xc3\xaatre pr\xc3\xa9sent\xc3\xa9 comme une modernisation, pas un remplacement.',
+                    ],
+                ],
+                'recommendations' => [
+                    'Associer les syndicats d\xc3\xa8s la phase de consultation du livre blanc \xe2\x80\x94 co-construire, pas imposer.',
+                    'Garantir dans le texte fondateur que le SVG ne se substitue ni aux salaires conventionnels ni aux droits contributifs acquis.',
+                    'Pr\xc3\xa9voir un comit\xc3\xa9 paritaire de suivi du SVG incluant les partenaires sociaux, avec droit de v\xc3\xa9to sur les modifications affectant le march\xc3\xa9 du travail.',
+                    'Cr\xc3\xa9er un \xc2\xab dividende de transition IA \xc2\xbb n\xc3\xa9goci\xc3\xa9 au niveau de l\'entreprise : quand l\'IA augmente la productivit\xc3\xa9, une part des gains est partag\xc3\xa9e avec les salari\xc3\xa9s.',
+                    'Former les repr\xc3\xa9sentants syndicaux \xc3\xa0 l\'IA pour qu\'ils n\xc3\xa9gocient en connaissance de cause les impacts technologiques dans leurs secteurs.',
+                ],
+            ],
+
+            // -- 7. Cadre juridique européen -----------------------------------------
             'legal' => [
                 'eyebrow' => 'Cadre juridique',
                 'title' => 'Un dispositif conforme au droit européen',
@@ -463,7 +572,7 @@ final class CivitalismeContentProvider
             // -- 8. Téléchargements --------------------------------------------------
             'downloads' => [
                 'eyebrow' => 'Téléchargements',
-                'title' => 'Les 7 rapports thématiques',
+                'title' => 'Les 8 rapports thématiques',
                 'lead' => 'L’intégralité de la doctrine est publiée en accès libre, au format PDF. Chaque rapport peut être cité, annoté, critiqué et amendé : c’est un document de travail ouvert.',
                 'items' => [
                     ['title' => 'Philosophie — IA, travail et dignité', 'href' => '/documents/SVG-Partie-Philosophique.pdf', 'size' => 'PDF'],
@@ -473,6 +582,7 @@ final class CivitalismeContentProvider
                     ['title' => 'Juridique — Base légale et conformité', 'href' => '/documents/SVG-Partie-Juridique.pdf', 'size' => 'PDF'],
                     ['title' => 'Sociologie — Impact social', 'href' => '/documents/SVG-Parite-Sociologie.pdf', 'size' => 'PDF'],
                     ['title' => 'Entrepreneuriat — PME et reconversion', 'href' => '/documents/SVG-Partie-Entrepreneuriale.pdf', 'size' => 'PDF'],
+                    ['title' => 'Dialogue social — SVG et partenaires syndicaux', 'href' => '/documents/SVG-Partie-Syndicale.pdf', 'size' => 'PDF'],
                 ],
             ],
 

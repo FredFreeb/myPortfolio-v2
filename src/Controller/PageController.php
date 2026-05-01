@@ -240,8 +240,10 @@ class PageController extends AbstractController
                 true
             ),
             'hosting' => [
-                'name' => 'Infrastructure VPS privee',
-                'body' => 'Le site est concu pour etre deploye sur un VPS ou un serveur dedie. Les informations completes d hebergement doivent etre renseignees avant une mise en production publique ouverte.',
+                'name' => 'Infomaniak Network SA',
+                'body' => 'Le site est heberge sur une infrastructure VPS Infomaniak. Le serveur applicatif, la configuration Docker, la base de donnees et les sauvegardes applicatives sont administres par l editeur du site.',
+                'address' => 'Rue Eugene Marziano 25, 1227 Les Acacias (GE), Suisse',
+                'website' => 'https://www.infomaniak.com',
             ],
         ]);
     }
