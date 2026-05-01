@@ -29,7 +29,7 @@ class ContactTypeTest extends TypeTestCase
             'email' => 'fred@example.fr',
             'company' => 'Acme',
             'subject' => 'Demande de mission',
-            'message' => 'Bonjour, je souhaite discuter d'un projet web avec vous.',
+            'message' => 'Bonjour, je souhaite discuter d\'un projet web avec vous.',
             'consent' => true,
             'website' => '',
         ];

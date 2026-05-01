@@ -63,10 +63,12 @@ class ContactMessageCrudController extends AbstractCrudController
             ->displayIf(static fn (ContactMessage $message): bool => '' !== trim($message->getEmail()));
 
         return $actions
-            ->disable(Action::NEW)
+            ->disable(Action::NEW, Action::EDIT)
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
             ->add(Crud::PAGE_INDEX, $replyAction)
-            ->add(Crud::PAGE_DETAIL, $replyAction);
+            ->add(Crud::PAGE_DETAIL, $replyAction)
+            ->reorder(Crud::PAGE_INDEX, [Action::DETAIL, 'reply', Action::DELETE])
+            ->reorder(Crud::PAGE_DETAIL, ['reply', Action::DELETE, Action::INDEX]);
     }
 
     public function configureFilters(Filters $filters): Filters
