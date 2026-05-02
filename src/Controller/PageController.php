@@ -280,8 +280,8 @@ class PageController extends AbstractController
     {
         return $this->render('page/legal/mentions.html.twig', [
             'editor' => [
-                'name' => 'Frederic Fribel',
-                'role' => 'Editeur et responsable de publication',
+                'name' => 'Frédéric Fribel',
+                'role' => 'Éditeur et responsable de publication',
                 'site' => 'Portfolio + Civitalisme',
             ],
             'contactLinks' => $this->withDefaultNetworkLinks(
@@ -293,8 +293,8 @@ class PageController extends AbstractController
             ),
             'hosting' => [
                 'name' => 'Infomaniak Network SA',
-                'body' => 'Le site est heberge sur une infrastructure VPS Infomaniak. Le serveur applicatif, la configuration Docker, la base de donnees et les sauvegardes applicatives sont administres par l editeur du site.',
-                'address' => 'Rue Eugene Marziano 25, 1227 Les Acacias (GE), Suisse',
+                'body' => 'Le site est hébergé sur une infrastructure VPS Infomaniak. Le serveur applicatif, la configuration Docker, la base de données et les sauvegardes applicatives sont administrés par l’éditeur du site.',
+                'address' => 'Rue Eugène-Marziano 25, 1227 Les Acacias (GE), Suisse',
                 'website' => 'https://www.infomaniak.com',
             ],
         ]);
@@ -305,14 +305,14 @@ class PageController extends AbstractController
     {
         return $this->render('page/legal/privacy.html.twig', [
             'retentionPolicy' => [
-                'Les messages transmis via le formulaire sont conserves uniquement le temps necessaire pour traiter la demande et assurer un suivi raisonnable.',
-                'Aucune base marketing n est constituee a partir des formulaires envoyes depuis ce site.',
-                'Les messages peuvent etre supprimes depuis l administration une fois la demande traitee.',
+                'Les messages transmis via le formulaire sont conservés uniquement le temps nécessaire pour traiter la demande et assurer un suivi raisonnable.',
+                'Aucune base marketing n’est constituée à partir des formulaires envoyés depuis ce site.',
+                'Les messages peuvent être supprimés depuis l’administration une fois la demande traitée.',
             ],
             'storedData' => [
                 'Nom',
                 'Adresse e-mail',
-                'Structure ou entreprise si elle est renseignee',
+                'Structure ou entreprise si elle est renseignée',
                 'Objet du message',
                 'Contenu du message',
             ],

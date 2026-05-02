@@ -1,66 +1,130 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Politique de confidentialite | Portfolio + Civitalisme{% endblock %}
-{% block meta_description %}Politique de confidentialite du site Portfolio + Civitalisme : donnees collectees, finalites et conservation.{% endblock %}
+{% block title %}Politique de confidentialité | Portfolio + Civitalisme{% endblock %}
+{% block meta_description %}Politique de confidentialité de fribel.eu : données collectées, finalités, conservation, droits et approche sans pistage publicitaire.{% endblock %}
 {% block body_class %}theme-portfolio page-legal page-legal--privacy{% endblock %}
 
 {% block body %}
-    <section class="hero hero--inner hero--contact">
-        <div class="hero__copy">
-            <p class="eyebrow">Confidentialite</p>
-            <h1 class="hero__title hero__title--medium" data-controller="pretext" data-pretext-line-height-value="62">
-                Politique de confidentialite
-            </h1>
-            <p class="hero__lead">
-                Le site cherche a limiter les donnees collectees au strict necessaire et a eviter les dependances tierces superflues.
+    <section class="legal-hero">
+        <div class="legal-hero__copy">
+            <p class="eyebrow">Données personnelles</p>
+            <h1>Politique de confidentialité</h1>
+            <p>
+                Le site collecte le minimum nécessaire pour répondre aux messages
+                et maintenir une expérience simple, lisible et sans pistage publicitaire.
             </p>
         </div>
 
-        <aside class="hero__panel surface-card">
-            <p class="panel-label">Principe</p>
-            <h2>Collecte minimale</h2>
-            <p>Le formulaire de contact sert uniquement a recevoir et traiter une demande. Il n alimente pas de dispositif publicitaire ni de profilage marketing.</p>
+        <aside class="legal-hero__panel">
+            <span>Principe directeur</span>
+            <strong>Collecte minimale</strong>
+            <p>Pas de profilage marketing, pas de revente de données, pas de publicité ciblée.</p>
         </aside>
     </section>
 
-    <section class="section split-section section--panel section--panel-sky">
-        <article class="surface-card">
-            <p class="eyebrow">Donnees traitees</p>
-            <h2>Ce qui peut etre stocke</h2>
-            <ul class="feature-list">
-                {% for item in storedData %}
-                    <li>{{ item }}</li>
-                {% endfor %}
-            </ul>
+    <section class="privacy-principles" aria-label="Principes de confidentialité">
+        <article>
+            <strong>1</strong>
+            <h2>Demander peu</h2>
+            <p>Seules les informations utiles à une réponse sont demandées dans les formulaires.</p>
         </article>
-
-        <article class="surface-card">
-            <p class="eyebrow">Finalite</p>
-            <h2>Pourquoi ces donnees existent</h2>
-            <ul class="feature-list">
-                <li>Repondre a une prise de contact.</li>
-                <li>Suivre l historique minimal d un echange si la discussion se poursuit.</li>
-                <li>Limiter les abus via des protections anti-spam et anti-envoi massif.</li>
-            </ul>
+        <article>
+            <strong>2</strong>
+            <h2>Utiliser clairement</h2>
+            <p>Les données servent à traiter une demande, pas à alimenter un ciblage commercial.</p>
+        </article>
+        <article>
+            <strong>3</strong>
+            <h2>Supprimer simplement</h2>
+            <p>Une demande de correction ou suppression peut être envoyée via le formulaire de contact.</p>
         </article>
     </section>
 
-    <section class="section split-section section--panel section--panel-mint">
-        <article class="surface-card">
-            <p class="eyebrow">Conservation</p>
-            <h2>Duree et suppression</h2>
-            <ul class="feature-list">
-                {% for item in retentionPolicy %}
-                    <li>{{ item }}</li>
-                {% endfor %}
-            </ul>
-        </article>
+    <section class="legal-layout">
+        <aside class="legal-summary" aria-label="Résumé de la confidentialité">
+            <p class="eyebrow">Vue rapide</p>
+            <dl>
+                <div>
+                    <dt>Publicité</dt>
+                    <dd>Aucun ciblage publicitaire.</dd>
+                </div>
+                <div>
+                    <dt>Formulaires</dt>
+                    <dd>Contact et échanges institutionnels.</dd>
+                </div>
+                <div>
+                    <dt>Cookies</dt>
+                    <dd>Usage technique uniquement si nécessaire.</dd>
+                </div>
+                <div>
+                    <dt>Droits</dt>
+                    <dd>Accès, correction, suppression.</dd>
+                </div>
+            </dl>
+        </aside>
 
-        <article class="surface-card">
-            <p class="eyebrow">Tiers et cookies</p>
-            <h2>Approche actuelle</h2>
-            <p>Le site n embarque pas de systeme publicitaire ni de pisteur marketing tiers. Les cookies techniques eventuels restent lies au fonctionnement normal de Symfony et a l administration securisee.</p>
-            <p>Si le site evolue vers des services externes supplementaires, cette page devra etre mise a jour en consequence.</p>
-        </article>
+        <div class="legal-content">
+            <article class="legal-card">
+                <p class="eyebrow">Données traitées</p>
+                <h2>Ce qui peut être stocké</h2>
+                <ul class="legal-check-list">
+                    {% for item in storedData %}
+                        <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </article>
+
+            <article class="legal-card">
+                <p class="eyebrow">Finalités</p>
+                <h2>Pourquoi ces données existent</h2>
+                <ul class="legal-check-list">
+                    <li>Répondre à une prise de contact.</li>
+                    <li>Conserver le contexte minimal d’un échange si la discussion se poursuit.</li>
+                    <li>Limiter les abus grâce à des protections anti-spam et anti-envoi massif.</li>
+                    <li>Assurer le fonctionnement normal de l’administration du site.</li>
+                </ul>
+            </article>
+
+            <article class="legal-card">
+                <p class="eyebrow">Conservation</p>
+                <h2>Durée et suppression</h2>
+                <ul class="legal-check-list">
+                    {% for item in retentionPolicy %}
+                        <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </article>
+
+            <article class="legal-card">
+                <p class="eyebrow">Cookies et services tiers</p>
+                <h2>Approche actuelle</h2>
+                <p>
+                    Le site n’embarque pas de système publicitaire ni de pisteur marketing tiers.
+                    Les cookies éventuels sont liés au fonctionnement technique de Symfony,
+                    à la sécurité ou à l’accès administrateur.
+                </p>
+                <p>
+                    Si des services externes supplémentaires sont ajoutés, cette page devra être
+                    mise à jour pour préciser leur rôle.
+                </p>
+            </article>
+
+            <article class="legal-card legal-card--wide">
+                <p class="eyebrow">Vos droits</p>
+                <h2>Accès, rectification et suppression</h2>
+                <div class="legal-columns">
+                    <p>
+                        Vous pouvez demander l’accès aux informations vous concernant,
+                        leur rectification ou leur suppression lorsque leur conservation
+                        n’est plus nécessaire au traitement de votre demande.
+                    </p>
+                    <p>
+                        Pour exercer ces droits, utilisez le formulaire de contact du site
+                        en indiquant clairement l’adresse e-mail concernée et la nature de la demande.
+                    </p>
+                </div>
+                <a class="button button--ghost" href="{{ path('app_contact') }}">Contacter l’éditeur</a>
+            </article>
+        </div>
     </section>
 {% endblock %}

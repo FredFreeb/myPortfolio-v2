@@ -1,64 +1,111 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mentions legales | Portfolio + Civitalisme{% endblock %}
-{% block meta_description %}Mentions legales du site Portfolio + Civitalisme : editeur, contact, hebergement et cadre de publication.{% endblock %}
+{% block title %}Mentions légales | Portfolio + Civitalisme{% endblock %}
+{% block meta_description %}Mentions légales de fribel.eu : éditeur, contact, hébergement, propriété intellectuelle et cadre de publication du site Portfolio + Civitalisme.{% endblock %}
 {% block body_class %}theme-portfolio page-legal page-legal--mentions{% endblock %}
 
 {% block body %}
-    <section class="hero hero--inner hero--contact">
-        <div class="hero__copy">
-            <p class="eyebrow">Cadre legal</p>
-            <h1 class="hero__title hero__title--medium" data-controller="pretext" data-pretext-line-height-value="62">
-                Mentions legales
-            </h1>
-            <p class="hero__lead">
-                Cette page presente le cadre editorial actuel du site, dans sa version portfolio et projet prospectif.
+    <section class="legal-hero">
+        <div class="legal-hero__copy">
+            <p class="eyebrow">Cadre de publication</p>
+            <h1>Mentions légales</h1>
+            <p>
+                Les informations essentielles pour identifier l’éditeur du site,
+                comprendre son hébergement et connaître les règles de réutilisation des contenus.
             </p>
         </div>
 
-        <aside class="hero__panel surface-card">
-            <p class="panel-label">Edition</p>
-            <h2>{{ editor.site }}</h2>
-            <p>Site personnel de presentation, de contact et de publication autour du portfolio et du projet Civitalisme.</p>
+        <aside class="legal-hero__panel">
+            <span>Site éditorial personnel</span>
+            <strong>{{ editor.site }}</strong>
+            <p>Portfolio, publications, contact et documentation autour du projet Civitalisme.</p>
         </aside>
     </section>
 
-    <section class="section split-section section--panel section--panel-sun">
-        <article class="surface-card">
-            <p class="eyebrow">Editeur</p>
-            <h2>{{ editor.name }}</h2>
-            <p>{{ editor.role }}</p>
-            <p class="section-intro">Le contenu public du site, les textes, la structure et les choix de publication sont portes par l editeur du site.</p>
-        </article>
+    <section class="legal-layout">
+        <aside class="legal-summary" aria-label="Résumé des mentions légales">
+            <p class="eyebrow">En bref</p>
+            <dl>
+                <div>
+                    <dt>Éditeur</dt>
+                    <dd>{{ editor.name }}</dd>
+                </div>
+                <div>
+                    <dt>Hébergement</dt>
+                    <dd>{{ hosting.name }}</dd>
+                </div>
+                <div>
+                    <dt>Objet</dt>
+                    <dd>Présentation, publication et prise de contact.</dd>
+                </div>
+                <div>
+                    <dt>Dernière mise à jour</dt>
+                    <dd>{{ "now"|date("d/m/Y") }}</dd>
+                </div>
+            </dl>
+        </aside>
 
-        <article class="surface-card">
-            <p class="eyebrow">Contact</p>
-            <h2>Canaux publics</h2>
-            <ul class="feature-list">
-                {% for link in contactLinks %}
-                    <li><a href="{{ link.url }}" target="_blank" rel="noreferrer">{{ link.label }}</a> — {{ link.description }}</li>
-                {% endfor %}
-                <li><a href="{{ path('app_contact') }}">Formulaire de contact</a> — pour les demandes directes depuis le site.</li>
-            </ul>
-        </article>
-    </section>
+        <div class="legal-content">
+            <article class="legal-card">
+                <p class="eyebrow">Éditeur</p>
+                <h2>{{ editor.name }}</h2>
+                <p>{{ editor.role }} du site {{ editor.site }}.</p>
+                <p>
+                    Les textes, choix éditoriaux, pages publiques et contenus de présentation
+                    sont publiés sous la responsabilité de l’éditeur du site.
+                </p>
+            </article>
 
-    <section class="section split-section section--panel section--panel-mint">
-        <article class="surface-card">
-            <p class="eyebrow">Hebergement</p>
-            <h2>{{ hosting.name }}</h2>
-            <p>{{ hosting.body }}</p>
-            <ul class="feature-list">
-                <li>Adresse : {{ hosting.address }}</li>
-                <li>Site web : <a href="{{ hosting.website }}" target="_blank" rel="noreferrer">{{ hosting.website }}</a></li>
-            </ul>
-        </article>
+            <article class="legal-card">
+                <p class="eyebrow">Contact</p>
+                <h2>Canaux publics</h2>
+                <p>Pour toute demande, correction ou prise de contact professionnelle, utilisez l’un des canaux ci-dessous.</p>
+                <ul class="legal-link-list">
+                    {% for link in contactLinks %}
+                        <li>
+                            <a href="{{ link.url }}" target="_blank" rel="noreferrer">{{ link.label }}</a>
+                            <span>{{ link.description }}</span>
+                        </li>
+                    {% endfor %}
+                    <li>
+                        <a href="{{ path('app_contact') }}">Formulaire de contact</a>
+                        <span>Demandes directes depuis le site.</span>
+                    </li>
+                </ul>
+            </article>
 
-        <article class="surface-card">
-            <p class="eyebrow">Propriete intellectuelle</p>
-            <h2>Textes, images et code</h2>
-            <p>Les contenus, maquettes, textes, visuels et elements de code restent proteges par le droit applicable, sauf mention contraire ou lien vers une source externe.</p>
-            <p>Toute reutilisation substantielle doit faire l objet d une autorisation explicite.</p>
-        </article>
+            <article class="legal-card">
+                <p class="eyebrow">Hébergement</p>
+                <h2>{{ hosting.name }}</h2>
+                <p>{{ hosting.body }}</p>
+                <dl class="legal-details">
+                    <div>
+                        <dt>Adresse</dt>
+                        <dd>{{ hosting.address }}</dd>
+                    </div>
+                    <div>
+                        <dt>Site web</dt>
+                        <dd><a href="{{ hosting.website }}" target="_blank" rel="noreferrer">{{ hosting.website }}</a></dd>
+                    </div>
+                </dl>
+            </article>
+
+            <article class="legal-card legal-card--wide">
+                <p class="eyebrow">Propriété intellectuelle</p>
+                <h2>Textes, images, interfaces et code</h2>
+                <div class="legal-columns">
+                    <p>
+                        Les contenus publiés sur ce site, notamment les textes, maquettes,
+                        visuels, éléments d’interface et documents de présentation, sont protégés
+                        par le droit applicable, sauf mention contraire ou lien explicite vers une source externe.
+                    </p>
+                    <p>
+                        Toute reprise substantielle, reproduction ou adaptation doit faire l’objet
+                        d’une autorisation préalable. Les citations courtes restent possibles dans
+                        le respect du droit de citation et avec mention claire de la source.
+                    </p>
+                </div>
+            </article>
+        </div>
     </section>
 {% endblock %}
