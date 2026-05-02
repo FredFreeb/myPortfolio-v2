@@ -218,9 +218,11 @@ class ProjectUpdate
         return $this->publishedAt;
     }
 
-    public function setPublishedAt(?\DateTimeImmutable $publishedAt): static
+    public function setPublishedAt(?\DateTimeInterface $publishedAt): static
     {
-        $this->publishedAt = $publishedAt ?? new \DateTimeImmutable();
+        $this->publishedAt = $publishedAt instanceof \DateTimeImmutable
+            ? $publishedAt
+            : ($publishedAt ? \DateTimeImmutable::createFromInterface($publishedAt) : new \DateTimeImmutable());
 
         return $this;
     }
