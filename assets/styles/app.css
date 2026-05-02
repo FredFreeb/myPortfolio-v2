@@ -2513,6 +2513,206 @@ h3 {
     text-transform: uppercase;
 }
 
+.civitalisme-articles {
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(255, 246, 204, 0.58)),
+        radial-gradient(circle at top right, rgba(31, 144, 121, 0.14), transparent 34%);
+    border: 1px solid rgba(0, 51, 153, 0.10);
+    border-radius: 8px;
+    padding: clamp(1.25rem, 4vw, 3rem);
+}
+
+.civitalisme-articles__list {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.civitalisme-article {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(17rem, 0.88fr);
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+    align-items: start;
+    padding: clamp(1rem, 3vw, 2rem);
+    border: 1px solid rgba(0, 51, 153, 0.12);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 22px 55px rgba(31, 51, 84, 0.10);
+}
+
+.civitalisme-article--text-only {
+    grid-template-columns: minmax(0, 46rem);
+}
+
+.civitalisme-article--featured {
+    border-color: rgba(255, 204, 0, 0.48);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 250, 226, 0.90));
+}
+
+.civitalisme-article__content {
+    display: grid;
+    gap: 1rem;
+}
+
+.civitalisme-article__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    color: var(--accent-deep);
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.civitalisme-article__meta span,
+.civitalisme-article__meta time {
+    display: inline-flex;
+    min-height: 1.8rem;
+    align-items: center;
+    padding: 0.28rem 0.62rem;
+    border: 1px solid rgba(0, 51, 153, 0.12);
+    border-radius: 999px;
+    background: rgba(0, 51, 153, 0.05);
+}
+
+.civitalisme-article h3 {
+    max-width: 15ch;
+    margin: 0;
+    color: var(--text);
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    line-height: 1.02;
+    letter-spacing: 0;
+}
+
+.civitalisme-article__summary {
+    max-width: 42rem;
+    color: #224a7a;
+    font-size: clamp(1.04rem, 2vw, 1.24rem);
+    line-height: 1.62;
+}
+
+.civitalisme-article__body {
+    max-width: 42rem;
+    color: var(--text);
+    font-size: 1.02rem;
+    line-height: 1.78;
+}
+
+.civitalisme-article__summary p,
+.civitalisme-article__body p,
+.civitalisme-article__impact p {
+    margin: 0;
+}
+
+.civitalisme-article__summary p + p,
+.civitalisme-article__body p + p,
+.civitalisme-article__body ul,
+.civitalisme-article__body ol {
+    margin-top: 0.9rem;
+}
+
+.civitalisme-article__body ul,
+.civitalisme-article__body ol {
+    padding-left: 1.25rem;
+}
+
+.civitalisme-article__impact {
+    display: grid;
+    gap: 0.45rem;
+    max-width: 42rem;
+    padding: 1rem;
+    border-left: 4px solid #ffcc00;
+    border-radius: 8px;
+    background: rgba(255, 204, 0, 0.14);
+    color: #26342f;
+}
+
+.civitalisme-article__impact strong {
+    color: #003399;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.civitalisme-article__link {
+    justify-self: start;
+    margin-top: 0.25rem;
+}
+
+.civitalisme-article__media {
+    overflow: hidden;
+    align-self: stretch;
+    min-height: 18rem;
+    margin: 0;
+    border: 1px solid rgba(0, 51, 153, 0.10);
+    border-radius: 8px;
+    background: #eaf1ff;
+}
+
+.civitalisme-article__media img,
+.civitalisme-article__media video,
+.civitalisme-article__media iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 18rem;
+    border: 0;
+    object-fit: cover;
+}
+
+.civitalisme-article__media--video {
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+}
+
+.civitalisme-article__media--video iframe,
+.civitalisme-article__media--video video {
+    min-height: 100%;
+}
+
+.civitalisme-article--empty {
+    grid-template-columns: minmax(0, 36rem);
+}
+
+@media (max-width: 860px) {
+    .civitalisme-article,
+    .civitalisme-article--text-only,
+    .civitalisme-article--empty {
+        grid-template-columns: 1fr;
+    }
+
+    .civitalisme-article__media {
+        min-height: 14rem;
+        order: -1;
+    }
+
+    .civitalisme-article__media img,
+    .civitalisme-article__media video,
+    .civitalisme-article__media iframe {
+        min-height: 14rem;
+    }
+
+    .civitalisme-article h3 {
+        max-width: 18ch;
+    }
+}
+
+@media (max-width: 540px) {
+    .civitalisme-articles {
+        padding: 1rem;
+    }
+
+    .civitalisme-article {
+        padding: 1rem;
+    }
+
+    .civitalisme-article__meta {
+        font-size: 0.7rem;
+    }
+}
+
 .cta-band--civitalisme {
     align-items: start;
 }

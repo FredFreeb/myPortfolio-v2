@@ -38,6 +38,15 @@ class ProjectUpdate
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $outcome = null;
 
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $mediaType = null;
+
+    #[ORM\Column(length: 500, nullable: true)]
+    private ?string $mediaUrl = null;
+
+    #[ORM\Column(length: 180, nullable: true)]
+    private ?string $mediaAlt = null;
+
     #[ORM\Column(length: 80, nullable: true)]
     private ?string $ctaLabel = null;
 
@@ -147,6 +156,45 @@ class ProjectUpdate
     {
         $value = null === $outcome ? null : trim($outcome);
         $this->outcome = '' === $value ? null : $value;
+
+        return $this;
+    }
+
+    public function getMediaType(): ?string
+    {
+        return $this->mediaType;
+    }
+
+    public function setMediaType(?string $mediaType): static
+    {
+        $value = null === $mediaType ? null : trim($mediaType);
+        $this->mediaType = '' === $value ? null : $value;
+
+        return $this;
+    }
+
+    public function getMediaUrl(): ?string
+    {
+        return $this->mediaUrl;
+    }
+
+    public function setMediaUrl(?string $mediaUrl): static
+    {
+        $value = null === $mediaUrl ? null : trim($mediaUrl);
+        $this->mediaUrl = '' === $value ? null : $value;
+
+        return $this;
+    }
+
+    public function getMediaAlt(): ?string
+    {
+        return $this->mediaAlt;
+    }
+
+    public function setMediaAlt(?string $mediaAlt): static
+    {
+        $value = null === $mediaAlt ? null : trim($mediaAlt);
+        $this->mediaAlt = '' === $value ? null : $value;
 
         return $this;
     }

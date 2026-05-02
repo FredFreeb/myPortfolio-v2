@@ -1,33 +1,85 @@
-<section class="section">
+<section class="section civitalisme-articles">
     {% include 'page/civitalisme/_partials/_section_heading.html.twig' with {
         eyebrow: eyebrow,
         title: title,
         lead: lead|default(null),
     } only %}
 
-    <div class="insight-grid">
+    <div class="civitalisme-articles__list">
         {% for update in updates %}
-            <article class="surface-card insight-card">
-                <div class="meta-row">
-                    <span>{{ update.statusLabel }}</span>
-                </div>
-                <h3>{{ update.title }}</h3>
-                <div class="update-card__summary">{{ update.summary|raw }}</div>
-                <div class="update-card__body">{{ update.body|raw }}</div>
-                {% if update.outcome %}
-                    <div class="update-card__impact">
-                        <strong>Impact</strong>
-                        <p>{{ update.outcome|nl2br }}</p>
+            <article class="civitalisme-article {{ update.isFeatured ? 'civitalisme-article--featured' : '' }} {{ update.mediaUrl ? '' : 'civitalisme-article--text-only' }}">
+                <div class="civitalisme-article__content">
+                    <div class="civitalisme-article__meta">
+                        <span>{{ update.statusLabel ?: 'Article' }}</span>
+                        <time datetime="{{ update.publishedAt|date('Y-m-d') }}">{{ update.publishedAt|date('d/m/Y') }}</time>
                     </div>
-                {% endif %}
-                {% if update.ctaUrl and update.ctaLabel %}
-                    <a class="button button--ghost" href="{{ update.ctaUrl }}" target="_blank" rel="noreferrer">{{ update.ctaLabel }}</a>
+
+                    <h3>{{ update.title }}</h3>
+                    <div class="civitalisme-article__summary">{{ update.summary|raw }}</div>
+                    <div class="civitalisme-article__body">{{ update.body|raw }}</div>
+
+                    {% if update.outcome %}
+                        <aside class="civitalisme-article__impact">
+                            <strong>À retenir</strong>
+                            <p>{{ update.outcome|nl2br }}</p>
+                        </aside>
+                    {% endif %}
+
+                    {% if update.ctaUrl and update.ctaLabel %}
+                        <a class="button button--ghost civitalisme-article__link" href="{{ update.ctaUrl }}" target="_blank" rel="noreferrer">{{ update.ctaLabel }}</a>
+                    {% endif %}
+                </div>
+
+                {% if update.mediaUrl %}
+                    {% set mediaType = update.mediaType ?: 'image' %}
+                    {% set mediaUrl = update.mediaUrl %}
+                    {% set mediaAlt = update.mediaAlt ?: update.title %}
+
+                    {% if mediaType == 'video' %}
+                        {% set embedUrl = mediaUrl %}
+                        {% if 'youtube.com/watch' in mediaUrl %}
+                            {% set embedUrl = mediaUrl|replace({'watch?v=': 'embed/'}) %}
+                        {% elseif 'youtu.be/' in mediaUrl %}
+                            {% set embedUrl = 'https://www.youtube.com/embed/' ~ (mediaUrl|split('?'))[0]|split('/')|last %}
+                        {% elseif 'share.synthesia.io/' in mediaUrl and '/embeds/videos/' not in mediaUrl %}
+                            {% set embedUrl = 'https://share.synthesia.io/embeds/videos/' ~ (mediaUrl|split('?'))[0]|split('/')|last %}
+                        {% elseif 'vimeo.com/' in mediaUrl and 'player.vimeo.com' not in mediaUrl %}
+                            {% set embedUrl = 'https://player.vimeo.com/video/' ~ (mediaUrl|split('?'))[0]|split('/')|last %}
+                        {% endif %}
+
+                        <div class="civitalisme-article__media civitalisme-article__media--video">
+                            {% if mediaUrl ends with '.mp4' or mediaUrl ends with '.webm' %}
+                                <video controls preload="metadata">
+                                    <source src="{{ mediaUrl }}">
+                                    Votre navigateur ne prend pas en charge cette vidéo.
+                                </video>
+                            {% else %}
+                                <iframe
+                                    src="{{ embedUrl }}"
+                                    title="{{ mediaAlt }}"
+                                    loading="lazy"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen
+                                    referrerpolicy="strict-origin-when-cross-origin"
+                                ></iframe>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <figure class="civitalisme-article__media">
+                            <img src="{{ mediaUrl }}" alt="{{ mediaAlt }}" loading="lazy">
+                        </figure>
+                    {% endif %}
                 {% endif %}
             </article>
         {% else %}
-            <article class="surface-card insight-card">
-                <h3>Bloc éditorial à venir</h3>
-                <p>Les prochains jalons Civitalisme pourront être ajoutés depuis l’admin sans modifier le template.</p>
+            <article class="civitalisme-article civitalisme-article--empty">
+                <div class="civitalisme-article__content">
+                    <div class="civitalisme-article__meta">
+                        <span>À venir</span>
+                    </div>
+                    <h3>Articles en préparation</h3>
+                    <p>Les prochains textes de vulgarisation pourront être ajoutés depuis l’admin sans modifier le template.</p>
+                </div>
             </article>
         {% endfor %}
     </div>

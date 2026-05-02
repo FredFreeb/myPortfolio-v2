@@ -28,7 +28,7 @@ class ProjectUpdateCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInSingular('bloc')
             ->setEntityLabelInPlural('blocs')
-            ->setSearchFields(['title', 'summary', 'statusLabel', 'outcome'])
+            ->setSearchFields(['title', 'summary', 'statusLabel', 'outcome', 'mediaUrl'])
             ->setDefaultSort(['audience' => 'ASC', 'sortOrder' => 'ASC', 'publishedAt' => 'DESC']);
     }
 
@@ -50,6 +50,23 @@ class ProjectUpdateCrudController extends AbstractCrudController
             ->hideOnIndex();
         yield TextareaField::new('outcome', 'Impact')
             ->setRequired(false)
+            ->hideOnIndex();
+        yield ChoiceField::new('mediaType', 'Type de média')
+            ->setChoices([
+                'Aucun' => null,
+                'Image' => 'image',
+                'Vidéo' => 'video',
+            ])
+            ->setRequired(false)
+            ->setHelp('Choisis image ou vidéo si tu ajoutes une URL média.')
+            ->hideOnIndex();
+        yield TextField::new('mediaUrl', 'URL ou chemin du média')
+            ->setRequired(false)
+            ->setHelp('Image, YouTube, Vimeo, Synthesia, MP4/WebM ou chemin local comme /uploads/...')
+            ->hideOnIndex();
+        yield TextField::new('mediaAlt', 'Description du média')
+            ->setRequired(false)
+            ->setHelp('Texte utile pour l’accessibilité des images.')
             ->hideOnIndex();
         yield TextField::new('ctaLabel', 'Libellé CTA')
             ->setRequired(false)
