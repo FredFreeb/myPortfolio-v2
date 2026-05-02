@@ -82,6 +82,49 @@ class PageController extends AbstractController
         ],
     ];
 
+    /**
+     * Public profile links that should stay visible even when production data is incomplete.
+     *
+     * @var list<array{
+     *     label: string,
+     *     title: string,
+     *     subtitle: ?string,
+     *     url: string,
+     *     description: string,
+     *     badge: string,
+     *     theme: string,
+     *     kicker: string,
+     *     category: string,
+     *     year: ?string
+     * }>
+     */
+    private const DEFAULT_NETWORK_LINKS = [
+        [
+            'label' => 'Code public',
+            'title' => 'Code public',
+            'subtitle' => null,
+            'url' => 'https://github.com/FredFreeb',
+            'description' => 'Mes bases, prototypes et explorations autour du web, de l\'UI et des projets personnels.',
+            'badge' => 'GH',
+            'theme' => 'github',
+            'kicker' => 'Réseau',
+            'category' => 'network',
+            'year' => null,
+        ],
+        [
+            'label' => 'Trajectoire pro',
+            'title' => 'Trajectoire pro',
+            'subtitle' => null,
+            'url' => 'https://www.linkedin.com/in/FredFreeb',
+            'description' => 'Une lecture plus professionnelle du parcours, des responsabilités et du positionnement actuel.',
+            'badge' => 'IN',
+            'theme' => 'linkedin',
+            'kicker' => 'Réseau',
+            'category' => 'network',
+            'year' => null,
+        ],
+    ];
+
     public function __construct(
         #[Autowire('%env(string:APP_ALBUM_URL)%')]
         private readonly string $albumUrl,
@@ -102,9 +145,12 @@ class PageController extends AbstractController
         ProfileLinkRepository $profileLinkRepository,
         TestimonialRepository $testimonialRepository,
     ): Response {
-        $networkLinks = $this->formatProfileLinks(
-            $profileLinkRepository->findPublishedByCategory(LinkCategory::Network, 2),
-            true
+        $networkLinks = $this->withDefaultNetworkLinks(
+            $this->formatProfileLinks(
+                $profileLinkRepository->findPublishedByCategory(LinkCategory::Network, 2),
+                true
+            ),
+            2
         );
 
         return $this->render('page/home.html.twig', [
@@ -125,7 +171,9 @@ class PageController extends AbstractController
     ): Response {
         $experiences = $experienceRepository->findPublished();
         $trainings = $trainingRepository->findPublished();
-        $networkCards = $this->formatProfileLinks($profileLinkRepository->findPublishedByCategory(LinkCategory::Network));
+        $networkCards = $this->withDefaultNetworkLinks(
+            $this->formatProfileLinks($profileLinkRepository->findPublishedByCategory(LinkCategory::Network))
+        );
         $hobbyCards = $this->formatProfileLinks($profileLinkRepository->findPublishedByCategory(LinkCategory::Hobby));
 
         return $this->render('page/about.html.twig', [
@@ -235,9 +283,12 @@ class PageController extends AbstractController
                 'role' => 'Editeur et responsable de publication',
                 'site' => 'Portfolio + Civitalisme',
             ],
-            'contactLinks' => $this->formatProfileLinks(
-                $profileLinkRepository->findPublishedByCategory(LinkCategory::Network, 2),
-                true
+            'contactLinks' => $this->withDefaultNetworkLinks(
+                $this->formatProfileLinks(
+                    $profileLinkRepository->findPublishedByCategory(LinkCategory::Network, 2),
+                    true
+                ),
+                2
             ),
             'hosting' => [
                 'name' => 'Infomaniak Network SA',
@@ -330,9 +381,11 @@ class PageController extends AbstractController
 
         return $this->render('page/contact.html.twig', [
             'form' => $form,
-            'contactLinks' => $this->formatProfileLinks(
-                $profileLinkRepository->findPublishedByCategory(LinkCategory::Network),
-                true
+            'contactLinks' => $this->withDefaultNetworkLinks(
+                $this->formatProfileLinks(
+                    $profileLinkRepository->findPublishedByCategory(LinkCategory::Network),
+                    true
+                )
             ),
         ]);
     }
@@ -377,5 +430,48 @@ class PageController extends AbstractController
         }
 
         return $cards;
+    }
+
+    /**
+     * @param list<array{
+     *     label: string,
+     *     title: string,
+     *     subtitle: ?string,
+     *     url: string,
+     *     description: string,
+     *     badge: string,
+     *     theme: string,
+     *     kicker: string,
+     *     category: string,
+     *     year: ?string
+     * }> $links
+     * @return list<array{
+     *     label: string,
+     *     title: string,
+     *     subtitle: ?string,
+     *     url: string,
+     *     description: string,
+     *     badge: string,
+     *     theme: string,
+     *     kicker: string,
+     *     category: string,
+     *     year: ?string
+     * }>
+     */
+    private function withDefaultNetworkLinks(array $links, ?int $limit = null): array
+    {
+        $existingThemes = array_column($links, 'theme');
+
+        foreach (self::DEFAULT_NETWORK_LINKS as $defaultLink) {
+            if (!in_array($defaultLink['theme'], $existingThemes, true)) {
+                $links[] = $defaultLink;
+            }
+        }
+
+        if (null !== $limit) {
+            return array_slice($links, 0, $limit);
+        }
+
+        return $links;
     }
 }
