@@ -36,16 +36,32 @@ class ProjectUpdateCrudController extends AbstractCrudController
         yield IdField::new('id')->hideOnForm();
         yield ChoiceField::new('audience', 'Audience')
             ->setChoices(ProjectAudience::choices());
-        yield TextField::new('title', 'Titre');
-        yield TextField::new('statusLabel', 'Statut');
-        yield TextEditorField::new('summary', 'Résumé')->hideOnIndex();
-        yield TextEditorField::new('body', 'Contenu')->hideOnIndex();
-        yield TextField::new('outcome', 'Impact')->hideOnIndex();
-        yield TextField::new('ctaLabel', 'Libellé CTA')->hideOnIndex();
-        yield UrlField::new('ctaUrl', 'URL CTA')->hideOnIndex();
+        yield TextField::new('title', 'Titre')
+            ->setRequired(true);
+        yield TextField::new('statusLabel', 'Statut')
+            ->setRequired(false)
+            ->setHelp('Laisse vide pour utiliser "En construction".');
+        yield TextEditorField::new('summary', 'Résumé')
+            ->setRequired(true)
+            ->hideOnIndex();
+        yield TextEditorField::new('body', 'Contenu')
+            ->setRequired(true)
+            ->hideOnIndex();
+        yield TextField::new('outcome', 'Impact')
+            ->setRequired(false)
+            ->hideOnIndex();
+        yield TextField::new('ctaLabel', 'Libellé CTA')
+            ->setRequired(false)
+            ->hideOnIndex();
+        yield UrlField::new('ctaUrl', 'URL CTA')
+            ->setRequired(false)
+            ->hideOnIndex();
         yield BooleanField::new('isFeatured', 'Mise en avant');
         yield BooleanField::new('isPublished', 'Publié');
         yield IntegerField::new('sortOrder', 'Ordre');
-        yield DateTimeField::new('publishedAt', 'Publication')->hideOnIndex();
+        yield DateTimeField::new('publishedAt', 'Publication')
+            ->setRequired(false)
+            ->setHelp('Laisse vide pour utiliser la date actuelle.')
+            ->hideOnIndex();
     }
 }

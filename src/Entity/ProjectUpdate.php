@@ -6,6 +6,7 @@ use App\Enum\ProjectAudience;
 use App\Repository\ProjectUpdateRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProjectUpdateRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -20,12 +21,15 @@ class ProjectUpdate
     private ProjectAudience $audience = ProjectAudience::Public;
 
     #[ORM\Column(length: 180)]
+    #[Assert\NotBlank(message: 'Le titre est obligatoire.')]
     private string $title = '';
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'Le résumé est obligatoire.')]
     private string $summary = '';
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'Le contenu est obligatoire.')]
     private string $body = '';
 
     #[ORM\Column(length: 100)]
@@ -90,9 +94,9 @@ class ProjectUpdate
         return $this->title;
     }
 
-    public function setTitle(string $title): static
+    public function setTitle(?string $title): static
     {
-        $this->title = $title;
+        $this->title = trim((string) $title);
 
         return $this;
     }
@@ -102,9 +106,9 @@ class ProjectUpdate
         return $this->summary;
     }
 
-    public function setSummary(string $summary): static
+    public function setSummary(?string $summary): static
     {
-        $this->summary = $summary;
+        $this->summary = trim((string) $summary);
 
         return $this;
     }
@@ -114,9 +118,9 @@ class ProjectUpdate
         return $this->body;
     }
 
-    public function setBody(string $body): static
+    public function setBody(?string $body): static
     {
-        $this->body = $body;
+        $this->body = trim((string) $body);
 
         return $this;
     }
@@ -126,9 +130,10 @@ class ProjectUpdate
         return $this->statusLabel;
     }
 
-    public function setStatusLabel(string $statusLabel): static
+    public function setStatusLabel(?string $statusLabel): static
     {
-        $this->statusLabel = $statusLabel;
+        $value = trim((string) $statusLabel);
+        $this->statusLabel = '' === $value ? 'En construction' : $value;
 
         return $this;
     }
@@ -140,7 +145,8 @@ class ProjectUpdate
 
     public function setOutcome(?string $outcome): static
     {
-        $this->outcome = $outcome;
+        $value = null === $outcome ? null : trim($outcome);
+        $this->outcome = '' === $value ? null : $value;
 
         return $this;
     }
@@ -152,7 +158,8 @@ class ProjectUpdate
 
     public function setCtaLabel(?string $ctaLabel): static
     {
-        $this->ctaLabel = $ctaLabel;
+        $value = null === $ctaLabel ? null : trim($ctaLabel);
+        $this->ctaLabel = '' === $value ? null : $value;
 
         return $this;
     }
@@ -164,7 +171,8 @@ class ProjectUpdate
 
     public function setCtaUrl(?string $ctaUrl): static
     {
-        $this->ctaUrl = $ctaUrl;
+        $value = null === $ctaUrl ? null : trim($ctaUrl);
+        $this->ctaUrl = '' === $value ? null : $value;
 
         return $this;
     }
@@ -212,7 +220,7 @@ class ProjectUpdate
 
     public function setPublishedAt(?\DateTimeImmutable $publishedAt): static
     {
-        $this->publishedAt = $publishedAt;
+        $this->publishedAt = $publishedAt ?? new \DateTimeImmutable();
 
         return $this;
     }
