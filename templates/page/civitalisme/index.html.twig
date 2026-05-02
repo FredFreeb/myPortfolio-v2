@@ -497,6 +497,13 @@
         </div>
     </section>
 
+    {% include 'page/civitalisme/_partials/_updates_feed.html.twig' with {
+        eyebrow: 'Depuis l’admin',
+        title: 'Blocs éditoriaux grand public',
+        lead: 'Les ajouts publiés depuis l’espace admin apparaissent ici pour compléter la page sans modifier le code.',
+        updates: projectUpdates,
+    } only %}
+
     {# ── 9. Final CTA ───────────────────────────────────────────────────── #}
     <section class="section section--panel gp-cta">
         <div class="gp-cta__copy">

@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
@@ -47,7 +48,7 @@ class ProjectUpdateCrudController extends AbstractCrudController
         yield TextEditorField::new('body', 'Contenu')
             ->setRequired(true)
             ->hideOnIndex();
-        yield TextField::new('outcome', 'Impact')
+        yield TextareaField::new('outcome', 'Impact')
             ->setRequired(false)
             ->hideOnIndex();
         yield TextField::new('ctaLabel', 'Libellé CTA')

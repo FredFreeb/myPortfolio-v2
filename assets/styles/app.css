@@ -2478,9 +2478,39 @@ h3 {
     max-width: 52rem;
 }
 
+.update-card__summary,
 .update-card__body {
     color: var(--muted);
     line-height: 1.7;
+}
+
+.update-card__summary p,
+.update-card__body p,
+.update-card__impact p {
+    margin: 0;
+}
+
+.update-card__summary p + p,
+.update-card__body p + p,
+.update-card__impact p + p {
+    margin-top: 0.75rem;
+}
+
+.update-card__impact {
+    display: grid;
+    gap: 0.35rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.update-card__impact strong {
+    color: var(--text);
+    font-size: 0.76rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
 .cta-band--civitalisme {

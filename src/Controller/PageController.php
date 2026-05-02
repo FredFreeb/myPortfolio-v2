@@ -194,13 +194,12 @@ class PageController extends AbstractController
     #[Route('/civitalisme', name: 'app_civitalisme', methods: ['GET'])]
     public function civitalisme(
         CivitalismeContentProvider $contentProvider,
+        ProjectUpdateRepository $projectUpdateRepository,
     ): Response {
-        // Both Civitalisme pages are entirely data-driven via CivitalismeContentProvider.
-        // No DB calls: keeps them fast, version-controllable and resilient when the
-        // admin/database is offline.
         return $this->render('page/civitalisme/index.html.twig', [
             'content' => $contentProvider->publicPage(),
             'civitalismeVideoUrl' => $this->civitalismeVideoUrl,
+            'projectUpdates' => $projectUpdateRepository->findPublishedByAudience(ProjectAudience::Public),
         ]);
     }
 
@@ -210,6 +209,7 @@ class PageController extends AbstractController
         CivitalismeContentProvider $contentProvider,
         EntityManagerInterface $entityManager,
         MailerInterface $mailer,
+        ProjectUpdateRepository $projectUpdateRepository,
     ): Response {
         $contactRequest = new ContactRequest();
         $contactForm    = $this->createForm(CivitalismeContactType::class, $contactRequest);
@@ -257,6 +257,7 @@ class PageController extends AbstractController
         return $this->render('page/civitalisme/technical.html.twig', [
             'content'     => $contentProvider->technicalPage(),
             'contactForm' => $contactForm,
+            'projectUpdates' => $projectUpdateRepository->findPublishedByAudience(ProjectAudience::Institutional),
         ]);
     }
 

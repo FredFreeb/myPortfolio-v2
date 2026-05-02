@@ -35,7 +35,7 @@ class ProjectUpdate
     #[ORM\Column(length: 100)]
     private string $statusLabel = 'En construction';
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $outcome = null;
 
     #[ORM\Column(length: 80, nullable: true)]

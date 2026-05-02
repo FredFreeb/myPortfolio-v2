@@ -10,13 +10,16 @@
             <article class="surface-card insight-card">
                 <div class="meta-row">
                     <span>{{ update.statusLabel }}</span>
-                    {% if update.outcome %}
-                        <span>{{ update.outcome }}</span>
-                    {% endif %}
                 </div>
                 <h3>{{ update.title }}</h3>
-                <p>{{ update.summary }}</p>
-                <div class="update-card__body">{{ update.body|nl2br }}</div>
+                <div class="update-card__summary">{{ update.summary|raw }}</div>
+                <div class="update-card__body">{{ update.body|raw }}</div>
+                {% if update.outcome %}
+                    <div class="update-card__impact">
+                        <strong>Impact</strong>
+                        <p>{{ update.outcome|nl2br }}</p>
+                    </div>
+                {% endif %}
                 {% if update.ctaUrl and update.ctaLabel %}
                     <a class="button button--ghost" href="{{ update.ctaUrl }}" target="_blank" rel="noreferrer">{{ update.ctaLabel }}</a>
                 {% endif %}

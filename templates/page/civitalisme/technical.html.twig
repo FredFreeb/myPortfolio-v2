@@ -607,6 +607,13 @@
         </ol>
     </section>
 
+    {% include 'page/civitalisme/_partials/_updates_feed.html.twig' with {
+        eyebrow: 'Depuis l’admin',
+        title: 'Blocs institutionnels',
+        lead: 'Les blocs publiés pour l’audience institutionnelle apparaissent ici comme compléments, jalons ou notes de travail.',
+        updates: projectUpdates,
+    } only %}
+
     {# =============================================================
        8. TÉLÉCHARGEMENTS
        ============================================================= #}
