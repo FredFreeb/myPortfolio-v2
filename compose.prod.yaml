@@ -21,7 +21,9 @@ services:
       - app_var:/app/var
       - app_uploads:/app/public/uploads
     networks:
-      - internal
+      internal:
+        aliases:
+          - fribel-php
 
   nginx:
     init: true
