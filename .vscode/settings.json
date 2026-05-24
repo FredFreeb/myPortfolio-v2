@@ -1,0 +1,8 @@
+{
+  "intelephense.files.exclude": [
+    "**/.git/**",
+    "**/node_modules/**",
+    "**/vendor/**/{Tests,tests}/**",
+    "var/**"
+  ]
+}
