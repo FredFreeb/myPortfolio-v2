@@ -20,31 +20,28 @@
 		</div>
 
 		<div class="hero__copy">
-			<p class="eyebrow hero__eyebrow-band">Portfolio • Symfony • Docker • administration sobre</p>
+			<p class="eyebrow hero__eyebrow-band">{{ 'home.hero.eyebrow'|trans }}</p>
 			<h1 class="hero__title hero__title--glow hero__title--typed" data-controller="typewriter" data-typewriter-speed-value="34" data-typewriter-start-delay-value="280">
-				Bienvenue sur mon portfolio, où je partage mes projets.
+				{{ 'home.hero.title'|trans }}
 			</h1>
-			<p class="hero__lead">
-				Ce site rassemble mes travaux, mon parcours et mes projets pour durer dans l'avenir :
-				                sur mesure, un back-office utile, et un déploiement simple vers un VPS.
-			</p>
+			<p class="hero__lead">{{ 'home.hero.lead'|trans }}</p>
 
 			<div class="hero__actions">
-				<a class="button" href="{{ path('app_contact') }}">Parler d’un projet</a>
-				<a class="button button--ghost" href="{{ path('app_about') }}">Voir mon parcours</a>
+				<a class="button" href="{{ path('app_contact', {'_locale': app.request.locale}) }}">{{ 'home.hero.cta_contact'|trans }}</a>
+				<a class="button button--ghost" href="{{ path('app_about', {'_locale': app.request.locale}) }}">{{ 'home.hero.cta_about'|trans }}</a>
 			</div>
 
-			<p class="hero-home__line">Design narratif, architecture propre, modernité maîtrisée.</p>
+			<p class="hero-home__line">{{ 'home.hero.tagline'|trans }}</p>
 		</div>
 	</section>
 
 	<section class="section section--panel section--panel-sun section--work-showcase">
 		<div class="section-heading">
 			<div>
-				<p class="eyebrow">Travaux</p>
-				<h2>Une sélection de projets</h2>
+				<p class="eyebrow">{{ 'home.works.eyebrow'|trans }}</p>
+				<h2>{{ 'home.works.heading'|trans }}</h2>
 			</div>
-			<a class="section-link" href="{{ path('app_contact') }}">Demander une collaboration</a>
+			<a class="section-link" href="{{ path('app_contact', {'_locale': app.request.locale}) }}">{{ 'home.works.cta'|trans }}</a>
 		</div>
 
 		<div class="card-grid card-grid--works">
@@ -52,7 +49,7 @@
 				<article class="work-card surface-card">
 					<div class="work-card__cover {{ work.imagePath ? '' : 'work-card__cover--placeholder' }}">
 						{% if work.imagePath %}
-							<img src="{{ asset(work.imagePath) }}" alt="{{ work.title }}">
+							<img src="{{ asset(work.imagePath) }}" alt="{{ work.title }}" loading="lazy" decoding="async">
 						{% else %}
 							<span>{{ work.title|slice(0, 2)|upper }}</span>
 						{% endif %}
@@ -61,7 +58,7 @@
 					<div class="work-card__body">
                         <h3>{{ work.title }}</h3>
 						<div class="meta-row">
-							<span>{{ work.clientName ?: 'Projet personnel' }}</span>
+							<span>{{ work.clientName ?: ('home.works.client_fallback'|trans) }}</span>
 							{% if work.roleLabel %}
 								<span>{{ work.roleLabel }}</span>
 							{% endif %}
@@ -70,17 +67,17 @@
 						<div class="work-card__stack">
 							<p class="stack-line">{{ work.stackSummary }}</p>
 							{% if work.toolsUsed %}
-								<p class="stack-line">Outils : {{ work.toolsUsed }}</p>
+								<p class="stack-line">{{ 'home.works.tools_label'|trans }} {{ work.toolsUsed }}</p>
 							{% endif %}
 						</div>
                     </div>
 
 					<div class="work-card__actions">
 						{% if work.projectUrl %}
-							<a class="button button--ghost" href="{{ work.projectUrl }}" target="_blank" rel="noreferrer">Voir le projet</a>
+							<a class="button button--ghost" href="{{ work.projectUrl }}" target="_blank" rel="noreferrer">{{ 'home.works.cta_view'|trans }}</a>
 						{% endif %}
 						{% if work.repositoryUrl %}
-							<a class="button button--subtle" href="{{ work.repositoryUrl }}" target="_blank" rel="noreferrer">Code</a>
+							<a class="button button--subtle" href="{{ work.repositoryUrl }}" target="_blank" rel="noreferrer">{{ 'home.works.cta_code'|trans }}</a>
 						{% endif %}
 					</div>
 				</article>
@@ -91,17 +88,17 @@
 	<section class="section section--panel section--panel-mint">
 		<div class="section-heading">
 			<div>
-				<p class="eyebrow">Civitalisme</p>
-				<h2>Deux portes d’entrée pour un même projet</h2>
+				<p class="eyebrow">{{ 'home.civitalisme_section.eyebrow'|trans }}</p>
+				<h2>{{ 'home.civitalisme_section.heading'|trans }}</h2>
 			</div>
-			<a class="section-link" href="{{ path('app_civitalisme') }}">Voir la page projet</a>
+			<a class="section-link" href="{{ path('app_civitalisme') }}">{{ 'home.civitalisme_section.cta'|trans }}</a>
 		</div>
 
 		<div class="dual-grid">
 			<article class="surface-card audience-card">
-				<p class="panel-label">Grand public</p>
-				<h3>Une vision accessible et incarnée</h3>
-				<p>Une page plus narrative, pensée pour partager la promesse, les usages et la tonalité du projet sans jargon inutile.</p>
+				<p class="panel-label">{{ 'home.civitalisme_section.public_label'|trans }}</p>
+				<h3>{{ 'home.civitalisme_section.public_title'|trans }}</h3>
+				<p>{{ 'home.civitalisme_section.public_desc'|trans }}</p>
 
 				<div class="stacked-snippets">
 					{% for update in publicHighlights %}
@@ -112,13 +109,13 @@
 					{% endfor %}
 				</div>
 
-				<a class="button" href="{{ path('app_civitalisme') }}">Explorer la version grand public</a>
+				<a class="button" href="{{ path('app_civitalisme') }}">{{ 'home.civitalisme_section.public_cta'|trans }}</a>
 			</article>
 
 			<article class="surface-card audience-card">
-				<p class="panel-label">Institutionnel</p>
-				<h3>Une lecture claire pour partenaires et institutions</h3>
-				<p>Une page structurée pour exposer méthode, impact, capacité d’intervention et logique de partenariat.</p>
+				<p class="panel-label">{{ 'home.civitalisme_section.institutional_label'|trans }}</p>
+				<h3>{{ 'home.civitalisme_section.institutional_title'|trans }}</h3>
+				<p>{{ 'home.civitalisme_section.institutional_desc'|trans }}</p>
 
 				<div class="stacked-snippets">
 					{% for update in institutionalHighlights %}
@@ -129,7 +126,7 @@
 					{% endfor %}
 				</div>
 
-				<a class="button" href="{{ path('app_civitalisme_technical') }}">Explorer la version institutionnelle</a>
+				<a class="button" href="{{ path('app_civitalisme_technical') }}">{{ 'home.civitalisme_section.institutional_cta'|trans }}</a>
 			</article>
 		</div>
     </section>
@@ -138,17 +135,17 @@
         <section class="section section--panel section--panel-sun">
             <div class="section-heading">
                 <div>
-                    <p class="eyebrow">Retours</p>
-                    <h2>Paroles de terrain</h2>
+                    <p class="eyebrow">{{ 'home.testimonials.eyebrow'|trans }}</p>
+                    <h2>{{ 'home.testimonials.heading'|trans }}</h2>
                 </div>
             </div>
 
             <div class="card-grid card-grid--compact">
                 {% for testimonial in testimonials %}
                     <article class="surface-card narrative-card">
-                        <p class="panel-label">{{ testimonial.companyName ?: 'Témoignage' }}</p>
+                        <p class="panel-label">{{ testimonial.companyName ?: ('home.testimonials.fallback'|trans) }}</p>
                         <h3>{{ testimonial.authorName }}</h3>
-                        <p>“{{ testimonial.content }}”</p>
+                        <p>"{{ testimonial.content }}"</p>
                         {% if testimonial.authorRole %}
                             <p class="stack-line">{{ testimonial.authorRole }}</p>
                         {% endif %}
@@ -161,13 +158,13 @@
 	<section class="section section--cta section--panel section--panel-sky">
 		<div class="cta-band surface-card">
 			<div>
-				<p class="eyebrow">Contact</p>
-				<h2>Besoin d’un site clair, éditable et bien tenu techniquement ?</h2>
-				<p>Je peux intervenir sur un portfolio, une vitrine narrative, un back-office simple ou une base Symfony durable.</p>
+				<p class="eyebrow">{{ 'home.cta.eyebrow'|trans }}</p>
+				<h2>{{ 'home.cta.heading'|trans }}</h2>
+				<p>{{ 'home.cta.body'|trans }}</p>
 			</div>
 
                 <div class="cta-band__actions">
-                    <a class="button" href="{{ path('app_contact') }}">M’écrire</a>
+                    <a class="button" href="{{ path('app_contact', {'_locale': app.request.locale}) }}">{{ 'home.cta.cta_write'|trans }}</a>
                     {% for link in contactLinks %}
                         {% if link.url %}
                             <a class="button button--ghost" href="{{ link.url }}" target="_blank" rel="noreferrer">{{ link.label }}</a>

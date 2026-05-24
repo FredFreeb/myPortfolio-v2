@@ -1,0 +1,161 @@
+# Portfolio + Civitalisme — messages.cs.yaml
+
+nav:
+  home: "Portfolio"
+  about: "O mně"
+  civitalisme: "Civitalisme"
+  contact: "Kontakt"
+  lang: "Změnit jazyk"
+  soon: "brzy"
+  soon_notice: "%name% — překlad brzy k dispozici."
+
+home:
+  hero:
+    eyebrow: "Portfolio • Symfony • Docker • lehká administrace"
+    title: "Vítejte na mém portfoliu, kde sdílím své projekty."
+    lead: "Tento web shromažďuje mé práce, mou kariéru a projekty navržené tak, aby vydržely: na míru, užitečný back-office a jednoduché nasazení na VPS."
+    cta_contact: "Mluvit o projektu"
+    cta_about: "Zobrazit mou kariéru"
+    tagline: "Narativní design, čistá architektura, kontrolovaná modernita."
+  works:
+    eyebrow: "Práce"
+    heading: "Výběr projektů"
+    cta: "Požádat o spolupráci"
+    client_fallback: "Osobní projekt"
+    cta_view: "Zobrazit projekt"
+    cta_code: "Kód"
+    tools_label: "Nástroje:"
+  civitalisme_section:
+    eyebrow: "Civitalisme"
+    heading: "Dva vstupní body pro jeden projekt"
+    cta: "Zobrazit stránku projektu"
+    public_label: "Veřejnost"
+    public_title: "Přístupná a uchopitelná vize"
+    public_desc: "Narativnější stránka navržená ke sdílení příslibu, použití a tónu projektu bez zbytečného žargonu."
+    public_cta: "Prozkoumat veřejnou verzi"
+    institutional_label: "Institucionální"
+    institutional_title: "Jasná čtení pro partnery a instituce"
+    institutional_desc: "Strukturovaná stránka prezentující metodu, dopad, kapacitu a logiku partnerství."
+    institutional_cta: "Prozkoumat institucionální verzi"
+  testimonials:
+    eyebrow: "Ohlasy"
+    heading: "Slova z praxe"
+    fallback: "Svědectví"
+  cta:
+    eyebrow: "Kontakt"
+    heading: "Potřebujete jasný, editovatelný a technicky dobře udržovaný web?"
+    body: "Mohu pracovat na portfoliu, narativní vitríně, jednoduchém back-office nebo trvalém základu Symfony."
+    cta_write: "Napsat mi"
+
+about:
+  hero:
+    eyebrow: "O mé práci"
+    title: "Vyvíjet živé webové stránky"
+    lead: "Jako webový vývojář vyškolený v moderních prostředích jsem si také vybudoval solidní zkušenosti s podporou uživatelů a zákaznickým servisem. Moje kariéra mě přivedla k pozicím zástupce ředitele, kombinujícím řízení, organizaci a vztahy s veřejností. Dnes dávám tyto dovednosti do služby projektům, kde se technika, lidé a strukturování setkávají."
+    cta_linkedin: "Zobrazit můj veřejný profil"
+    cta_contact: "Kontaktovat mě"
+  identity:
+    kicker: "Veřejný profil"
+    heading: "Vývoj webových stránek, projekty na míru"
+    body: "Upřednostňuji čistý a bezpečný kód, udržitelné struktury a řešení na míru — snadno administrovatelné a přizpůsobené skutečným potřebám — před standardizovanými nástroji, které se obtížně vyvíjejí."
+  experiences:
+    eyebrow: "Zkušenosti"
+    heading: "Profesní kariéra"
+  journey:
+    eyebrow: "Orientační body"
+    heading: "Několik hlavních linií"
+    axis: "Osa"
+    a:
+      title: "Full-stack vývoj webu"
+      body: "Stavím jasná rozhraní, trvalé back-office systémy a procesy, které zůstávají čitelné pro týmy i návštěvníky."
+    b:
+      title: "Produktová kultura a autonomie"
+      body: "Rád propojuji design, techniku a organizaci, abych dodával weby, které dobře žijí i po spuštění."
+    c:
+      title: "Předávání znalostí a strukturování"
+      body: "Upřednostňuji jednoduše udržitelné základy: jasné konvence, čitelný kód, krátkou dokumentaci a administraci přizpůsobenou skutečným potřebám."
+  environment:
+    eyebrow: "Pracovní prostředí"
+    heading: "Nástroje zvolené pro zachování autonomie"
+    a: "Symfony 8, Twig, Doctrine a střídmé admin rozhraní pro editaci bez tření."
+    b: "Docker a čitelné příkazy ke spuštění pro rychlé nalezení stabilního prostředí."
+    c: "Přístup respektující soukromí: málo externích závislostí, pouze užitečná data, nativní zabezpečení Symfony."
+  passions:
+    eyebrow: "Zájmy"
+    heading: "AI, poezie, hudba"
+    a: "Generativní AI a nástroje schopné rozšiřovat lidskou práci bez ztráty srozumitelnosti."
+    b: "Poezie, rytmus, typografie a vizuální vyprávění jako prodloužení kódu."
+    c: "Hudební explorace a osobní projekty, kde web se stává smyslovým prostorem."
+    album_cta: "Poslechnout album"
+    album_hint: "Odkaz na album lze připojit prostřednictvím proměnné prostředí APP_ALBUM_URL."
+  trainings:
+    eyebrow: "Školení"
+    heading: "Školení a zpětná vazba z praxe"
+  testimonials:
+    kicker: "Svědectví"
+    heading: "Co si o mně mysleli"
+    none: "Zatím žádná zveřejněná svědectví"
+    none_body: "Přidejte své první reference z administračního panelu pro naplnění této sekce."
+    reference: "Reference"
+  network:
+    eyebrow: "Přítomnost"
+    heading: "Sítě a veřejné prostory"
+    open: "Otevřít"
+    discover: "Objevit"
+  highlights:
+    stack_label: "Stack"
+    stack_value: "Symfony, Twig, Docker"
+    approach_label: "Přístup"
+    approach_value: "Srozumitelnost, vyprávění, snadná údržba"
+    fields_label: "Oblasti"
+    fields_value: "Kultura, redakční web, prospektivní projekty"
+
+contact:
+  hero:
+    eyebrow: "Kontakt"
+    title: "Promluvme si o webu, misi nebo projektu, který chceme elegantně realizovat."
+    lead: "Formulář ukládá pouze data nezbytná pro odpověď. Odesílání je omezeno pro snížení spamu a zprávy jsou přístupné z administrace."
+    channels: "Přímé kanály"
+    frame: "Rámec: portfolio, redakční přepracování, udržitelný základ Symfony nebo formulace produktu."
+  form:
+    eyebrow: "Formulář"
+    heading: "Odeslat zprávu"
+    submit: "Odeslat zprávu"
+  field:
+    name: "Jméno"
+    name_placeholder: "Vaše jméno"
+    email: "E-mail"
+    email_placeholder: "vas@email.com"
+    company: "Organizace nebo společnost"
+    company_placeholder: "Nepovinné"
+    subject: "Předmět"
+    subject_placeholder: "V několika slovech"
+    message: "Zpráva"
+    message_placeholder: "Popište svůj projekt, potřebu nebo otázku…"
+    consent: "Souhlasím s tím, aby mé údaje byly použity k odpovědi na mou žádost."
+  side:
+    stored_eyebrow: "Rámec"
+    stored_heading: "Co je uloženo"
+    stored_1: "Jméno, e-mail, nepovinná organizace, předmět a zpráva"
+    stored_2: "Žádná marketingová data ani sledovače třetích stran"
+    stored_3: "Back-office pro jednoduché čtení a zpracování žádostí"
+    usage_eyebrow: "Použití"
+    usage_heading: "Co mi můžete poslat"
+    usage_1: "Nápad na prezentační web, portfolio nebo redakční projekt"
+    usage_2: "Potřebu vyčistit existující kódovou základnu"
+    usage_3: "Úvahu o UX, obsahu nebo technickém rámování"
+    usage_4: "Nápady nebo připomínky k projektu SVG"
+
+footer:
+  title: "Portfolio + Civitalisme"
+  desc: "Symfony, Docker, redakční administrace a základ navržený tak, aby vydržel, snadno migroval a zůstal příjemný k vývoji."
+  tagline: "Navrženo pro jednoduché a udržovatelné nasazení na VPS."
+  legal_notice: "Právní informace"
+  privacy: "Ochrana soukromí"
+  nav_label: "Navigace"
+  legal_label: "Právní"
+
+flash:
+  contact_rate_limit: "Formulář byl odeslán příliš mnohokrát. Prosím počkejte několik minut."
+  contact_success: "Děkujeme, vaše zpráva byla odeslána. Brzy se vám ozvu."
+  contact_spam: "Děkujeme, vaše zpráva byla zaznamenána."

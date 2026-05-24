@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /fr/admin/
+Disallow: /en/admin/
+Disallow: /_wdt/
+Disallow: /_profiler/

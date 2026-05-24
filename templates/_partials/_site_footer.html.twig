@@ -1,19 +1,50 @@
 <footer class="site-footer">
-    <div class="site-footer__intro">
-        <p class="site-footer__title">Portfolio + Civitalisme</p>
-        <p class="site-footer__text">Symfony, Docker, administration éditoriale et une base pensée pour durer, migrer facilement et rester agréable à faire évoluer.</p>
+    <div class="site-footer__top">
+        <div class="site-footer__brand">
+            <a class="site-footer__wordmark" href="{{ path('app_home', {'_locale': app.request.locale}) }}">
+                Frédéric<br>Fribel
+            </a>
+            <p class="site-footer__desc">{{ 'footer.desc'|trans }}</p>
+        </div>
+
+        <div class="site-footer__columns">
+            <nav class="site-footer__col" aria-label="{{ 'footer.nav_label'|trans }}">
+                <p class="site-footer__col-label">{{ 'footer.nav_label'|trans }}</p>
+                <a href="{{ path('app_home', {'_locale': app.request.locale}) }}">{{ 'nav.home'|trans }}</a>
+                <a href="{{ path('app_about', {'_locale': app.request.locale}) }}">{{ 'nav.about'|trans }}</a>
+                <a href="{{ path('app_civitalisme') }}">{{ 'nav.civitalisme'|trans }}</a>
+                <a href="{{ path('app_contact', {'_locale': app.request.locale}) }}">{{ 'nav.contact'|trans }}</a>
+            </nav>
+            <nav class="site-footer__col" aria-label="{{ 'footer.legal_label'|trans }}">
+                <p class="site-footer__col-label">{{ 'footer.legal_label'|trans }}</p>
+                <a href="{{ path('app_legal_notice', {'_locale': app.request.locale}) }}">{{ 'footer.legal_notice'|trans }}</a>
+                <a href="{{ path('app_privacy_policy', {'_locale': app.request.locale}) }}">{{ 'footer.privacy'|trans }}</a>
+            </nav>
+        </div>
     </div>
 
-    <div class="site-footer__meta">
-        <a href="{{ path('app_home') }}">Portfolio</a>
-        <a href="{{ path('app_civitalisme') }}">Civitalisme</a>
-        <a href="{{ path('app_contact') }}">Contact</a>
-        <a href="{{ path('app_legal_notice') }}">Mentions légales</a>
-        <a href="{{ path('app_privacy_policy') }}">Confidentialité</a>
-    </div>
+    <div class="site-footer__bottom">
+        <span class="site-footer__copy">© {{ "now"|date("Y") }} · Frédéric Fribel</span>
 
-    <div class="site-footer__note">
-        <span>{{ "now"|date("Y") }} • Frédéric Fribel</span>
-        <span>Conçu pour un déploiement VPS simple et maintenable.</span>
+        <div class="theme-picker" data-controller="color-scheme" aria-label="{{ 'theme.label'|trans }}">
+            <button type="button" class="theme-picker__btn" data-color-scheme-target="button" data-scheme="auto" data-action="click->color-scheme#set" title="{{ 'theme.auto'|trans }}" aria-pressed="true">
+                <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M8 1v1.5M8 13.5V15M1 8h1.5M13.5 8H15M3.05 3.05l1.06 1.06M11.89 11.89l1.06 1.06M3.05 12.95l1.06-1.06M11.89 4.11l1.06-1.06" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <span>Auto</span>
+            </button>
+            <button type="button" class="theme-picker__btn" data-color-scheme-target="button" data-scheme="light" data-action="click->color-scheme#set" title="{{ 'theme.light'|trans }}" aria-pressed="false">
+                <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.5"/></svg>
+                <span>{{ 'theme.light'|trans }}</span>
+            </button>
+            <button type="button" class="theme-picker__btn" data-color-scheme-target="button" data-scheme="dark" data-action="click->color-scheme#set" title="{{ 'theme.dark'|trans }}" aria-pressed="false">
+                <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 10.5A6 6 0 1 1 5.5 2.5a5 5 0 0 0 8 8Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                <span>{{ 'theme.dark'|trans }}</span>
+            </button>
+            <button type="button" class="theme-picker__btn" data-color-scheme-target="button" data-scheme="a11y" data-action="click->color-scheme#set" title="{{ 'theme.a11y'|trans }}" aria-pressed="false">
+                <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="3" r="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 6h10M8 6v7M5 13l3-4 3 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>{{ 'theme.a11y'|trans }}</span>
+            </button>
+        </div>
+
+        <span class="site-footer__made">{{ 'footer.tagline'|trans }}</span>
     </div>
 </footer>

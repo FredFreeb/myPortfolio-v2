@@ -11,56 +11,63 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ContactType extends AbstractType
 {
+    public function __construct(private readonly TranslatorInterface $translator)
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $t = fn(string $key): string => $this->translator->trans($key);
+
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom',
-                'attr' => [
-                    'placeholder' => 'Ton nom ou ton organisation',
+                'label' => 'contact.field.name',
+                'attr'  => [
+                    'placeholder'  => $t('contact.field.name_placeholder'),
                     'autocomplete' => 'name',
                 ],
             ])
             ->add('email', EmailType::class, [
-                'label' => 'E-mail',
-                'attr' => [
-                    'placeholder' => 'bonjour@exemple.fr',
+                'label' => 'contact.field.email',
+                'attr'  => [
+                    'placeholder'  => $t('contact.field.email_placeholder'),
                     'autocomplete' => 'email',
                 ],
             ])
             ->add('company', TextType::class, [
-                'label' => 'Organisation',
+                'label'    => 'contact.field.company',
                 'required' => false,
-                'attr' => [
-                    'placeholder' => 'Optionnel',
+                'attr'     => [
+                    'placeholder'  => $t('contact.field.company_placeholder'),
                     'autocomplete' => 'organization',
                 ],
             ])
             ->add('subject', TextType::class, [
-                'label' => 'Objet',
-                'attr' => [
-                    'placeholder' => 'Exemple : site vitrine, mission, conférence...',
+                'label' => 'contact.field.subject',
+                'attr'  => [
+                    'placeholder' => $t('contact.field.subject_placeholder'),
                 ],
             ])
             ->add('message', TextareaType::class, [
-                'label' => 'Message',
-                'attr' => [
-                    'rows' => 7,
-                    'placeholder' => 'Décris le contexte, les délais et l’effet recherché.',
+                'label' => 'contact.field.message',
+                'attr'  => [
+                    'rows'        => 7,
+                    'placeholder' => $t('contact.field.message_placeholder'),
                 ],
             ])
             ->add('consent', CheckboxType::class, [
-                'label' => 'J’accepte que ces informations soient utilisées uniquement pour être recontacté.',
+                'label'    => 'contact.field.consent',
                 'required' => false,
             ])
             ->add('website', HiddenType::class, [
                 'required' => false,
-                'attr' => [
+                'attr'     => [
                     'autocomplete' => 'off',
-                    'tabindex' => '-1',
+                    'tabindex'     => '-1',
                 ],
             ]);
     }

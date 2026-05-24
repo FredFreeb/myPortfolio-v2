@@ -37,10 +37,10 @@ const LOCALES = {
 export default class extends Controller {
     static targets = ['menu', 'toggle', 'current', 'notice'];
     static values  = {
-        active:    { type: String, default: 'fr' },
-        // Liste CSV des locales disponibles, injectée par le serveur dans
-        // data-lang-switcher-available-value (ex: "fr,en,de"). Toujours 'fr' minimum.
-        available: { type: String, default: 'fr' },
+        active:      { type: String, default: 'fr' },
+        available:   { type: String, default: 'fr' },
+        soonLabel:   { type: String, default: 'soon' },
+        soonNotice:  { type: String, default: '%name% — coming soon.' },
     };
 
     connect() {
@@ -83,9 +83,16 @@ export default class extends Controller {
         this.close();
 
         if (this._isAvailable(locale)) {
-            // Langue dispo : recharger la page pour appliquer la nouvelle locale
+            // Langue dispo : naviguer vers le même chemin avec la nouvelle locale dans l'URL
             this.activeValue = locale;
-            window.location.reload();
+            const currentPath = window.location.pathname;
+            const localeMatch = currentPath.match(/^\/([a-z]{2,3})(?=\/|$)/);
+            if (localeMatch && Object.prototype.hasOwnProperty.call(LOCALES, localeMatch[1])) {
+                const rest = currentPath.slice(1 + localeMatch[1].length);
+                window.location.href = '/' + locale + rest;
+            } else {
+                window.location.href = '/' + locale;
+            }
         } else {
             // Langue indisponible : rester sur FR, afficher le toast "bientôt"
             this._showNotice(locale);
@@ -120,7 +127,7 @@ export default class extends Controller {
             if (!available && !badge) {
                 badge = document.createElement('span');
                 badge.className     = 'lang-switcher__soon';
-                badge.textContent   = 'bientôt';
+                badge.textContent   = this.soonLabelValue;
                 badge.setAttribute('aria-hidden', 'true');
                 node.appendChild(badge);
             } else if (available && badge) {
@@ -132,7 +139,7 @@ export default class extends Controller {
     _showNotice(locale) {
         if (!this.hasNoticeTarget) return;
         const name = LOCALES[locale] || locale.toUpperCase();
-        this.noticeTarget.textContent = `${name} — traduction bientôt disponible.`;
+        this.noticeTarget.textContent = this.soonNoticeValue.replace('%name%', name);
         this.noticeTarget.classList.add('is-visible');
         clearTimeout(this._noticeTimer);
         this._noticeTimer = setTimeout(() => this._hideNotice(), 4500);

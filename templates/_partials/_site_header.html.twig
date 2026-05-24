@@ -1,7 +1,7 @@
 <header class="site-header" data-controller="nav">
-    <a class="brand" href="{{ path('app_home') }}">
+    <a class="brand" href="{{ path('app_home', {'_locale': app.request.locale}) }}">
         <span class="brand__mark">
-            <img src="{{ asset('images/profile/fred-public-avatar.jpg') }}" alt="Photo de profil LinkedIn de Frederic Fribel">
+            <img src="{{ asset('images/profile/fred-public-avatar.jpg') }}" alt="Photo de profil LinkedIn de Frederic Fribel" decoding="async">
         </span>
         <span class="brand__text">
             <strong>Frédéric</strong>
@@ -27,15 +27,17 @@
 
     <div class="site-header__panel" id="site-header-panel">
         <nav class="site-nav" aria-label="Navigation principale">
-            <a class="site-nav__link {{ currentRoute == 'app_home' ? 'is-active' }}" href="{{ path('app_home') }}" data-action="click->nav#close">Portfolio</a>
-            <a class="site-nav__link {{ currentRoute == 'app_about' ? 'is-active' }}" href="{{ path('app_about') }}" data-action="click->nav#close">About me</a>
-            <a class="site-nav__link {{ currentRoute starts with 'app_civitalisme' ? 'is-active' }}" href="{{ path('app_civitalisme') }}" data-action="click->nav#close">Civitalisme</a>
-            <a class="site-nav__link {{ currentRoute == 'app_contact' ? 'is-active' }}" href="{{ path('app_contact') }}" data-action="click->nav#close">Contact</a>
+            <a class="site-nav__link {{ currentRoute == 'app_home' ? 'is-active' }}" href="{{ path('app_home', {'_locale': app.request.locale}) }}" data-action="click->nav#close">{{ 'nav.home'|trans }}</a>
+            <a class="site-nav__link {{ currentRoute == 'app_about' ? 'is-active' }}" href="{{ path('app_about', {'_locale': app.request.locale}) }}" data-action="click->nav#close">{{ 'nav.about'|trans }}</a>
+            <a class="site-nav__link {{ currentRoute starts with 'app_civitalisme' ? 'is-active' }}" href="{{ path('app_civitalisme') }}" data-action="click->nav#close">{{ 'nav.civitalisme'|trans }}</a>
+            <a class="site-nav__link {{ currentRoute == 'app_contact' ? 'is-active' }}" href="{{ path('app_contact', {'_locale': app.request.locale}) }}" data-action="click->nav#close">{{ 'nav.contact'|trans }}</a>
 
             <div class="lang-switcher"
                  data-controller="lang-switcher"
                  data-lang-switcher-active-value="{{ app.request.locale|default('fr') }}"
                  data-lang-switcher-available-value="{{ available_locales()|join(',') }}"
+                 data-lang-switcher-soon-label-value="{{ 'nav.soon'|trans }}"
+                 data-lang-switcher-soon-notice-value="{{ 'nav.soon_notice'|trans }}"
                  aria-label="Sélecteur de langue">
                 <button
                     type="button"
@@ -68,10 +70,7 @@
                     </svg>
                 </button>
                 <ul class="lang-switcher__menu" role="listbox" data-lang-switcher-target="menu">
-                    {# Français — seule langue active #}
                     <li><button type="button" role="option" data-locale="fr" data-action="click->lang-switcher#select"><span>Français</span><small>FR</small></button></li>
-                    {# 23 langues officielles UE — bientôt disponibles #}
-                    <li class="lang-switcher__group-label" aria-hidden="true">Bientôt disponibles</li>
                     <li><button type="button" role="option" data-locale="bg" data-action="click->lang-switcher#select"><span>Български</span><small>BG</small></button></li>
                     <li><button type="button" role="option" data-locale="cs" data-action="click->lang-switcher#select"><span>Čeština</span><small>CS</small></button></li>
                     <li><button type="button" role="option" data-locale="da" data-action="click->lang-switcher#select"><span>Dansk</span><small>DA</small></button></li>

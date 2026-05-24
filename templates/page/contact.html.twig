@@ -7,18 +7,15 @@
 {% block body %}
     <section class="hero hero--inner hero--contact">
         <div class="hero__copy">
-            <p class="eyebrow">Contact</p>
+            <p class="eyebrow">{{ 'contact.hero.eyebrow'|trans }}</p>
             <h1 class="hero__title hero__title--medium" data-controller="pretext" data-pretext-line-height-value="62">
-                Parlons d’un site, d’une mission ou d’un projet à faire émerger proprement.
+                {{ 'contact.hero.title'|trans }}
             </h1>
-            <p class="hero__lead">
-                Le formulaire enregistre uniquement les données nécessaires à la réponse. Les envois sont limités pour réduire le spam,
-                et les messages restent consultables depuis l’admin.
-            </p>
+            <p class="hero__lead">{{ 'contact.hero.lead'|trans }}</p>
         </div>
 
         <div class="hero__panel surface-card contact-panel">
-            <p class="panel-label">Canaux directs</p>
+            <p class="panel-label">{{ 'contact.hero.channels'|trans }}</p>
             <div class="contact-link-grid">
                 {% for link in contactLinks %}
                     <article class="contact-link-card contact-link-card--{{ link.theme }}">
@@ -43,15 +40,13 @@
                             {% endif %}
                         </div>
                         {% if link.url %}
-                            <a class="button button--ghost" href="{{ link.url }}" target="_blank" rel="noreferrer">Ouvrir</a>
+                            <a class="button button--ghost" href="{{ link.url }}" target="_blank" rel="noreferrer">{{ 'about.network.open'|trans }}</a>
                         {% endif %}
                     </article>
                 {% endfor %}
             </div>
 
-            <div class="section-note">
-                <strong>Cadre de réponse :</strong> portfolio, refonte éditoriale, base Symfony maintenable ou réflexion produit à formaliser.
-            </div>
+            <div class="section-note">{{ 'contact.hero.frame'|trans }}</div>
         </div>
     </section>
 
@@ -59,8 +54,8 @@
         <article class="surface-card" id="contact-form">
             <div class="section-heading section-heading--tight">
                 <div>
-                    <p class="eyebrow">Formulaire</p>
-                    <h2>Envoyer un message</h2>
+                    <p class="eyebrow">{{ 'contact.form.eyebrow'|trans }}</p>
+                    <h2>{{ 'contact.form.heading'|trans }}</h2>
                 </div>
             </div>
 
@@ -76,29 +71,29 @@
                 {{ form_row(form.consent) }}
                 {{ form_row(form.website) }}
 
-                <button class="button" type="submit">Envoyer le message</button>
+                <button class="button" type="submit">{{ 'contact.form.submit'|trans }}</button>
             {{ form_end(form) }}
         </article>
 
         <div class="contact-side-grid">
             <aside class="surface-card">
-                <p class="eyebrow">Cadre</p>
-                <h2>Ce qui est stocké</h2>
+                <p class="eyebrow">{{ 'contact.side.stored_eyebrow'|trans }}</p>
+                <h2>{{ 'contact.side.stored_heading'|trans }}</h2>
                 <ul class="feature-list">
-                    <li>Nom, e-mail, structure éventuelle, objet et message</li>
-                    <li>Aucune donnée marketing ni pisteur tiers</li>
-                    <li>Un back-office pour lire et traiter les demandes simplement</li>
+                    <li>{{ 'contact.side.stored_1'|trans }}</li>
+                    <li>{{ 'contact.side.stored_2'|trans }}</li>
+                    <li>{{ 'contact.side.stored_3'|trans }}</li>
                 </ul>
             </aside>
 
             <aside class="surface-card">
-                <p class="eyebrow">Usage</p>
-                <h2>Ce que tu peux m’envoyer</h2>
+                <p class="eyebrow">{{ 'contact.side.usage_eyebrow'|trans }}</p>
+                <h2>{{ 'contact.side.usage_heading'|trans }}</h2>
                 <ul class="feature-list">
-                    <li>Une idée de site vitrine, portfolio ou projet éditorial</li>
-                    <li>Un besoin de remise au propre d’une base existante</li>
-                    <li>Une réflexion UX, contenu ou cadrage technique</li>
-                    <li>Des idées ou remarques sur le projet du SVG</li>
+                    <li>{{ 'contact.side.usage_1'|trans }}</li>
+                    <li>{{ 'contact.side.usage_2'|trans }}</li>
+                    <li>{{ 'contact.side.usage_3'|trans }}</li>
+                    <li>{{ 'contact.side.usage_4'|trans }}</li>
                 </ul>
             </aside>
         </div>

@@ -1,45 +1,41 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}About me | Frédéric Fribel{% endblock %}
-{% block meta_description %}Parcours, environnement de travail, passions et approche métier autour du web, de l’IA et de la poésie.{% endblock %}
+{% block meta_description %}Parcours, environnement de travail, passions et approche métier autour du web, de l'IA et de la poésie.{% endblock %}
 {% block body_class %}theme-portfolio page-about{% endblock %}
 
 {% block body %}
     <section class="hero hero--inner hero--about">
         <div class="hero__copy">
-            <p class="eyebrow">A propos de mon travail</p>
+            <p class="eyebrow">{{ 'about.hero.eyebrow'|trans }}</p>
             <h1 class="hero__title hero__title--medium hero__title--heartbeat" data-controller="pretext" data-pretext-line-height-value="62">
-                Développer des sites web vivants
+                {{ 'about.hero.title'|trans }}
             </h1>
-            <p class="hero__lead">
-                Développeur web formé aux environnements modernes, j’ai également construit une solide expérience en accompagnement utilisateur et support client.
-Mon parcours m’a conduit à évoluer vers des fonctions d’adjoint de direction, alliant gestion, organisation et relation publique.
-Aujourd’hui, je mets ces compétences au service de projets où technique, humain et structuration se rencontrent.
-            </p>
+            <p class="hero__lead">{{ 'about.hero.lead'|trans }}</p>
 
             <div class="hero__actions">
-                <a class="button" href="https://www.linkedin.com/in/FredFreeb" target="_blank" rel="noreferrer">Voir mon profil public</a>
-                <a class="button button--ghost" href="{{ path('app_contact') }}">Échanger avec moi</a>
+                <a class="button" href="https://www.linkedin.com/in/FredFreeb" target="_blank" rel="noreferrer">{{ 'about.hero.cta_linkedin'|trans }}</a>
+                <a class="button button--ghost" href="{{ path('app_contact', {'_locale': app.request.locale}) }}">{{ 'about.hero.cta_contact'|trans }}</a>
             </div>
         </div>
 
         <aside class="surface-card about-identity">
             <div class="about-identity__header">
                 <div class="about-identity__badge">
-                    <img src="{{ asset('images/profile/fred-linkedin-brand.jpg') }}" alt="Avatar public de Fred">
+                    <img src="{{ asset('images/profile/fred-linkedin-brand.jpg') }}" alt="Avatar public de Fred" loading="lazy" decoding="async">
                 </div>
                 <div class="about-identity__copy">
-                    <p class="panel-label">Profil public</p>
-                    <h2>Développement web, projets sur mesure</h2>
-                    <p>Je privilégie un code clair et sécurisé, des structures maintenables et des solutions sur mesure, facilement administrables et adaptées aux besoins réels, plutôt que des outils standardisés difficiles à faire évoluer.</p>
+                    <p class="panel-label">{{ 'about.identity.kicker'|trans }}</p>
+                    <h2>{{ 'about.identity.heading'|trans }}</h2>
+                    <p>{{ 'about.identity.body'|trans }}</p>
                 </div>
             </div>
 
             <div class="metric-strip metric-strip--stacked">
                 {% for item in profileHighlights %}
                     <div class="metric-chip">
-                        <strong>{{ item.label }}</strong>
-                        <span>{{ item.value }}</span>
+                        <strong>{{ item.label|trans }}</strong>
+                        <span>{{ item.value|trans }}</span>
                     </div>
                 {% endfor %}
             </div>
@@ -49,8 +45,8 @@ Aujourd’hui, je mets ces compétences au service de projets où technique, hum
     <section class="section section--panel section--panel-sun">
         <div class="section-heading">
             <div>
-                <p class="eyebrow">Expériences</p>
-                <h2>Parcours professionnel</h2>
+                <p class="eyebrow">{{ 'about.experiences.eyebrow'|trans }}</p>
+                <h2>{{ 'about.experiences.heading'|trans }}</h2>
             </div>
         </div>
 
@@ -60,7 +56,7 @@ Aujourd’hui, je mets ces compétences au service de projets où technique, hum
                     <div class="experience-card__header">
                         <div class="experience-card__logo" aria-hidden="true">
                             {% if item.logoPath %}
-                                <img src="{{ asset(item.logoPath) }}" alt="{{ item.companyName }}">
+                                <img src="{{ asset(item.logoPath) }}" alt="{{ item.companyName }}" loading="lazy" decoding="async">
                             {% else %}
                                 <span>{{ item.monogram|default(item.companyName|slice(0, 3)|upper) }}</span>
                             {% endif %}
@@ -83,17 +79,17 @@ Aujourd’hui, je mets ces compétences au service de projets où technique, hum
     <section class="section section--panel section--panel-mint">
         <div class="section-heading">
             <div>
-                <p class="eyebrow">Repères</p>
-                <h2>Quelques lignes de force</h2>
+                <p class="eyebrow">{{ 'about.journey.eyebrow'|trans }}</p>
+                <h2>{{ 'about.journey.heading'|trans }}</h2>
             </div>
         </div>
 
         <div class="card-grid card-grid--three">
             {% for item in journey %}
                 <article class="surface-card narrative-card narrative-card--playful">
-                    <p class="panel-label">Axe</p>
-                    <h3>{{ item.title }}</h3>
-                    <p>{{ item.body }}</p>
+                    <p class="panel-label">{{ 'about.journey.axis'|trans }}</p>
+                    <h3>{{ item.title|trans }}</h3>
+                    <p>{{ item.body|trans }}</p>
                 </article>
             {% endfor %}
         </div>
@@ -101,28 +97,28 @@ Aujourd’hui, je mets ces compétences au service de projets où technique, hum
 
     <section class="section split-section section--panel section--panel-sky">
         <article class="surface-card">
-            <p class="eyebrow">Environnement de travail</p>
-            <h2>Des outils choisis pour rester autonome</h2>
+            <p class="eyebrow">{{ 'about.environment.eyebrow'|trans }}</p>
+            <h2>{{ 'about.environment.heading'|trans }}</h2>
             <ul class="feature-list">
                 {% for item in environment %}
-                    <li>{{ item }}</li>
+                    <li>{{ item|trans }}</li>
                 {% endfor %}
             </ul>
         </article>
 
         <article class="surface-card">
-            <p class="eyebrow">Passions</p>
-            <h2>IA, poésie, musique</h2>
+            <p class="eyebrow">{{ 'about.passions.eyebrow'|trans }}</p>
+            <h2>{{ 'about.passions.heading'|trans }}</h2>
             <ul class="feature-list">
                 {% for item in passions %}
-                    <li>{{ item }}</li>
+                    <li>{{ item|trans }}</li>
                 {% endfor %}
             </ul>
 
             {% if albumUrl %}
-                <a class="button" href="{{ albumUrl }}" target="_blank" rel="noreferrer">Écouter l’album</a>
+                <a class="button" href="{{ albumUrl }}" target="_blank" rel="noreferrer">{{ 'about.passions.album_cta'|trans }}</a>
             {% else %}
-                <p class="hint-text">Le lien vers l’album est prêt à être branché via la variable d’environnement <code>APP_ALBUM_URL</code>.</p>
+                <p class="hint-text">{{ 'about.passions.album_hint'|trans }}</p>
             {% endif %}
         </article>
     </section>
@@ -130,8 +126,8 @@ Aujourd’hui, je mets ces compétences au service de projets où technique, hum
     <section class="section section--panel section--panel-sun">
         <div class="section-heading">
             <div>
-                <p class="eyebrow">Formations</p>
-                <h2>Formations et retours de terrain</h2>
+                <p class="eyebrow">{{ 'about.trainings.eyebrow'|trans }}</p>
+                <h2>{{ 'about.trainings.heading'|trans }}</h2>
             </div>
         </div>
 
@@ -141,7 +137,7 @@ Aujourd’hui, je mets ces compétences au service de projets où technique, hum
                     <article class="surface-card training-card training-card--{{ item.theme }}">
                         <div class="training-card__head">
                             {% if item.imagePath %}
-                                <img src="{{ asset(item.imagePath) }}" alt="{{ item.schoolName }}">
+                                <img src="{{ asset(item.imagePath) }}" alt="{{ item.schoolName }}" loading="lazy" decoding="async">
                             {% endif %}
                             <div>
                                 <p class="panel-label">{{ item.period }}</p>
@@ -155,23 +151,23 @@ Aujourd’hui, je mets ces compétences au service de projets où technique, hum
             </div>
 
             <article class="surface-card">
-                <p class="panel-label">Témoignages</p>
-                <h3>Ce qu’ils ont pensé de moi</h3>
+                <p class="panel-label">{{ 'about.testimonials.kicker'|trans }}</p>
+                <h3>{{ 'about.testimonials.heading'|trans }}</h3>
                 <div class="card-grid card-grid--compact">
                     {% for item in testimonials %}
                         <article class="surface-card narrative-card">
-                            <p class="panel-label">{{ item.companyName ?: 'Référence' }}</p>
+                            <p class="panel-label">{{ item.companyName ?: ('about.testimonials.reference'|trans) }}</p>
                             <h3>{{ item.authorName }}</h3>
                             {% if item.authorRole %}
                                 <p class="stack-line">{{ item.authorRole }}</p>
                             {% endif %}
-                            <p>“{{ item.content }}”</p>
+                            <p>"{{ item.content }}"</p>
                         </article>
                     {% else %}
                         <article class="surface-card narrative-card">
-                            <p class="panel-label">Témoignages</p>
-                            <h3>Aucun témoignage publié</h3>
-                            <p>Ajoute tes premiers retours depuis l’espace admin pour alimenter cette section.</p>
+                            <p class="panel-label">{{ 'about.testimonials.kicker'|trans }}</p>
+                            <h3>{{ 'about.testimonials.none'|trans }}</h3>
+                            <p>{{ 'about.testimonials.none_body'|trans }}</p>
                         </article>
                     {% endfor %}
                 </div>
@@ -182,8 +178,8 @@ Aujourd’hui, je mets ces compétences au service de projets où technique, hum
     <section class="section section--panel section--panel-mint">
         <div class="section-heading">
             <div>
-                <p class="eyebrow">Présence</p>
-                <h2>Réseaux et univers publics</h2>
+                <p class="eyebrow">{{ 'about.network.eyebrow'|trans }}</p>
+                <h2>{{ 'about.network.heading'|trans }}</h2>
             </div>
         </div>
 
@@ -212,7 +208,7 @@ Aujourd’hui, je mets ces compétences au service de projets où technique, hum
                         <p>{{ item.description }}</p>
                     </div>
                     {% if item.url %}
-                        <a class="button button--ghost" href="{{ item.url }}" target="_blank" rel="noreferrer">Ouvrir</a>
+                        <a class="button button--ghost" href="{{ item.url }}" target="_blank" rel="noreferrer">{{ 'about.network.open'|trans }}</a>
                     {% endif %}
                 </article>
             {% endfor %}
@@ -233,7 +229,7 @@ Aujourd’hui, je mets ces compétences au service de projets où technique, hum
                     {% endif %}
                     <p>{{ item.description }}</p>
                     {% if item.url %}
-                        <a class="button button--ghost" href="{{ item.url }}" target="_blank" rel="noreferrer">Découvrir</a>
+                        <a class="button button--ghost" href="{{ item.url }}" target="_blank" rel="noreferrer">{{ 'about.network.discover'|trans }}</a>
                     {% endif %}
                 </article>
             {% endfor %}
@@ -246,7 +242,7 @@ Aujourd’hui, je mets ces compétences au service de projets où technique, hum
                     {% if albumUrl %}
                         <a class="button button--ghost" href="{{ albumUrl }}" target="_blank" rel="noreferrer">Écouter</a>
                     {% else %}
-                        <span class="hint-text">Lien d’album à connecter via <code>APP_ALBUM_URL</code>.</span>
+                        <span class="hint-text">Lien d'album à connecter via <code>APP_ALBUM_URL</code>.</span>
                     {% endif %}
                 </article>
             {% endif %}

@@ -1,0 +1,168 @@
+# Portfolio + Civitalisme — messages.en.yaml
+
+nav:
+  home: "Portfolio"
+  about: "About"
+  civitalisme: "Civitalisme"
+  contact: "Contact"
+  lang: "Change language"
+  soon: "soon"
+  soon_notice: "%name% — translation coming soon."
+
+home:
+  hero:
+    eyebrow: "Portfolio • Symfony • Docker • lightweight admin"
+    title: "Welcome to my portfolio, where I share my projects."
+    lead: "This site gathers my work, my background and my projects built to last: custom-made, a practical back office, and a straightforward VPS deployment."
+    cta_contact: "Talk about a project"
+    cta_about: "See my background"
+    tagline: "Narrative design, clean architecture, controlled modernity."
+  works:
+    eyebrow: "Work"
+    heading: "A selection of projects"
+    cta: "Request a collaboration"
+    client_fallback: "Personal project"
+    cta_view: "View project"
+    cta_code: "Code"
+    tools_label: "Tools:"
+  civitalisme_section:
+    eyebrow: "Civitalisme"
+    heading: "Two entry points for the same project"
+    cta: "See the project page"
+    public_label: "General public"
+    public_title: "An accessible and grounded vision"
+    public_desc: "A more narrative page, designed to share the promise, uses and tone of the project without unnecessary jargon."
+    public_cta: "Explore the public version"
+    institutional_label: "Institutional"
+    institutional_title: "A clear read for partners and institutions"
+    institutional_desc: "A structured page presenting method, impact, capacity and partnership logic."
+    institutional_cta: "Explore the institutional version"
+  testimonials:
+    eyebrow: "Feedback"
+    heading: "Words from the field"
+    fallback: "Testimonial"
+  cta:
+    eyebrow: "Contact"
+    heading: "Need a clear, editable, well-maintained website?"
+    body: "I can work on a portfolio, a narrative showcase, a simple back office or a lasting Symfony base."
+    cta_write: "Write to me"
+
+about:
+  hero:
+    eyebrow: "About my work"
+    title: "Building living websites"
+    lead: "A web developer trained in modern environments, I have also built solid experience in user support and client relations. My career has led me into deputy management roles, combining operations, organisation and public relations. Today I put these skills to work on projects where technology, people and structure meet."
+    cta_linkedin: "View my public profile"
+    cta_contact: "Get in touch"
+  identity:
+    kicker: "Public profile"
+    heading: "Web development, custom projects"
+    body: "I favour clean and secure code, maintainable structures and tailored solutions — easy to administer and adapted to real needs — over standardised tools that are hard to evolve."
+  experiences:
+    eyebrow: "Experience"
+    heading: "Professional background"
+  journey:
+    eyebrow: "Landmarks"
+    heading: "A few guiding principles"
+    axis: "Axis"
+    a:
+      title: "Full-stack web development"
+      body: "I build clear interfaces, durable back offices and flows that remain readable for teams and visitors alike."
+    b:
+      title: "Product culture and autonomy"
+      body: "I enjoy connecting design, technology and organisation to deliver sites that thrive long after launch."
+    c:
+      title: "Knowledge transfer and structure"
+      body: "I favour simple, maintainable foundations: clear conventions, readable code, short documentation and admin tailored to actual needs."
+  environment:
+    eyebrow: "Working environment"
+    heading: "Tools chosen to stay autonomous"
+    a: "Symfony 8, Twig, Doctrine and a lean admin for friction-free editing."
+    b: "Docker and readable start-up commands for a reliably stable environment."
+    c: "A privacy-friendly approach: few external dependencies, only useful data, native Symfony security."
+  passions:
+    eyebrow: "Passions"
+    heading: "AI, poetry, music"
+    a: "Generative AI and tools capable of amplifying human work without drowning clarity."
+    b: "Poetry, rhythm, typography and visual narrative as extensions of code."
+    c: "Musical explorations and personal projects where the web becomes a sensory space."
+    album_cta: "Listen to the album"
+    album_hint: "The album link can be connected via the APP_ALBUM_URL environment variable."
+  trainings:
+    eyebrow: "Training"
+    heading: "Training and field feedback"
+  testimonials:
+    kicker: "Testimonials"
+    heading: "What they thought of me"
+    none: "No testimonials published yet"
+    none_body: "Add your first references from the admin panel to populate this section."
+    reference: "Reference"
+  network:
+    eyebrow: "Presence"
+    heading: "Networks and public spaces"
+    open: "Open"
+    discover: "Discover"
+  highlights:
+    stack_label: "Stack"
+    stack_value: "Symfony, Twig, Docker"
+    approach_label: "Approach"
+    approach_value: "Clarity, narrative, simple maintenance"
+    fields_label: "Fields"
+    fields_value: "Culture, editorial web, prospective projects"
+
+contact:
+  hero:
+    eyebrow: "Contact"
+    title: "Let's talk about a site, a mission or a project to bring to life cleanly."
+    lead: "The form stores only the data needed to reply. Submissions are rate-limited to reduce spam, and messages remain accessible from the admin."
+    channels: "Direct channels"
+    frame: "Scope: portfolio, editorial redesign, maintainable Symfony base or product framing."
+  form:
+    eyebrow: "Form"
+    heading: "Send a message"
+    submit: "Send message"
+  field:
+    name: "Name"
+    name_placeholder: "Your name"
+    email: "Email"
+    email_placeholder: "your@email.com"
+    company: "Organisation or company"
+    company_placeholder: "Optional"
+    subject: "Subject"
+    subject_placeholder: "In a few words"
+    message: "Message"
+    message_placeholder: "Describe your project, need or question…"
+    consent: "I agree to my data being used to respond to my request."
+  side:
+    stored_eyebrow: "Scope"
+    stored_heading: "What is stored"
+    stored_1: "Name, email, optional organisation, subject and message"
+    stored_2: "No marketing data or third-party trackers"
+    stored_3: "A back office to read and handle requests simply"
+    usage_eyebrow: "Usage"
+    usage_heading: "What you can send me"
+    usage_1: "An idea for a showcase site, portfolio or editorial project"
+    usage_2: "A need to clean up an existing codebase"
+    usage_3: "A UX, content or technical framing reflection"
+    usage_4: "Ideas or feedback on the SVG project"
+
+theme:
+  label: "Theme"
+  auto: "Auto (system)"
+  light: "Light"
+  dark: "Dark"
+  a11y: "Accessibility"
+
+footer:
+  title: "Portfolio + Civitalisme"
+  desc: "Symfony, Docker, editorial administration and a foundation designed to last, migrate easily and stay pleasant to evolve."
+  tagline: "Designed for simple, maintainable VPS deployment."
+  legal_notice: "Legal notice"
+  privacy: "Privacy"
+  nav_label: "Navigation"
+  legal_label: "Legal"
+
+flash:
+  contact_rate_limit: "The form was submitted too many times. Please wait a few minutes."
+  contact_success: "Thank you, your message has been sent. I'll get back to you soon."
+  contact_spam: "Thank you, your message has been noted."

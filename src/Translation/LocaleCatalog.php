@@ -2,6 +2,9 @@
 
 namespace App\Translation;
 
+use function array_keys;
+use function strtoupper;
+
 /**
  * Catalogue central des 24 locales officielles de l'UE.
  * Source unique partagée entre le subscriber, l'admin, le lang switcher

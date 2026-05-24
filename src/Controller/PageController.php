@@ -28,102 +28,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class PageController extends AbstractController
 {
-    /**
-     * @var list<array{title: string, body: string}>
-     */
-    private const JOURNEY = [
-        [
-            'title' => 'Développement web full-stack',
-            'body' => 'Je construis des interfaces claires, des back-offices durables et des parcours qui restent lisibles pour les équipes comme pour les visiteurs.',
-        ],
-        [
-            'title' => 'Culture produit et autonomie',
-            'body' => 'J’aime faire dialoguer design, technique et organisation pour livrer des sites qui vivent bien après leur mise en ligne.',
-        ],
-        [
-            'title' => 'Transmission et structuration',
-            'body' => 'Je privilégie les bases simples à maintenir : conventions claires, code relisible, documentation courte et administration adaptée au vrai besoin.',
-        ],
-    ];
 
-    /**
-     * @var list<string>
-     */
-    private const ENVIRONMENT = [
-        'Symfony 8, Twig, Doctrine et un admin sobre pour éditer sans friction.',
-        'Docker et des commandes de démarrage lisibles pour retrouver un environnement stable rapidement.',
-        'Une approche privacy-friendly : peu de dépendances externes, données utiles uniquement, sécurité native Symfony.',
-    ];
-
-    /**
-     * @var list<string>
-     */
-    private const PASSIONS = [
-        'IA générative et outils capables d’augmenter le travail humain sans noyer la clarté.',
-        'Poésie, rythme, typographie et narration visuelle comme prolongement du code.',
-        'Explorations musicales et projets personnels où le web devient un espace sensible.',
-    ];
-
-    /**
-     * @var list<array{label: string, value: string}>
-     */
-    private const PROFILE_HIGHLIGHTS = [
-        [
-            'label' => 'Stack',
-            'value' => 'Symfony, Twig, Docker',
-        ],
-        [
-            'label' => 'Approche',
-            'value' => 'Clarté, narration, maintien simple',
-        ],
-        [
-            'label' => 'Terrains',
-            'value' => 'Culture, web éditorial, projets prospectifs',
-        ],
-    ];
-
-    /**
-     * Public profile links that should stay visible even when production data is incomplete.
-     *
-     * @var list<array{
-     *     label: string,
-     *     title: string,
-     *     subtitle: ?string,
-     *     url: string,
-     *     description: string,
-     *     badge: string,
-     *     theme: string,
-     *     kicker: string,
-     *     category: string,
-     *     year: ?string
-     * }>
-     */
-    private const DEFAULT_NETWORK_LINKS = [
-        [
-            'label' => 'Code public',
-            'title' => 'Code public',
-            'subtitle' => null,
-            'url' => 'https://github.com/FredFreeb',
-            'description' => 'Mes bases, prototypes et explorations autour du web, de l\'UI et des projets personnels.',
-            'badge' => 'GH',
-            'theme' => 'github',
-            'kicker' => 'Réseau',
-            'category' => 'network',
-            'year' => null,
-        ],
-        [
-            'label' => 'Trajectoire pro',
-            'title' => 'Trajectoire pro',
-            'subtitle' => null,
-            'url' => 'https://www.linkedin.com/in/FredFreeb',
-            'description' => 'Une lecture plus professionnelle du parcours, des responsabilités et du positionnement actuel.',
-            'badge' => 'IN',
-            'theme' => 'linkedin',
-            'kicker' => 'Réseau',
-            'category' => 'network',
-            'year' => null,
-        ],
-    ];
 
     public function __construct(
         #[Autowire('%env(string:APP_ALBUM_URL)%')]
@@ -138,7 +43,13 @@ class PageController extends AbstractController
     ) {
     }
 
-    #[Route('/', name: 'app_home', methods: ['GET'])]
+    #[Route('/', name: 'app_root', methods: ['GET'])]
+    public function root(Request $request): Response
+    {
+        return $this->redirect('/' . $request->getLocale());
+    }
+
+    #[Route('/{_locale}', name: 'app_home', requirements: ['_locale' => '[a-z]{2}'], methods: ['GET'])]
     public function home(
         WorkRepository $workRepository,
         ProjectUpdateRepository $projectUpdateRepository,
@@ -162,7 +73,7 @@ class PageController extends AbstractController
         ]);
     }
 
-    #[Route('/about', name: 'app_about', methods: ['GET'])]
+    #[Route('/{_locale}/about', name: 'app_about', requirements: ['_locale' => '[a-z]{2}'], methods: ['GET'])]
     public function about(
         ExperienceRepository $experienceRepository,
         TrainingRepository $trainingRepository,
@@ -176,11 +87,24 @@ class PageController extends AbstractController
         );
         $hobbyCards = $this->formatProfileLinks($profileLinkRepository->findPublishedByCategory(LinkCategory::Hobby));
 
+        $journey = [
+            ['title' => 'about.journey.a.title', 'body' => 'about.journey.a.body'],
+            ['title' => 'about.journey.b.title', 'body' => 'about.journey.b.body'],
+            ['title' => 'about.journey.c.title', 'body' => 'about.journey.c.body'],
+        ];
+        $environment = ['about.environment.a', 'about.environment.b', 'about.environment.c'];
+        $passions = ['about.passions.a', 'about.passions.b', 'about.passions.c'];
+        $profileHighlights = [
+            ['label' => 'about.highlights.stack_label',    'value' => 'about.highlights.stack_value'],
+            ['label' => 'about.highlights.approach_label', 'value' => 'about.highlights.approach_value'],
+            ['label' => 'about.highlights.fields_label',   'value' => 'about.highlights.fields_value'],
+        ];
+
         return $this->render('page/about.html.twig', [
-            'journey' => self::JOURNEY,
-            'environment' => self::ENVIRONMENT,
-            'passions' => self::PASSIONS,
-            'profileHighlights' => self::PROFILE_HIGHLIGHTS,
+            'journey' => $journey,
+            'environment' => $environment,
+            'passions' => $passions,
+            'profileHighlights' => $profileHighlights,
             'experienceTimeline' => $experiences,
             'trainingTimeline' => $trainings,
             'networkCards' => $networkCards,
@@ -275,7 +199,7 @@ class PageController extends AbstractController
             : $this->redirectToRoute('app_civitalisme_technical');
     }
 
-    #[Route('/mentions-legales', name: 'app_legal_notice', methods: ['GET'])]
+    #[Route('/{_locale}/mentions-legales', name: 'app_legal_notice', requirements: ['_locale' => '[a-z]{2}'], methods: ['GET'])]
     public function legalNotice(ProfileLinkRepository $profileLinkRepository): Response
     {
         return $this->render('page/legal/mentions.html.twig', [
@@ -300,7 +224,7 @@ class PageController extends AbstractController
         ]);
     }
 
-    #[Route('/politique-confidentialite', name: 'app_privacy_policy', methods: ['GET'])]
+    #[Route('/{_locale}/politique-confidentialite', name: 'app_privacy_policy', requirements: ['_locale' => '[a-z]{2}'], methods: ['GET'])]
     public function privacyPolicy(): Response
     {
         return $this->render('page/legal/privacy.html.twig', [
@@ -319,7 +243,7 @@ class PageController extends AbstractController
         ]);
     }
 
-    #[Route('/contact', name: 'app_contact', methods: ['GET', 'POST'])]
+    #[Route('/{_locale}/contact', name: 'app_contact', requirements: ['_locale' => '[a-z]{2}'], methods: ['GET', 'POST'])]
     public function contact(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -338,15 +262,15 @@ class PageController extends AbstractController
             $rateLimit = $this->contactFormLimiter->create($limiterKey)->consume(1);
 
             if (!$rateLimit->isAccepted()) {
-                $this->addFlash('error', 'Le formulaire a été envoyé trop souvent. Merci de patienter quelques minutes.');
+                $this->addFlash('error', 'flash.contact_rate_limit');
 
-                return $this->redirectToRoute('app_contact');
+                return $this->redirectToRoute('app_contact', ['_locale' => $request->getLocale()]);
             }
 
             if (!empty($contactRequest->getWebsite())) {
-                $this->addFlash('success', 'Merci, ton message a bien été pris en compte.');
+                $this->addFlash('success', 'flash.contact_spam');
 
-                return $this->redirectToRoute('app_contact');
+                return $this->redirectToRoute('app_contact', ['_locale' => $request->getLocale()]);
             }
 
             $message = (new ContactMessage())
@@ -375,9 +299,9 @@ class PageController extends AbstractController
 
             $this->mailer->send($notification);
 
-            $this->addFlash('success', 'Merci, ton message a bien été envoyé. Je reviendrai vers toi rapidement.');
+            $this->addFlash('success', 'flash.contact_success');
 
-            return $this->redirectToRoute('app_contact');
+            return $this->redirectToRoute('app_contact', ['_locale' => $request->getLocale()]);
         }
 
         return $this->render('page/contact.html.twig', [
@@ -463,7 +387,7 @@ class PageController extends AbstractController
     {
         $existingThemes = array_column($links, 'theme');
 
-        foreach (self::DEFAULT_NETWORK_LINKS as $defaultLink) {
+        foreach (self::defaultNetworkLinks() as $defaultLink) {
             if (!in_array($defaultLink['theme'], $existingThemes, true)) {
                 $links[] = $defaultLink;
             }
@@ -474,5 +398,36 @@ class PageController extends AbstractController
         }
 
         return $links;
+    }
+
+    /** @return list<array{label:string,title:string,subtitle:?string,url:string,description:string,badge:string,theme:string,kicker:string,category:string,year:?string}> */
+    private static function defaultNetworkLinks(): array
+    {
+        return [
+            [
+                'label' => 'Code public',
+                'title' => 'Code public',
+                'subtitle' => null,
+                'url' => 'https://github.com/FredFreeb',
+                'description' => 'Mes bases, prototypes et explorations autour du web, de l\'UI et des projets personnels.',
+                'badge' => 'GH',
+                'theme' => 'github',
+                'kicker' => 'Réseau',
+                'category' => 'network',
+                'year' => null,
+            ],
+            [
+                'label' => 'Trajectoire pro',
+                'title' => 'Trajectoire pro',
+                'subtitle' => null,
+                'url' => 'https://www.linkedin.com/in/FredFreeb',
+                'description' => 'Une lecture plus professionnelle du parcours, des responsabilités et du positionnement actuel.',
+                'badge' => 'IN',
+                'theme' => 'linkedin',
+                'kicker' => 'Réseau',
+                'category' => 'network',
+                'year' => null,
+            ],
+        ];
     }
 }
