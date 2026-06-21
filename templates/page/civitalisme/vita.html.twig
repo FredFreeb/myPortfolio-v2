@@ -1,0 +1,273 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vita — Réhabilitation écologique pour les sans-abris | Civitalisme{% endblock %}
+{% block meta_description %}Vita transforme des bâtiments vacants en logements écologiques accessibles aux personnes sans domicile. Un projet du Civitalisme, indépendant du SVG.{% endblock %}
+{% block body_class %}theme-civitalisme page-civitalisme page-civitalisme--vita{% endblock %}
+
+{% block body %}
+
+    {# ── Hero ────────────────────────────────────────────────────────────── #}
+    <section class="vita-hero section--panel">
+        <div class="vita-hero__copy">
+            <p class="eyebrow">{{ content.hero.eyebrow }}</p>
+            <h1 class="vita-hero__title">{{ content.hero.title }}</h1>
+            <p class="vita-hero__subtitle">{{ content.hero.subtitle }}</p>
+            <p class="vita-hero__lead">{{ content.hero.lead }}</p>
+        </div>
+        <div class="vita-hero__visual" aria-hidden="true">
+            <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="vita-bg" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#eef4ff"/>
+                        <stop offset="100%" stop-color="#e8f5e9"/>
+                    </linearGradient>
+                    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                        <path d="M0,0 L0,6 L8,3 Z" fill="#003399"/>
+                    </marker>
+                </defs>
+                <rect width="320" height="240" fill="url(#vita-bg)" rx="16"/>
+                <!-- Bâtiment abandonné (gauche) -->
+                <rect x="30" y="90" width="80" height="110" fill="#bbb" rx="4"/>
+                <rect x="40" y="105" width="20" height="25" fill="#888" rx="2"/>
+                <rect x="75" y="105" width="20" height="25" fill="#888" rx="2"/>
+                <rect x="50" y="148" width="25" height="52" fill="#999" rx="2"/>
+                <line x1="58" y1="92" x2="53" y2="118" stroke="#777" stroke-width="1.5"/>
+                <line x1="88" y1="95" x2="93" y2="112" stroke="#777" stroke-width="1.5"/>
+                <text x="70" y="215" text-anchor="middle" font-size="9" fill="#888" font-family="sans-serif">Vacant</text>
+                <!-- Flèche -->
+                <path d="M118 145 L152 145" stroke="#003399" stroke-width="2.5" marker-end="url(#arrow)"/>
+                <!-- Soleil -->
+                <circle cx="160" cy="48" r="15" fill="#ffcc00" opacity="0.9"/>
+                <line x1="160" y1="27" x2="160" y2="21" stroke="#ffcc00" stroke-width="2"/>
+                <line x1="176" y1="34" x2="181" y2="29" stroke="#ffcc00" stroke-width="2"/>
+                <line x1="183" y1="48" x2="189" y2="48" stroke="#ffcc00" stroke-width="2"/>
+                <!-- Bâtiment réhabilité (droite) -->
+                <rect x="162" y="90" width="88" height="110" fill="#003399" opacity="0.85" rx="6"/>
+                <rect x="172" y="106" width="22" height="26" fill="#e8f5e9" rx="3"/>
+                <rect x="208" y="106" width="22" height="26" fill="#e8f5e9" rx="3"/>
+                <rect x="185" y="149" width="24" height="51" fill="#c8e6c9" rx="3"/>
+                <!-- Panneaux solaires -->
+                <rect x="168" y="82" width="30" height="9" fill="#ffcc00" rx="2" opacity="0.9"/>
+                <rect x="202" y="82" width="30" height="9" fill="#ffcc00" rx="2" opacity="0.9"/>
+                <!-- Végétalisation -->
+                <ellipse cx="192" cy="202" rx="14" ry="5" fill="#4caf50" opacity="0.7"/>
+                <ellipse cx="228" cy="202" rx="10" ry="4" fill="#4caf50" opacity="0.6"/>
+                <text x="206" y="215" text-anchor="middle" font-size="9" fill="#003399" font-weight="700" font-family="sans-serif">Vita</text>
+            </svg>
+        </div>
+    </section>
+
+    {# ── Navigation pages ────────────────────────────────────────────────── #}
+    {% include 'page/civitalisme/_partials/_page_switch.html.twig' with {
+        active: 'vita',
+        title: 'Trois niveaux de lecture',
+        description: 'Choisissez la version qui correspond à ce que vous cherchez.',
+    } %}
+
+    {# ── Chiffres clés ───────────────────────────────────────────────────── #}
+    <section class="section inst-section" id="chiffres">
+        <header class="inst-section__heading">
+            <p class="eyebrow">{{ content.stats.eyebrow }}</p>
+            <h2>{{ content.stats.title }}</h2>
+            <p class="inst-section__lead">{{ content.stats.lead }}</p>
+        </header>
+
+        <div class="vita-stats-grid">
+            {% for fig in content.stats.figures %}
+            <div class="vita-stat-card surface-card vita-stat-card--{{ fig.color }}">
+                <span class="vita-stat-card__number">{{ fig.number }}</span>
+                <span class="vita-stat-card__label">{{ fig.label }}</span>
+                <span class="vita-stat-card__trend">{{ fig.trend }}</span>
+                <span class="vita-stat-card__source">{{ fig.source }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    {# ── Concept ─────────────────────────────────────────────────────────── #}
+    <section class="inst-section inst-section--alt" id="concept">
+        <header class="inst-section__heading">
+            <p class="eyebrow">{{ content.concept.eyebrow }}</p>
+            <h2>{{ content.concept.title }}</h2>
+            <p class="inst-section__lead">{{ content.concept.lead }}</p>
+        </header>
+
+        <div class="inst-pathway-steps">
+            {% for pillar in content.concept.pillars %}
+            <div class="inst-pathway-step surface-card">
+                <h3 class="inst-pathway-step__title">{{ pillar.title }}</h3>
+                <p class="inst-pathway-step__body">{{ pillar.body }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    {# ── Processus ───────────────────────────────────────────────────────── #}
+    <section class="inst-section" id="processus">
+        <header class="inst-section__heading">
+            <p class="eyebrow">{{ content.process.eyebrow }}</p>
+            <h2>{{ content.process.title }}</h2>
+        </header>
+
+        <div class="vita-timeline">
+            {% for step in content.process.steps %}
+            <div class="vita-timeline__step surface-card">
+                <div class="vita-timeline__number">{{ step.number }}</div>
+                <div class="vita-timeline__content">
+                    <div class="vita-timeline__header">
+                        <h3 class="vita-timeline__title">{{ step.title }}</h3>
+                        <span class="vita-timeline__duration">{{ step.duration }}</span>
+                    </div>
+                    <p class="vita-timeline__body">{{ step.body }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    {# ── Modèle économique ───────────────────────────────────────────────── #}
+    <section class="inst-section inst-section--alt" id="economie">
+        <header class="inst-section__heading">
+            <p class="eyebrow">{{ content.economics.eyebrow }}</p>
+            <h2>{{ content.economics.title }}</h2>
+            <p class="inst-section__lead">{{ content.economics.lead }}</p>
+        </header>
+
+        <div class="inst-table-wrapper">
+            <table class="inst-table inst-table--comparison">
+                <thead>
+                    <tr>
+                        <th>Critère</th>
+                        <th>Hébergement d'urgence classique</th>
+                        <th>Logement Vita réhabilité</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Coût / nuit / personne</strong></td>
+                        <td>{{ content.economics.comparison[0].cost_night }}</td>
+                        <td class="inst-table__highlight">{{ content.economics.comparison[1].cost_night }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Qualité</strong></td>
+                        <td>{{ content.economics.comparison[0].quality }}</td>
+                        <td class="inst-table__highlight">{{ content.economics.comparison[1].quality }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Issue</strong></td>
+                        <td>{{ content.economics.comparison[0].outcome }}</td>
+                        <td class="inst-table__highlight">{{ content.economics.comparison[1].outcome }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Impact écologique</strong></td>
+                        <td>{{ content.economics.comparison[0].eco_impact }}</td>
+                        <td class="inst-table__highlight">{{ content.economics.comparison[1].eco_impact }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="inst-calibration-note surface-card" style="margin-top:2rem">
+            <p class="panel-label">Sources de financement</p>
+            <div class="inst-table-wrapper">
+                <table class="inst-table">
+                    <thead>
+                        <tr><th>Source</th><th>Montant / taux</th><th>Nature</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for f in content.economics.financing %}
+                        <tr>
+                            <td><strong>{{ f.source }}</strong></td>
+                            <td>{{ f.rate }}</td>
+                            <td><span class="vita-badge">{{ f.type }}</span></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    {# ── Bailleurs partenaires ──────────────────────────────────────────── #}
+    <section class="inst-section" id="bailleurs">
+        <header class="inst-section__heading">
+            <p class="eyebrow">{{ content.bailleur_incentives.eyebrow }}</p>
+            <h2>{{ content.bailleur_incentives.title }}</h2>
+            <p class="inst-section__lead">{{ content.bailleur_incentives.lead }}</p>
+        </header>
+
+        <div class="vita-bailleur-grid">
+            {% for aid in content.bailleur_incentives.aids %}
+            <div class="vita-bailleur-card surface-card">
+                <p class="vita-bailleur-card__name">{{ aid.name }}</p>
+                <p class="vita-bailleur-card__rate">{{ aid.rate }}</p>
+                <p class="vita-bailleur-card__condition">{{ aid.condition }}</p>
+                <span class="vita-bailleur-type">{{ aid.type }}</span>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="inst-calibration-note surface-card" style="margin-top:1.5rem">
+            <p class="panel-label">Note</p>
+            <p style="font-size:.88rem;line-height:1.6">{{ content.bailleur_incentives.note }}</p>
+        </div>
+    </section>
+
+
+    {# ── Références ──────────────────────────────────────────────────────── #}
+    <section class="inst-section" id="references">
+        <header class="inst-section__heading">
+            <p class="eyebrow">{{ content.references.eyebrow }}</p>
+            <h2>{{ content.references.title }}</h2>
+            <p class="inst-section__lead">{{ content.references.lead }}</p>
+        </header>
+
+        <div class="inst-pathway-steps">
+            {% for case in content.references.cases %}
+            <div class="inst-pathway-step surface-card">
+                <div class="inst-pathway-step__header">
+                    <span class="inst-pathway-step__phase">{{ case.country }}</span>
+                    <span class="inst-pathway-step__base">{{ case.period }}</span>
+                </div>
+                <h3 class="inst-pathway-step__title">{{ case.name }}</h3>
+                <p class="inst-pathway-step__body">{{ case.result }}</p>
+                <p class="inst-pathway-step__feasibility"><strong>Référence :</strong> {{ case.link }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+
+    {# ── Références doctrinales ──────────────────────────────────────────── #}
+    <section class="inst-section" id="doctrine">
+        <header class="inst-section__heading">
+            <p class="eyebrow">{{ content.doctrinal.eyebrow }}</p>
+            <h2>{{ content.doctrinal.title }}</h2>
+            <p class="inst-section__lead">{{ content.doctrinal.lead }}</p>
+        </header>
+
+        <div class="vita-doctrinal-grid">
+            {% for book in content.doctrinal.books %}
+            <div class="vita-doctrinal-card surface-card">
+                <span class="vita-doctrinal-card__role">{{ book.role }}</span>
+                <h3 class="vita-doctrinal-card__title">{{ book.title }}</h3>
+                <p class="vita-doctrinal-card__meta">{{ book.authors }} · {{ book.year }} · {{ book.publisher }}</p>
+                <p class="vita-doctrinal-card__summary">{{ book.summary }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    {# ── Call to action ──────────────────────────────────────────────────── #}
+    <section class="section vita-cta section--panel">
+        <div class="vita-cta__content">
+            <h2 class="vita-cta__title">{{ content.cta.title }}</h2>
+            <p class="vita-cta__body">{{ content.cta.body }}</p>
+            <div class="vita-cta__actions">
+                <a href="{{ content.cta.link_href }}" class="btn btn--primary">{{ content.cta.link_label }}</a>
+                <a href="{{ content.cta.secondary_href }}" class="btn btn--ghost">{{ content.cta.secondary_label }}</a>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

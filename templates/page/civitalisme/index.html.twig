@@ -1,11 +1,346 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Civitalisme — Socle Vital Garanti européen{% endblock %}
-{% block meta_description %}Le Civitalisme porte le projet Socle Vital Garanti : un filet de sécurité européen qui protège le vital pour chaque citoyen, financé par l'euro social numérique EuroE.{% endblock %}
+{% block meta_description %}Le Civitalisme porte le projet Socle Vital Garanti : un complément mensuel automatique qui couvre les besoins essentiels de chaque Européen — logement, alimentation, énergie, transport — sans formulaire ni dossier.{% endblock %}
 {% block body_class %}theme-civitalisme page-civitalisme page-civitalisme--public{% endblock %}
 
+{% block extra_head %}
+<style>
+/* ── Dark mode — articles section ───────────────────────────────────────── */
+html[data-color-scheme="dark"] body.theme-civitalisme .civitalisme-articles {
+    background:
+        linear-gradient(135deg, rgba(10, 30, 80, 0.70), rgba(5, 15, 50, 0.55)),
+        radial-gradient(circle at top right, rgba(100, 160, 255, 0.08), transparent 34%);
+    border-color: rgba(100, 160, 255, 0.16);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .civitalisme-articles .eyebrow {
+    color: var(--muted);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .civitalisme-articles h2 {
+    color: var(--text);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .civitalisme-articles .section-intro {
+    color: var(--muted);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .civitalisme-article {
+    background: rgba(10, 25, 70, 0.65);
+    border-color: rgba(100, 160, 255, 0.14);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.40);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .civitalisme-article--featured {
+    background: rgba(10, 25, 70, 0.75);
+    border-color: rgba(255, 204, 0, 0.22);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .civitalisme-article h3 {
+    color: var(--text);
+}
+
+/* ── Schémas pédagogiques ────────────────────────────────────────────────── */
+.gp-schemas {
+    padding: 3rem 1.5rem 4rem;
+}
+.gp-schemas .ped-intro {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto 2.5rem;
+}
+.gp-schemas .ped-intro h2 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #003399;
+    margin-bottom: .5rem;
+}
+.gp-schemas .ped-intro p {
+    font-size: 1rem;
+    color: #6b7280;
+}
+.gp-schemas .ped-schema {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 32px rgba(0,51,153,.1);
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.gp-schemas .ped-schema-header {
+    padding: 1.25rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.gp-schemas .ped-schema-header .ped-badge {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+    font-weight: 900;
+    color: white;
+}
+.gp-schemas .ped-schema-header h3 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: white;
+}
+.gp-schemas .ped-schema-header p {
+    font-size: .8rem;
+    color: #96b0e8;
+    margin-top: .15rem;
+}
+.gp-schemas .ped-body {
+    padding: 1.5rem 2rem 2rem;
+}
+/* Zone */
+.gp-schemas .ped-zone {
+    border-radius: 14px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+}
+.gp-schemas .ped-zone-label {
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    margin-bottom: .75rem;
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+}
+.gp-schemas .ped-zone-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: currentColor;
+    opacity: .25;
+}
+/* Nodes */
+.gp-schemas .ped-nodes {
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+.gp-schemas .ped-node {
+    flex: 1;
+    min-width: 150px;
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+}
+.gp-schemas .ped-node-icon { font-size: 1.6rem; line-height: 1; margin-bottom: .25rem; }
+.gp-schemas .ped-node-title { font-size: .95rem; font-weight: 800; line-height: 1.2; }
+.gp-schemas .ped-node-sub  { font-size: .78rem; opacity: .8; line-height: 1.35; }
+.gp-schemas .ped-node-tag {
+    display: inline-block;
+    padding: .15rem .5rem;
+    border-radius: 20px;
+    font-size: .7rem;
+    font-weight: 700;
+    margin-top: .3rem;
+    width: fit-content;
+}
+/* Arrow */
+.gp-schemas .ped-arrow-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    margin: .6rem 0;
+}
+.gp-schemas .ped-arrow-down {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .15rem;
+}
+.gp-schemas .ped-arrow-line { width: 2px; height: 28px; border-radius: 2px; }
+.gp-schemas .ped-arrow-head { width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; }
+.gp-schemas .ped-arrow-label {
+    font-size: .78rem;
+    font-weight: 600;
+    padding: .2rem .7rem;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+/* Rails */
+.gp-schemas .ped-rails {
+    display: grid;
+    grid-template-columns: 1fr 36px 1fr;
+    gap: 0;
+    align-items: center;
+}
+.gp-schemas .ped-rail { border-radius: 12px; padding: 1rem; }
+.gp-schemas .ped-rail-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #c0392b;
+}
+/* Points */
+.gp-schemas .ped-points { display: flex; flex-direction: column; gap: .4rem; margin-top: .5rem; }
+.gp-schemas .ped-point { display: flex; align-items: flex-start; gap: .5rem; font-size: .8rem; line-height: 1.35; }
+.gp-schemas .ped-dot {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .65rem;
+    font-weight: 900;
+    margin-top: 1px;
+    color: white;
+}
+/* Compare */
+.gp-schemas .ped-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.gp-schemas .ped-compare-col { border-radius: 14px; padding: 1.25rem; }
+.gp-schemas .ped-compare-title { font-size: .85rem; font-weight: 800; margin-bottom: .75rem; display: flex; align-items: center; gap: .5rem; }
+/* Steps */
+.gp-schemas .ped-steps {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    position: relative;
+    margin-bottom: 1.25rem;
+}
+.gp-schemas .ped-step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: .4rem;
+    position: relative;
+    padding: 0 .25rem;
+}
+.gp-schemas .ped-step::after {
+    content: '';
+    position: absolute;
+    top: 18px;
+    left: 55%;
+    width: 90%;
+    height: 2px;
+    background: #003399;
+    opacity: .2;
+    z-index: 0;
+}
+.gp-schemas .ped-step:last-child::after { display: none; }
+.gp-schemas .ped-step-num {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .9rem;
+    font-weight: 900;
+    color: white;
+    z-index: 1;
+    position: relative;
+    flex-shrink: 0;
+}
+.gp-schemas .ped-step-label { font-size: .75rem; font-weight: 700; color: #003399; line-height: 1.3; }
+.gp-schemas .ped-step-sub   { font-size: .7rem; color: #6b7280; line-height: 1.3; }
+/* Callout */
+.gp-schemas .ped-callout {
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    font-size: .82rem;
+    line-height: 1.5;
+    display: flex;
+    gap: .75rem;
+    align-items: flex-start;
+    margin-top: .75rem;
+}
+.gp-schemas .ped-callout-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: .05rem; }
+/* Tags pill */
+.gp-schemas .ped-pills { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .4rem; }
+.gp-schemas .ped-pill { background: #003399; color: white; padding: .2rem .6rem; border-radius: 20px; font-size: .73rem; font-weight: 600; }
+/* Transition barre */
+.gp-schemas .ped-transition {
+    display: flex; align-items: center; justify-content: center;
+    gap: 1rem; margin: 1.25rem 0;
+}
+.gp-schemas .ped-transition-bar { flex: 1; height: 2px; }
+.gp-schemas .ped-transition-label {
+    background: #003399; color: white;
+    border-radius: 20px; padding: .5rem 1.25rem;
+    font-size: .82rem; font-weight: 700; white-space: nowrap;
+}
+/* Couleurs utilitaires */
+.gp-schemas .bg-navy      { background: #003399; color: white; }
+.gp-schemas .bg-navy-lt   { background: #e8eefc; color: #003399; }
+.gp-schemas .bg-gold      { background: #ffcc00; color: #3a2800; }
+.gp-schemas .bg-gold-soft { background: #fff9e0; color: #6b4c00; }
+.gp-schemas .bg-green     { background: #1a7a5e; color: white; }
+.gp-schemas .bg-green-lt  { background: #e6f5ef; color: #1a7a5e; }
+.gp-schemas .bg-red       { background: #c0392b; color: white; }
+.gp-schemas .bg-red-lt    { background: #fdecea; color: #c0392b; }
+.gp-schemas .bg-grey-lt   { background: #f3f4f6; color: #6b7280; }
+.gp-schemas .bg-white     { background: white; }
+.gp-schemas .c-navy   { color: #003399; }
+.gp-schemas .c-gold   { color: #b38a00; }
+.gp-schemas .c-green  { color: #1a7a5e; }
+.gp-schemas .c-red    { color: #c0392b; }
+.gp-schemas .c-grey   { color: #6b7280; }
+.gp-schemas .b-navy   { border: 2px solid #003399; }
+.gp-schemas .b-gold   { border: 2px solid #ffcc00; }
+.gp-schemas .b-green  { border: 2px solid #1a7a5e; }
+.gp-schemas .b-red    { border: 2px solid #c0392b; }
+.gp-schemas .b-grey   { border: 1.5px solid #d1d5db; }
+.gp-schemas .b-dashed { border-style: dashed !important; }
+/* Dark mode */
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-schemas {
+    background: transparent;
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-schemas .ped-schema {
+    background: rgba(10, 25, 70, 0.75);
+    box-shadow: 0 4px 32px rgba(0,0,0,.4);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-schemas .ped-zone.bg-navy-lt {
+    background: rgba(0,51,153,.2);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-schemas .ped-zone.bg-gold-soft {
+    background: rgba(255,204,0,.08);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-schemas .ped-zone.bg-grey-lt {
+    background: rgba(255,255,255,.05);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-schemas .ped-zone.bg-green-lt {
+    background: rgba(26,122,94,.12);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-schemas .ped-zone.bg-red-lt {
+    background: rgba(192,57,43,.12);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-schemas .ped-node.bg-white {
+    background: rgba(255,255,255,.07);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-schemas .ped-compare-col.bg-grey-lt {
+    background: rgba(255,255,255,.05);
+    color: #96b0e8;
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-schemas .ped-intro h2 {
+    color: var(--text);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-schemas .ped-rail.bg-grey-lt {
+    background: rgba(255,255,255,.05);
+}
+@media (max-width: 640px) {
+    .gp-schemas .ped-compare { grid-template-columns: 1fr; }
+    .gp-schemas .ped-rails   { grid-template-columns: 1fr; gap: .5rem; }
+    .gp-schemas .ped-rail-divider { display: none; }
+    .gp-schemas .ped-steps { flex-wrap: wrap; gap: .75rem; }
+    .gp-schemas .ped-step::after { display: none; }
+    .gp-schemas .ped-body { padding: 1rem; }
+}
+</style>
+{% endblock %}
+
 {% block body %}
-    {# ── 1. Hero ────────────────────────────────────────────────────────── #}
+
+    {# ── 1. Hero ─────────────────────────────────────────────────────────── #}
     <section class="gp-hero section--panel">
         <div class="gp-hero__copy">
             <p class="eyebrow">{{ content.hero.eyebrow }}</p>
@@ -21,6 +356,16 @@
                 <a class="button button--ghost" href="{{ path('app_civitalisme_technical') }}">
                     {{ content.hero.secondaryCta.label }}
                 </a>
+            </div>
+
+            {# Stat chips #}
+            <div class="gp-hero__stats" aria-label="Quelques chiffres clés">
+                {% for stat in content.hero.stats %}
+                <div class="gp-hero__stat">
+                    <strong class="gp-hero__stat-value">{{ stat.value }}</strong>
+                    <span class="gp-hero__stat-label">{{ stat.label }}</span>
+                </div>
+                {% endfor %}
             </div>
         </div>
 
@@ -75,51 +420,33 @@
         </div>
     </section>
 
-    {# ── Optional video presentation (kept from prior version) ──────────── #}
-    {% if civitalismeVideoUrl %}
-        <section class="section section--panel civitalisme-video">
-            <div class="section-heading section-heading--stack">
-                <div>
-                    <p class="eyebrow">Présentation vidéo</p>
-                    <h2>Le Civitalisme en quelques minutes</h2>
+    {# ── 2. "En 30 secondes" strip ────────────────────────────────────────── #}
+    <section class="section section--panel section--alt gp-brief" aria-labelledby="gp-brief-title">
+        <header class="section-heading section-heading--centered">
+            <p class="eyebrow">{{ content.brief.eyebrow }}</p>
+        </header>
+        <div class="gp-brief__steps">
+            {% for step in content.brief.steps %}
+            <div class="gp-brief__step">
+                <div class="gp-brief__icon" aria-hidden="true">
+                    {% if step.icon == 'calc' %}
+                        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="6" width="32" height="36" rx="4" fill="none" stroke="currentColor" stroke-width="2.5"/><rect x="13" y="11" width="22" height="8" rx="2" fill="currentColor" opacity="0.15"/><circle cx="16" cy="28" r="2.5" fill="currentColor"/><circle cx="24" cy="28" r="2.5" fill="currentColor"/><circle cx="32" cy="28" r="2.5" fill="currentColor"/><circle cx="16" cy="36" r="2.5" fill="currentColor"/><circle cx="24" cy="36" r="2.5" fill="currentColor"/><circle cx="32" cy="36" r="2.5" fill="#ffcc00"/></svg>
+                    {% elseif step.icon == 'card' %}
+                        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="12" width="40" height="24" rx="4" fill="none" stroke="currentColor" stroke-width="2.5"/><rect x="4" y="19" width="40" height="5" fill="currentColor" opacity="0.18"/><rect x="10" y="29" width="10" height="4" rx="1.5" fill="#ffcc00"/><circle cx="36" cy="31" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="32" cy="31" r="3.5" fill="none" stroke="#ffcc00" stroke-width="2"/></svg>
+                    {% elseif step.icon == 'shop' %}
+                        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M8 16 L12 8 L36 8 L40 16 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><rect x="8" y="16" width="32" height="24" rx="2" fill="none" stroke="currentColor" stroke-width="2.5"/><rect x="18" y="28" width="12" height="12" rx="1" fill="currentColor" opacity="0.18"/><path d="M18 16 Q18 22 24 22 Q30 22 30 16" fill="none" stroke="#ffcc00" stroke-width="2.5" stroke-linecap="round"/></svg>
+                    {% elseif step.icon == 'loop' %}
+                        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M24 10 Q36 10 38 22 Q40 34 28 36" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M24 38 Q12 38 10 26 Q8 14 20 12" fill="none" stroke="#ffcc00" stroke-width="2.5" stroke-linecap="round"/><polygon points="24,6 28,14 20,14" fill="currentColor"/><polygon points="24,42 20,34 28,34" fill="#ffcc00"/></svg>
+                    {% endif %}
                 </div>
-                <p class="section-intro">
-                    Une capsule courte pour poser les idées avant d'entrer dans les sections qui suivent.
-                </p>
+                <h3 class="gp-brief__step-title">{{ step.title }}</h3>
+                <p class="gp-brief__step-body">{{ step.body }}</p>
             </div>
+            {% endfor %}
+        </div>
+    </section>
 
-            <article class="surface-card civitalisme-video__frame">
-                {% set isEmbedVideo = ('youtube.com' in civitalismeVideoUrl) or ('youtu.be' in civitalismeVideoUrl) or ('vimeo.com' in civitalismeVideoUrl) or ('synthesia.io' in civitalismeVideoUrl) %}
-                {% set embedUrl = civitalismeVideoUrl %}
-
-                {% if 'share.synthesia.io/' in civitalismeVideoUrl and '/embeds/videos/' not in civitalismeVideoUrl %}
-                    {% set synthesiaBase = (civitalismeVideoUrl|split('?'))[0] %}
-                    {% set synthesiaId = (synthesiaBase|split('/'))|last %}
-                    {% set embedUrl = 'https://share.synthesia.io/embeds/videos/' ~ synthesiaId %}
-                {% endif %}
-
-                {% if isEmbedVideo %}
-                    <div class="civitalisme-video__embed civitalisme-video__embed--full">
-                        <iframe
-                            src="{{ embedUrl }}"
-                            title="Vidéo de présentation du Civitalisme"
-                            loading="lazy"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowfullscreen
-                            referrerpolicy="strict-origin-when-cross-origin"
-                        ></iframe>
-                    </div>
-                {% else %}
-                    <video class="civitalisme-video__player" controls preload="metadata">
-                        <source src="{{ civitalismeVideoUrl }}">
-                        Votre navigateur ne prend pas en charge la lecture vidéo intégrée.
-                    </video>
-                {% endif %}
-            </article>
-        </section>
-    {% endif %}
-
-    {# ── 2. Problem ─────────────────────────────────────────────────────── #}
+    {# ── 3. Problem ───────────────────────────────────────────────────────── #}
     <section id="{{ content.problem.anchor }}" class="section section--panel gp-problem">
         <header class="section-heading section-heading--centered">
             <p class="eyebrow">{{ content.problem.eyebrow }}</p>
@@ -167,6 +494,9 @@
                             </svg>
                         {% endif %}
                     </div>
+                    {% if card.stat is defined %}
+                    <div class="gp-problem-card__stat" aria-hidden="true">{{ card.stat }}</div>
+                    {% endif %}
                     <h3>{{ card.title }}</h3>
                     <p>{{ card.body }}</p>
                 </article>
@@ -174,21 +504,29 @@
         </div>
 
         <div class="gp-problem__transition">
-            <p>{{ content.problem.transition }}</p>
+            <p class="gp-problem__transition-text">{{ content.problem.transition.text }}</p>
+            <p class="gp-problem__transition-accent">{{ content.problem.transition.accent }}</p>
         </div>
     </section>
 
-    {# ── 3. Solution (SVG central) ──────────────────────────────────────── #}
-    <section class="section section--panel gp-solution">
+    {# ── 4. Solution ──────────────────────────────────────────────────────── #}
+    <section class="section section--panel section--alt gp-solution">
         <header class="section-heading section-heading--centered">
             <p class="eyebrow">{{ content.solution.eyebrow }}</p>
             <h2>{{ content.solution.title }}</h2>
             <p class="section-intro">{{ content.solution.lead }}</p>
         </header>
 
-        <div class="gp-solution__diagram" aria-hidden="true">
-            <svg viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg">
-                <title>Les 6 besoins essentiels couverts par le Socle Vital Garanti</title>
+        {# Formula callout #}
+        <div class="gp-solution__formula surface-card">
+            <p class="gp-solution__formula-label">{{ content.solution.formula.label }}</p>
+            <p class="gp-solution__formula-text">{{ content.solution.formula.text }}</p>
+            <p class="gp-solution__formula-note">{{ content.solution.formula.note }}</p>
+        </div>
+
+        <div class="gp-solution__diagram">
+            <svg viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="svg-solution-title">
+                <title id="svg-solution-title">Les 6 besoins essentiels couverts par le Socle Vital Garanti</title>
                 <circle cx="240" cy="240" r="200" fill="none" stroke="#4266b8" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.5"/>
                 <circle cx="240" cy="240" r="72" fill="#ffffff" stroke="#003399" stroke-width="2"/>
                 <g transform="translate(240 240)">
@@ -244,9 +582,327 @@
         </div>
 
         <p class="gp-solution__subtext">{{ content.solution.subtext }}</p>
+
+        {% if content.solution.closedLoop is defined %}
+        <div class="gp-solution__loop-note surface-card">
+            <p class="gp-solution__loop-note__title">{{ content.solution.closedLoop.title }}</p>
+            <p class="gp-solution__loop-note__body">{{ content.solution.closedLoop.body }}</p>
+        </div>
+        {% endif %}
     </section>
 
-    {# ── 4. How it works ────────────────────────────────────────────────── #}
+
+    {# ── 4b. Schémas pédagogiques ───────────────────────────────────────── #}
+    <section class="section section--panel section--alt gp-schemas" aria-labelledby="schemas-title">
+        <div class="ped-intro">
+            <p class="eyebrow">Comprendre le mécanisme</p>
+            <h2 id="schemas-title">Comment ça fonctionne, vraiment</h2>
+            <p>Deux schémas pour comprendre le mécanisme du SVG et comment il s'intègre dans l'économie.</p>
+        </div>
+
+        {# ── SCHÉMA 1 — Le mécanisme CDC ── #}
+        <div class="ped-schema">
+            <div class="ped-schema-header bg-navy">
+                <div class="ped-badge bg-gold">1</div>
+                <div>
+                    <h3>Comment le CDC est créé et circule</h3>
+                    <p>Du contrôle de la BCE jusqu'à la carte dans votre poche</p>
+                </div>
+            </div>
+            <div class="ped-body">
+
+                {# Zone supervision #}
+                <div class="ped-zone bg-navy-lt b-navy">
+                    <div class="ped-zone-label c-navy">🏛 Supervision — Banque Centrale Européenne (BCE)</div>
+                    <div class="ped-nodes">
+                        <div class="ped-node bg-navy" style="flex:2">
+                            <div class="ped-node-icon">🏛</div>
+                            <div class="ped-node-title">La BCE supervise</div>
+                            <div class="ped-node-sub">Elle fixe les règles — elle ne verse pas d'argent directement.</div>
+                            <div class="ped-node-tag bg-gold">Contrôle, pas transfert</div>
+                        </div>
+                        <div class="ped-node bg-navy-lt b-navy" style="flex:3">
+                            <div class="ped-node-icon">📋</div>
+                            <div class="ped-node-title c-navy">Ce que la BCE décide</div>
+                            <div class="ped-points">
+                                <div class="ped-point"><div class="ped-dot bg-navy">1</div><span>Le montant du <strong>panier vital annuel</strong> (voté par le Parlement européen)</span></div>
+                                <div class="ped-point"><div class="ped-dot bg-navy">2</div><span>Les <strong>seuils d'éligibilité</strong> et les paramètres de calcul</span></div>
+                                <div class="ped-point"><div class="ped-dot bg-navy">3</div><span>La <strong>masse totale de CDC</strong> autorisée en circulation</span></div>
+                                <div class="ped-point"><div class="ped-dot bg-navy">4</div><span>L'<strong>audit des banques</strong> opératrices certifiées</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ped-arrow-row">
+                    <div class="ped-arrow-down">
+                        <div class="ped-arrow-line" style="background:#003399"></div>
+                        <div class="ped-arrow-head" style="border-top:10px solid #003399"></div>
+                    </div>
+                    <div class="ped-arrow-label bg-navy-lt c-navy">Paramètres transmis aux banques</div>
+                </div>
+
+                {# Zone génération #}
+                <div class="ped-zone bg-gold-soft b-gold">
+                    <div class="ped-zone-label c-gold">🏦 Génération — Banques commerciales</div>
+                    <div class="ped-nodes">
+                        <div class="ped-node bg-gold">
+                            <div class="ped-node-icon">🏦</div>
+                            <div class="ped-node-title">Votre banque calcule</div>
+                            <div class="ped-node-sub">Chaque mois, automatiquement, sans que vous demandiez quoi que ce soit.</div>
+                            <div class="ped-node-tag bg-navy" style="color:white">Opérateur certifié BCE</div>
+                        </div>
+                        <div class="ped-node bg-white b-gold" style="flex:2;border:2px solid #ffcc00">
+                            <div class="ped-node-icon">🧮</div>
+                            <div class="ped-node-title c-navy">La formule</div>
+                            <div style="background:#003399;color:white;border-radius:8px;padding:.6rem .9rem;font-size:.9rem;font-weight:800;text-align:center;margin:.4rem 0">
+                                Panier vital — Vos ressources = CDC à créditer
+                            </div>
+                            <div class="ped-node-sub c-grey">Si le résultat est positif, votre compte CDC est crédité. Si vos ressources dépassent le panier vital, rien n'est versé.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ped-arrow-row">
+                    <div class="ped-arrow-down">
+                        <div class="ped-arrow-line" style="background:#b38a00"></div>
+                        <div class="ped-arrow-head" style="border-top:10px solid #b38a00"></div>
+                    </div>
+                    <div class="ped-arrow-label bg-gold-soft c-gold">Crédit sur le réseau européen</div>
+                </div>
+
+                {# Zone rails #}
+                <div class="ped-zone bg-grey-lt b-grey" style="padding:.75rem">
+                    <div class="ped-zone-label c-grey">⚡ Deux réseaux de paiement qui coexistent — sans se mélanger</div>
+                    <div class="ped-rails">
+                        <div class="ped-rail bg-grey-lt b-grey b-dashed">
+                            <div class="ped-node-icon" style="font-size:1.2rem">💳</div>
+                            <div style="font-size:.85rem;font-weight:800;color:#6b7280;margin:.25rem 0">Visa / Mastercard</div>
+                            <div style="font-size:.75rem;color:#6b7280;line-height:1.4">Réseau privé américain — vos euros habituels.<br><strong>Inchangé. Le SVG ne le touche pas.</strong></div>
+                            <div style="margin-top:.5rem;padding:.3rem .6rem;background:#e5e7eb;border-radius:6px;font-size:.72rem;color:#6b7280;font-weight:700">Votre carte bancaire classique</div>
+                        </div>
+                        <div class="ped-rail-divider">≠</div>
+                        <div class="ped-rail bg-navy-lt b-navy">
+                            <div class="ped-node-icon" style="font-size:1.2rem">🇪🇺</div>
+                            <div style="font-size:.85rem;font-weight:800;color:#003399;margin:.25rem 0">TIPS · TARGET · Wero</div>
+                            <div style="font-size:.75rem;color:#003399;line-height:1.4">Infrastructure publique européenne (BCE).<br><strong>Indépendant · Souverain · Aucun acteur privé US.</strong></div>
+                            <div style="margin-top:.5rem;padding:.3rem .6rem;background:#003399;border-radius:6px;font-size:.72rem;color:#ffcc00;font-weight:700">Votre carte CDC — dépenses vitales uniquement</div>
+                        </div>
+                    </div>
+                    <div class="ped-callout bg-navy-lt">
+                        <div class="ped-callout-icon">💡</div>
+                        <div><strong>Pourquoi deux réseaux séparés ?</strong> Pour garantir la souveraineté européenne. L'argent CDC ne peut pas transiter par des systèmes contrôlés hors UE ni être extrait du circuit économique européen.</div>
+                    </div>
+                </div>
+
+                <div class="ped-arrow-row">
+                    <div class="ped-arrow-down">
+                        <div class="ped-arrow-line" style="background:#003399"></div>
+                        <div class="ped-arrow-head" style="border-top:10px solid #003399"></div>
+                    </div>
+                    <div class="ped-arrow-label bg-navy" style="color:#ffcc00">Crédité sur votre Compte de Dépenses Conditionnées</div>
+                </div>
+
+                {# Zone citoyen #}
+                <div class="ped-nodes" style="margin-bottom:1rem">
+                    <div class="ped-node bg-navy" style="flex:1;align-items:center;text-align:center">
+                        <div class="ped-node-icon">👤</div>
+                        <div class="ped-node-title">Votre compte CDC</div>
+                        <div class="ped-node-sub">Utilisable comme une carte bancaire ordinaire. Le commerçant ne voit aucune différence.</div>
+                        <div class="ped-node-tag bg-gold" style="align-self:center">Ni retrait cash · Ni virement · Ni luxe</div>
+                    </div>
+                    <div class="ped-node bg-navy-lt b-navy" style="flex:2">
+                        <div class="ped-node-icon">🛒</div>
+                        <div class="ped-node-title c-navy">Utilisable pour les dépenses vitales</div>
+                        <div class="ped-pills">
+                            <span class="ped-pill">🏠 Loyer</span>
+                            <span class="ped-pill">🥦 Alimentation</span>
+                            <span class="ped-pill">⚡ Énergie</span>
+                            <span class="ped-pill">🚌 Transport</span>
+                            <span class="ped-pill">🏥 Santé</span>
+                            <span class="ped-pill">📚 Éducation</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ped-arrow-row">
+                    <div class="ped-arrow-down">
+                        <div class="ped-arrow-line" style="background:#1a7a5e"></div>
+                        <div class="ped-arrow-head" style="border-top:10px solid #1a7a5e"></div>
+                    </div>
+                    <div class="ped-arrow-label bg-green-lt c-green">Dépensé chez les commerçants agréés UE</div>
+                </div>
+
+                {# Zone boucle #}
+                <div class="ped-nodes">
+                    <div class="ped-node bg-green">
+                        <div class="ped-node-icon">🏪</div>
+                        <div class="ped-node-title">Commerçants agréés UE</div>
+                        <div class="ped-node-sub">Convertissent le CDC en euros. Ils ne voient aucune différence avec un paiement normal.</div>
+                    </div>
+                    <div class="ped-node bg-green-lt b-green">
+                        <div class="ped-node-icon">📋</div>
+                        <div class="ped-node-title c-green">TVA collectée</div>
+                        <div class="ped-node-sub c-green">Chaque achat CDC génère de la TVA → Trésor public → finance partiellement le SVG.</div>
+                    </div>
+                    <div class="ped-callout bg-green" style="flex:1;border-radius:12px">
+                        <div class="ped-callout-icon">🔄</div>
+                        <div style="font-size:.8rem"><strong>Boucle fermée.</strong> L'argent reste en Europe. Il ne peut pas partir offshore. Multiplicateur économique local maximal.</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        {# ── SCHÉMA 2 — Flux économique ── #}
+        <div class="ped-schema">
+            <div class="ped-schema-header" style="background:#1a1a2e">
+                <div class="ped-badge bg-red">2</div>
+                <div>
+                    <h3>Comment le SVG s'intègre dans l'économie</h3>
+                    <p>Le circuit actuel et ce que le SVG vient corriger</p>
+                </div>
+            </div>
+            <div class="ped-body">
+
+                {# Partie A — Système actuel #}
+                <div class="ped-zone bg-red-lt b-red b-dashed">
+                    <div class="ped-zone-label c-red">⚠️ Le circuit capitaliste actuel — ses deux failles</div>
+
+                    <div class="ped-steps">
+                        <div class="ped-step">
+                            <div class="ped-step-num" style="background:#6b7280">👨‍👩‍👧</div>
+                            <div class="ped-step-label" style="color:#6b7280">Ménages</div>
+                            <div class="ped-step-sub">Salariés, retraités, travailleurs</div>
+                        </div>
+                        <div class="ped-step">
+                            <div class="ped-step-num" style="background:#6b7280">💶</div>
+                            <div class="ped-step-label" style="color:#6b7280">Salaires</div>
+                            <div class="ped-step-sub">Versés par les entreprises</div>
+                        </div>
+                        <div class="ped-step">
+                            <div class="ped-step-num" style="background:#6b7280">🛒</div>
+                            <div class="ped-step-label" style="color:#6b7280">Consommation</div>
+                            <div class="ped-step-sub">Alimente les entreprises</div>
+                        </div>
+                        <div class="ped-step">
+                            <div class="ped-step-num" style="background:#6b7280">🏭</div>
+                            <div class="ped-step-label" style="color:#6b7280">Entreprises</div>
+                            <div class="ped-step-sub">Revenus, bénéfices</div>
+                        </div>
+                        <div class="ped-step">
+                            <div class="ped-step-num bg-red">📤</div>
+                            <div class="ped-step-label c-red">Extraction</div>
+                            <div class="ped-step-sub" style="color:#c0392b">Dividendes offshore — quitte le circuit réel</div>
+                        </div>
+                    </div>
+
+                    <div class="ped-compare">
+                        <div class="ped-compare-col bg-red-lt b-red" style="border:1.5px solid #c0392b">
+                            <div class="ped-compare-title c-red"><span style="font-size:1.2rem">⚙️</span> Faille 1 — Automatisation</div>
+                            <div class="ped-points">
+                                <div class="ped-point"><div class="ped-dot bg-red">→</div><span>Emplois détruits ou transformés</span></div>
+                                <div class="ped-point"><div class="ped-dot bg-red">→</div><span>Salaires mis sous pression</span></div>
+                                <div class="ped-point"><div class="ped-dot bg-red">→</div><span>Temps partiel subi, missions courtes</span></div>
+                                <div class="ped-point"><div class="ped-dot bg-red">→</div><span>Revenus insuffisants, fins de mois tendues</span></div>
+                            </div>
+                        </div>
+                        <div class="ped-compare-col bg-red-lt b-red" style="border:1.5px solid #c0392b">
+                            <div class="ped-compare-title c-red"><span style="font-size:1.2rem">🕳</span> Faille 2 — Extraction</div>
+                            <div class="ped-points">
+                                <div class="ped-point"><div class="ped-dot bg-red">→</div><span>Bénéfices envoyés dans des paradis fiscaux</span></div>
+                                <div class="ped-point"><div class="ped-dot bg-red">→</div><span>Rachats d'actions — enrichit actionnaires, pas l'économie</span></div>
+                                <div class="ped-point"><div class="ped-dot bg-red">→</div><span>Épargne non réinvestie dans le circuit réel</span></div>
+                                <div class="ped-point"><div class="ped-dot bg-red">→</div><span><strong>La demande baisse → entreprises souffrent aussi</strong></span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ped-callout bg-red">
+                        <div class="ped-callout-icon">🔻</div>
+                        <div><strong>Résultat : un spiral récessif.</strong> Moins de demande → moins d'emplois → moins de revenus → encore moins de demande. Le système se fragilise lui-même. Les entreprises en souffrent autant que les ménages.</div>
+                    </div>
+                </div>
+
+                {# Transition #}
+                <div class="ped-transition">
+                    <div class="ped-transition-bar" style="background:linear-gradient(to right, #c0392b, #1a7a5e)"></div>
+                    <div class="ped-transition-label">✦ Le SVG intervient ici ✦</div>
+                    <div class="ped-transition-bar" style="background:linear-gradient(to right, #1a7a5e, #003399)"></div>
+                </div>
+
+                {# Partie B — Avec SVG #}
+                <div class="ped-zone bg-green-lt b-green">
+                    <div class="ped-zone-label c-green">✅ Le circuit avec SVG — ce qui change (et ce qui reste)</div>
+
+                    <div class="ped-steps">
+                        <div class="ped-step">
+                            <div class="ped-step-num" style="background:#003399">🏛</div>
+                            <div class="ped-step-label">BCE</div>
+                            <div class="ped-step-sub">Fixe le panier vital</div>
+                        </div>
+                        <div class="ped-step">
+                            <div class="ped-step-num" style="background:#b38a00">🏦</div>
+                            <div class="ped-step-label">Banque</div>
+                            <div class="ped-step-sub">Calcule et crédite le CDC</div>
+                        </div>
+                        <div class="ped-step">
+                            <div class="ped-step-num" style="background:#003399">👤</div>
+                            <div class="ped-step-label">Compte CDC</div>
+                            <div class="ped-step-sub">Réseau européen TIPS</div>
+                        </div>
+                        <div class="ped-step">
+                            <div class="ped-step-num" style="background:#1a7a5e">🏪</div>
+                            <div class="ped-step-label">Commerçants UE</div>
+                            <div class="ped-step-sub">Convertissent en euros</div>
+                        </div>
+                        <div class="ped-step">
+                            <div class="ped-step-num" style="background:#1a7a5e">🔄</div>
+                            <div class="ped-step-label">TVA → Trésor</div>
+                            <div class="ped-step-sub">Finance partiellement le SVG</div>
+                        </div>
+                    </div>
+
+                    <div class="ped-compare">
+                        <div class="ped-compare-col bg-green-lt b-green" style="border:1.5px solid #1a7a5e">
+                            <div class="ped-compare-title c-green"><span style="font-size:1.2rem">✅</span> Ce que le SVG répare</div>
+                            <div class="ped-points">
+                                <div class="ped-point"><div class="ped-dot bg-green">✓</div><span><strong>Plancher de demande garanti</strong> — les ménages peuvent toujours consommer l'essentiel</span></div>
+                                <div class="ped-point"><div class="ped-dot bg-green">✓</div><span><strong>Entreprises profitent aussi</strong> — nouveaux clients solvables pour l'alimentation, le logement, l'énergie</span></div>
+                                <div class="ped-point"><div class="ped-dot bg-green">✓</div><span><strong>Spiral récessif stoppé</strong> — la demande ne peut plus s'effondrer sous un seuil vital</span></div>
+                                <div class="ped-point"><div class="ped-dot bg-green">✓</div><span><strong>L'argent reste en Europe</strong> — pas d'extraction offshore possible</span></div>
+                                <div class="ped-point"><div class="ped-dot bg-green">✓</div><span><strong>TVA générée</strong> — finance partiellement le mécanisme (boucle vertueuse)</span></div>
+                            </div>
+                        </div>
+                        <div class="ped-compare-col bg-grey-lt b-grey">
+                            <div class="ped-compare-title c-grey"><span style="font-size:1.2rem">◉</span> Ce qui ne change pas</div>
+                            <div class="ped-points">
+                                <div class="ped-point"><div class="ped-dot" style="background:#6b7280">◉</div><span>Vos <strong>salaires et revenus sont inchangés</strong></span></div>
+                                <div class="ped-point"><div class="ped-dot" style="background:#6b7280">◉</div><span>Vos <strong>droits au chômage (ARE)</strong> sont maintenus</span></div>
+                                <div class="ped-point"><div class="ped-dot" style="background:#6b7280">◉</div><span>Votre <strong>retraite est préservée</strong></span></div>
+                                <div class="ped-point"><div class="ped-dot" style="background:#6b7280">◉</div><span>La <strong>propriété privée</strong> et le <strong>marché libre</strong> subsistent</span></div>
+                                <div class="ped-point"><div class="ped-dot" style="background:#6b7280">◉</div><span>La <strong>concurrence entre entreprises</strong> reste entière</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ped-callout bg-green">
+                        <div class="ped-callout-icon">🚀</div>
+                        <div><strong>Un tremplin, pas un piège.</strong> Si vos revenus augmentent, votre SVG diminue progressivement — mais chaque euro gagné vous enrichit toujours. Travailler reste toujours plus rentable. Le SVG ne crée aucun seuil pénalisant.</div>
+                    </div>
+
+                    <div class="ped-callout bg-navy-lt" style="margin-top:.75rem">
+                        <div class="ped-callout-icon">📊</div>
+                        <div><strong>Coût net bien inférieur au montant distribué.</strong> La TVA générée, les économies sur les aides actuelles et la croissance de l'activité locale réduisent significativement le coût réel pour la collectivité.</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+    {# ── 5. How it works ──────────────────────────────────────────────────── #}
     <section class="section section--panel gp-steps">
         <header class="section-heading section-heading--centered">
             <p class="eyebrow">{{ content.howItWorks.eyebrow }}</p>
@@ -274,7 +930,7 @@
                                 <rect x="14" y="34" width="92" height="58" rx="6" fill="#003399"/>
                                 <rect x="14" y="46" width="92" height="10" fill="#4266b8"/>
                                 <rect x="22" y="64" width="18" height="14" rx="2" fill="#ffcc00"/>
-                                <text x="96" y="84" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#ffffff" text-anchor="end">EuroE</text>
+                                <text x="96" y="84" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#ffffff" text-anchor="end">CDC</text>
                                 <circle cx="88" cy="72" r="8" fill="none" stroke="#ffcc00" stroke-width="2"/>
                                 <circle cx="80" cy="72" r="8" fill="none" stroke="#ffffff" stroke-width="2"/>
                             </svg>
@@ -299,16 +955,36 @@
         </ol>
     </section>
 
-    {# ── 5. Work incentive chart ────────────────────────────────────────── #}
-    <section class="section section--panel gp-incentive">
+    {# ── 6. Work incentive ────────────────────────────────────────────────── #}
+    <section class="section section--panel section--alt gp-incentive">
         <header class="section-heading section-heading--centered">
             <p class="eyebrow">{{ content.workIncentive.eyebrow }}</p>
             <h2>{{ content.workIncentive.title }}</h2>
             <p class="section-intro">{{ content.workIncentive.lead }}</p>
         </header>
 
+        {% if content.workIncentive.trampolineNote is defined %}
+        <div class="gp-incentive__trampoline surface-card">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                <path d="M12 2 L15 9 L22 9.3 L17 14 L18.5 21 L12 17.5 L5.5 21 L7 14 L2 9.3 L9 9 Z" fill="#ffcc00" stroke="#003399" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+            <p>{{ content.workIncentive.trampolineNote }}</p>
+        </div>
+        {% endif %}
+
         <figure class="gp-incentive-chart surface-card">
             <figcaption class="gp-incentive-chart__caption">{{ content.workIncentive.chart.caption }}</figcaption>
+
+            <div class="gp-incentive-legend" aria-label="Légende du graphique">
+                <div class="gp-incentive-legend__item">
+                    <span class="gp-incentive-legend__swatch gp-incentive-legend__swatch--svg" aria-hidden="true"></span>
+                    <span>Socle Vital Garanti (SVG)</span>
+                </div>
+                <div class="gp-incentive-legend__item">
+                    <span class="gp-incentive-legend__swatch gp-incentive-legend__swatch--work" aria-hidden="true"></span>
+                    <span>Revenu du travail</span>
+                </div>
+            </div>
 
             {% set maxTotal = content.workIncentive.chart.bars|reduce((m, b) => b.total > m ? b.total : m, 0) %}
 
@@ -342,7 +1018,7 @@
         <p class="gp-incentive__note">{{ content.workIncentive.note }}</p>
     </section>
 
-    {# ── 6. Personas ────────────────────────────────────────────────────── #}
+    {# ── 7. Personas ──────────────────────────────────────────────────────── #}
     <section class="section section--panel gp-personas">
         <header class="section-heading section-heading--centered">
             <p class="eyebrow">{{ content.personas.eyebrow }}</p>
@@ -384,8 +1060,6 @@
                                 <circle cx="60" cy="62" r="22" fill="#ffdcb8"/>
                                 <circle cx="52" cy="62" r="2" fill="#003399"/>
                                 <circle cx="68" cy="62" r="2" fill="#003399"/>
-                                <path d="M46 60 Q48 58 50 60" stroke="#c89477" stroke-width="1" fill="none"/>
-                                <path d="M70 60 Q72 58 74 60" stroke="#c89477" stroke-width="1" fill="none"/>
                                 <path d="M52 72 Q60 76 68 72" stroke="#003399" stroke-width="1.8" fill="none" stroke-linecap="round"/>
                             </svg>
                         {% elseif persona.illustration == 'persona-thomas' %}
@@ -394,7 +1068,6 @@
                                 <path d="M36 48 Q36 32 60 32 Q84 32 84 48 L86 54 L34 54 Z" fill="#003399"/>
                                 <rect x="50" y="54" width="20" height="4" rx="1" fill="#ffcc00"/>
                                 <circle cx="60" cy="64" r="22" fill="#ffdcb8"/>
-                                <path d="M42 66 Q44 86 60 88 Q76 86 78 66 L76 74 Q60 80 44 74 Z" fill="#4266b8" opacity="0.7"/>
                                 <circle cx="52" cy="64" r="2" fill="#003399"/>
                                 <circle cx="68" cy="64" r="2" fill="#003399"/>
                                 <path d="M52 74 Q60 78 68 74" stroke="#003399" stroke-width="1.8" fill="none" stroke-linecap="round"/>
@@ -404,14 +1077,43 @@
                     <div class="gp-persona-card__copy">
                         <h3>{{ persona.name }}</h3>
                         <p class="gp-persona-card__situation">{{ persona.situation }}</p>
-                        <p class="gp-persona-card__body">« {{ persona.body }} »</p>
+                        {% if persona.svg_amount is defined %}
+                        <p class="gp-persona-card__amount">Complément estimé : <strong>{{ persona.svg_amount }}</strong></p>
+                        {% endif %}
+                        <p class="gp-persona-card__body">{{ persona.body }}</p>
                     </div>
                 </article>
             {% endfor %}
         </div>
     </section>
 
-    {# ── 7. Preserved rights ────────────────────────────────────────────── #}
+    {# ── 8. FAQ / Objections ──────────────────────────────────────────────── #}
+    <section class="section section--panel section--alt gp-faq">
+        <header class="section-heading section-heading--centered">
+            <p class="eyebrow">{{ content.faq.eyebrow }}</p>
+            <h2>{{ content.faq.title }}</h2>
+            <p class="section-intro">{{ content.faq.lead }}</p>
+        </header>
+
+        <div class="gp-faq__list">
+            {% for item in content.faq.items %}
+            <details class="gp-faq__item surface-card">
+                <summary class="gp-faq__question">
+                    <span class="gp-faq__q-icon" aria-hidden="true">?</span>
+                    <span>{{ item.q }}</span>
+                    <span class="gp-faq__chevron" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M6 9 L12 15 L18 9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                </summary>
+                <div class="gp-faq__answer">
+                    <p>{{ item.a }}</p>
+                </div>
+            </details>
+            {% endfor %}
+        </div>
+    </section>
+
+    {# ── 9. Preserved rights ──────────────────────────────────────────────── #}
     <section class="section section--panel gp-shield">
         <div class="gp-shield__illustration" aria-hidden="true">
             <svg viewBox="0 0 180 200" xmlns="http://www.w3.org/2000/svg">
@@ -437,15 +1139,15 @@
                             <circle cx="12" cy="12" r="11" fill="#ffcc00"/>
                             <path d="M7 12 L10.5 15.5 L17 9" stroke="#003399" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        <span>{{ point }}</span>
+                        <span>{{ point.text }}</span>
                     </li>
                 {% endfor %}
             </ul>
         </div>
     </section>
 
-    {# ── 8. Europe ──────────────────────────────────────────────────────── #}
-    <section class="section section--panel gp-europe">
+    {# ── 10. Europe ───────────────────────────────────────────────────────── #}
+    <section class="section section--panel section--alt gp-europe">
         <header class="section-heading section-heading--centered">
             <p class="eyebrow">{{ content.europe.eyebrow }}</p>
             <h2>{{ content.europe.title }}</h2>
@@ -497,6 +1199,7 @@
         </div>
     </section>
 
+    {# ── 11. Articles ─────────────────────────────────────────────────────── #}
     {% include 'page/civitalisme/_partials/_updates_feed.html.twig' with {
         eyebrow: 'Comprendre pas à pas',
         title: 'Articles et décryptages',
@@ -504,16 +1207,20 @@
         updates: projectUpdates,
     } only %}
 
-    {# ── 9. Final CTA ───────────────────────────────────────────────────── #}
+    {# ── 12. CTA ──────────────────────────────────────────────────────────── #}
     <section class="section section--panel gp-cta">
         <div class="gp-cta__copy">
             <p class="eyebrow">{{ content.cta.eyebrow }}</p>
             <h2>{{ content.cta.title }}</h2>
             <p class="section-intro">{{ content.cta.body }}</p>
             <div class="gp-cta__actions">
-                <a class="button" href="{{ path('app_civitalisme_technical') }}">Lire le projet complet</a>
-                <a class="button button--ghost" href="{{ path('app_contact') }}">Prendre contact</a>
+                {% for action in content.cta.actions %}
+                    <a class="button {{ action.kind == 'ghost' ? 'button--ghost' : '' }}" href="{{ path(action.route) }}">
+                        {{ action.label }}
+                    </a>
+                {% endfor %}
             </div>
         </div>
     </section>
+
 {% endblock %}

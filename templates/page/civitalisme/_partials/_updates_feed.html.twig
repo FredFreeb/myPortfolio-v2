@@ -10,7 +10,7 @@
             <article class="civitalisme-article {{ update.isFeatured ? 'civitalisme-article--featured' : '' }} {{ update.mediaUrl ? '' : 'civitalisme-article--text-only' }}">
                 <div class="civitalisme-article__content">
                     <div class="civitalisme-article__meta">
-                        <span>{{ update.statusLabel ?: 'Article' }}</span>
+                        <span>{{ update.statusLabel in ['En construction', 'en construction'] ? 'Document de travail' : (update.statusLabel ?: 'Article') }}</span>
                         <time datetime="{{ update.publishedAt|date('Y-m-d') }}">{{ update.publishedAt|date('d/m/Y') }}</time>
                     </div>
 

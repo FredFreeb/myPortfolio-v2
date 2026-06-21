@@ -37,6 +37,12 @@
     <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
     {% block extra_head %}{% endblock %}
     {{ importmap('app') }}
+    {# ── Analytics — GoatCounter (RGPD-compliant, sans cookie, open source) ── #}
+    {# Pour activer : créer un compte sur goatcounter.com et remplacer CODE par votre identifiant #}
+    {% if app.environment == 'prod' %}
+    <script data-goatcounter="https://fribel.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+    {% endif %}
 </head>
 {% set currentRoute = app.request.attributes.get('_route') ?? '' %}
 <body class="{% block body_class %}theme-portfolio{% endblock %}">
@@ -46,6 +52,7 @@
         <div class="site-background__grid"></div>
     </div>
 
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
     <div class="site-shell">
         {% include '_partials/_site_header.html.twig' with {
             currentRoute: currentRoute,
@@ -59,7 +66,7 @@
             {% endfor %}
         {% endfor %}
 
-        <main class="page-main">
+        <main class="page-main" id="main-content">
             {% block body %}{% endblock %}
         </main>
 

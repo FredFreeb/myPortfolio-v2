@@ -1,12 +1,190 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Cadre institutionnel — Socle Vital Garanti européen | Civitalisme{% endblock %}
-{% block meta_description %}Doctrine, architecture EuroE, cadre juridique, dialogue social et feuille de route du Socle Vital Garanti européen, projet du Civitalisme. Accès libre aux 8 rapports.{% endblock %}
+{% block meta_description %}Doctrine, architecture CDC, cadre juridique (art. 20 TUE), Charte SVG, modélisation du coût et feuille de route du Socle Vital Garanti européen — projet Civitalisme. Accès libre aux 8 rapports.{% endblock %}
 {% block body_class %}theme-civitalisme page-civitalisme page-civitalisme--institution{% endblock %}
 
 {% block extra_head %}
     {# Chart.js UMD — chargé avant les modules ES pour que window.Chart soit disponible #}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js" defer></script>
+
+<style>
+/* ── Schéma pédagogique V2 — cadre institutionnel ────────────────────────── */
+.inst-ped-schema {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 32px rgba(0,51,153,.1);
+    overflow: hidden;
+    margin: 0 auto 1.5rem;
+    max-width: 900px;
+}
+.inst-ped-schema .ped-schema-header {
+    padding: 1.25rem 2rem;
+    background: #003399;
+    display: flex; align-items: center; gap: 1rem;
+}
+.inst-ped-schema .ped-schema-header .ped-badge {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: #ffcc00; color: #3a2800;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; font-weight: 900; flex-shrink: 0;
+}
+.inst-ped-schema .ped-schema-header h3 { font-size: 1.05rem; font-weight: 800; color: white; line-height: 1.2; }
+.inst-ped-schema .ped-schema-header p  { font-size: .8rem; color: #96b0e8; margin-top: .15rem; }
+.inst-ped-schema .ped-body { padding: 1.5rem 2rem 2rem; }
+.inst-ped-schema .ped-zone {
+    border-radius: 14px; padding: 1.25rem; margin-bottom: 1rem;
+}
+.inst-ped-schema .ped-zone-label {
+    font-size: .68rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+    margin-bottom: .75rem; display: flex; align-items: center; gap: .4rem;
+}
+.inst-ped-schema .ped-zone-label::after {
+    content: ''; flex: 1; height: 1px; background: currentColor; opacity: .25;
+}
+.inst-ped-schema .ped-nodes { display: flex; gap: .75rem; flex-wrap: wrap; align-items: stretch; }
+.inst-ped-schema .ped-node {
+    flex: 1; min-width: 150px; border-radius: 12px; padding: 1rem;
+    display: flex; flex-direction: column; gap: .3rem;
+}
+.inst-ped-schema .ped-node-icon { font-size: 1.6rem; line-height: 1; margin-bottom: .25rem; }
+.inst-ped-schema .ped-node-title { font-size: .95rem; font-weight: 800; line-height: 1.2; }
+.inst-ped-schema .ped-node-sub  { font-size: .78rem; opacity: .8; line-height: 1.35; }
+.inst-ped-schema .ped-node-tag  {
+    display: inline-block; padding: .15rem .5rem; border-radius: 20px;
+    font-size: .7rem; font-weight: 700; margin-top: .3rem; width: fit-content;
+}
+.inst-ped-schema .ped-arrow-row {
+    display: flex; align-items: center; justify-content: center; gap: .5rem; margin: .6rem 0;
+}
+.inst-ped-schema .ped-arrow-down { display: flex; flex-direction: column; align-items: center; gap: .15rem; }
+.inst-ped-schema .ped-arrow-line { width: 2px; height: 28px; border-radius: 2px; }
+.inst-ped-schema .ped-arrow-head { width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; }
+.inst-ped-schema .ped-arrow-label {
+    font-size: .78rem; font-weight: 600; padding: .2rem .7rem; border-radius: 20px; white-space: nowrap;
+}
+.inst-ped-schema .ped-rails { display: grid; grid-template-columns: 1fr 36px 1fr; align-items: center; }
+.inst-ped-schema .ped-rail { border-radius: 12px; padding: 1rem; }
+.inst-ped-schema .ped-rail-divider {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; font-weight: 900; color: #c0392b;
+}
+.inst-ped-schema .ped-points { display: flex; flex-direction: column; gap: .4rem; margin-top: .5rem; }
+.inst-ped-schema .ped-point { display: flex; align-items: flex-start; gap: .5rem; font-size: .8rem; line-height: 1.35; }
+.inst-ped-schema .ped-dot {
+    width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .65rem; font-weight: 900; margin-top: 1px; color: white;
+}
+.inst-ped-schema .ped-steps {
+    display: flex; align-items: flex-start; position: relative; margin-bottom: 1.25rem;
+}
+.inst-ped-schema .ped-step {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    text-align: center; gap: .4rem; position: relative; padding: 0 .25rem;
+}
+.inst-ped-schema .ped-step::after {
+    content: ''; position: absolute; top: 18px; left: 55%; width: 90%; height: 2px;
+    background: #003399; opacity: .2; z-index: 0;
+}
+.inst-ped-schema .ped-step:last-child::after { display: none; }
+.inst-ped-schema .ped-step-num {
+    width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center;
+    justify-content: center; font-size: .9rem; font-weight: 900; color: white;
+    z-index: 1; position: relative; flex-shrink: 0;
+}
+.inst-ped-schema .ped-step-label { font-size: .75rem; font-weight: 700; color: #003399; line-height: 1.3; }
+.inst-ped-schema .ped-step-sub   { font-size: .7rem; color: #6b7280; line-height: 1.3; }
+.inst-ped-schema .ped-callout {
+    border-radius: 12px; padding: 1rem 1.25rem; font-size: .82rem; line-height: 1.5;
+    display: flex; gap: .75rem; align-items: flex-start; margin-top: .75rem;
+}
+.inst-ped-schema .ped-callout-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: .05rem; }
+.inst-ped-schema .ped-pills { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .4rem; }
+.inst-ped-schema .ped-pill { background: #003399; color: white; padding: .2rem .6rem; border-radius: 20px; font-size: .73rem; font-weight: 600; }
+.inst-ped-schema .ped-formula {
+    background: white; border: 2px solid #003399; border-radius: 12px;
+    padding: 1rem 1.25rem; margin-top: 1rem;
+}
+.inst-ped-schema .ped-formula-title {
+    font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+    color: #003399; margin-bottom: .5rem;
+}
+.inst-ped-schema .ped-formula-eq {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: .85rem; color: #003399; font-weight: 700;
+    background: #e8eefc; border-radius: 8px; padding: .5rem .9rem;
+    margin-bottom: .4rem; line-height: 1.5;
+}
+.inst-ped-schema .ped-formula-note { font-size: .78rem; color: #6b7280; line-height: 1.4; }
+/* Couleurs utilitaires */
+.inst-ped-schema .bg-navy     { background: #003399; color: white; }
+.inst-ped-schema .bg-navy-lt  { background: #e8eefc; color: #003399; }
+.inst-ped-schema .bg-gold     { background: #ffcc00; color: #3a2800; }
+.inst-ped-schema .bg-gold-soft{ background: #fff9e0; color: #6b4c00; }
+.inst-ped-schema .bg-green    { background: #1a7a5e; color: white; }
+.inst-ped-schema .bg-green-lt { background: #e6f5ef; color: #1a7a5e; }
+.inst-ped-schema .bg-grey-lt  { background: #f3f4f6; color: #6b7280; }
+.inst-ped-schema .bg-white    { background: white; }
+.inst-ped-schema .c-navy  { color: #003399; }
+.inst-ped-schema .c-gold  { color: #b38a00; }
+.inst-ped-schema .c-green { color: #1a7a5e; }
+.inst-ped-schema .c-grey  { color: #6b7280; }
+.inst-ped-schema .b-navy  { border: 2px solid #003399; }
+.inst-ped-schema .b-gold  { border: 2px solid #ffcc00; }
+.inst-ped-schema .b-green { border: 2px solid #1a7a5e; }
+.inst-ped-schema .b-grey  { border: 1.5px solid #d1d5db; }
+.inst-ped-schema .b-dashed{ border-style: dashed !important; }
+/* Dark mode */
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-ped-schema {
+    background: rgba(10, 25, 70, 0.75);
+    box-shadow: 0 4px 32px rgba(0,0,0,.4);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-ped-schema .ped-zone.bg-navy-lt  { background: rgba(0,51,153,.2); }
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-ped-schema .ped-zone.bg-gold-soft { background: rgba(255,204,0,.08); }
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-ped-schema .ped-zone.bg-grey-lt  { background: rgba(255,255,255,.05); }
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-ped-schema .ped-zone.bg-green-lt { background: rgba(26,122,94,.12); }
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-ped-schema .ped-node.bg-white     { background: rgba(255,255,255,.07); }
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-ped-schema .ped-rail.bg-grey-lt   { background: rgba(255,255,255,.05); }
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-ped-schema .ped-formula           { background: rgba(10,25,70,.6); }
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-ped-schema .ped-formula-eq        { background: rgba(0,51,153,.3); color: #c8d8ff; }
+@media (max-width: 640px) {
+    .inst-ped-schema .ped-rails  { grid-template-columns: 1fr; gap: .5rem; }
+    .inst-ped-schema .ped-rail-divider { display: none; }
+    .inst-ped-schema .ped-steps  { flex-wrap: wrap; gap: .75rem; }
+    .inst-ped-schema .ped-step::after { display: none; }
+    .inst-ped-schema .ped-body   { padding: 1rem; }
+}
+
+/* ── Dark mode — inst-risks ──────────────────────────────────────────────── */
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-risks__title {
+    color: var(--text);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-risk {
+    background: rgba(10, 25, 70, 0.65);
+    border-color: rgba(100, 160, 255, 0.18);
+    box-shadow: 0 4px 20px rgba(0,0,0,.35);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-risk--faible {
+    background: linear-gradient(160deg, rgba(10, 25, 70, 0.70), rgba(66, 102, 184, 0.18));
+    border-left-color: #4266b8;
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-risk--moyen {
+    background: linear-gradient(160deg, rgba(10, 25, 70, 0.70), rgba(255, 204, 0, 0.12));
+    border-left-color: #ffcc00;
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-risk--élevé,
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-risk--eleve {
+    background: linear-gradient(160deg, rgba(10, 25, 70, 0.70), rgba(192, 57, 43, 0.14));
+    border-left-color: #e74c3c;
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-risk__level {
+    color: var(--muted);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-risk h4 {
+    color: var(--text);
+}
+</style>
 {% endblock %}
 
 {% block body %}
@@ -159,7 +337,7 @@
                 </svg>
             </div>
             <div class="inst-circuit__column inst-circuit__column--euroe">
-                <p class="inst-circuit__badge inst-circuit__badge--accent">EuroE</p>
+                <p class="inst-circuit__badge inst-circuit__badge--accent">CDC</p>
                 <h3>Sphère vitale</h3>
                 <p class="inst-circuit__scope">Logement · alimentation · énergie · transport · santé · éducation.</p>
                 <ul>
@@ -233,6 +411,176 @@
                 </li>
             {% endfor %}
         </ol>
+    </section>
+
+
+    {# =============================================================
+       4b. SCHÉMA DE FONCTIONNEMENT DU SVG — CIRCUIT CDC
+       ============================================================= #}
+    <section class="inst-section" id="schema-svg">
+        <header class="inst-section__heading">
+            <p class="eyebrow">Schéma de fonctionnement</p>
+            <h2>Comment le SVG fonctionne, en un coup d'œil</h2>
+            <p class="inst-section__lead">Le circuit CDC en 5 étapes — de l'émission à la contrepartie économique.</p>
+        </header>
+
+        <div class="inst-ped-schema">
+            <div class="ped-schema-header">
+                <div class="ped-badge">⚙</div>
+                <div>
+                    <h3>Circuit CDC — de la supervision à la boucle fiscale</h3>
+                    <p>5 étapes : BCE supervise → banque génère → réseau européen → prestataire agréé → TVA collectée</p>
+                </div>
+            </div>
+            <div class="ped-body">
+
+                {# Étapes horizontales #}
+                <div class="ped-steps">
+                    <div class="ped-step">
+                        <div class="ped-step-num" style="background:#003399">🏛</div>
+                        <div class="ped-step-label">① BCE</div>
+                        <div class="ped-step-sub">Supervise · Fixe le panier vital (LW₀)</div>
+                    </div>
+                    <div class="ped-step">
+                        <div class="ped-step-num" style="background:#b38a00">🏦</div>
+                        <div class="ped-step-label">② Banque</div>
+                        <div class="ped-step-sub">Calcule · Crédite le CDC mensuel</div>
+                    </div>
+                    <div class="ped-step">
+                        <div class="ped-step-num" style="background:#003399">🇪🇺</div>
+                        <div class="ped-step-label">③ Réseau TIPS</div>
+                        <div class="ped-step-sub">Paiement via infrastructure BCE</div>
+                    </div>
+                    <div class="ped-step">
+                        <div class="ped-step-num" style="background:#1a7a5e">🏪</div>
+                        <div class="ped-step-label">④ Prestataire</div>
+                        <div class="ped-step-sub">Agréé Charte SVG · Réglé en €</div>
+                    </div>
+                    <div class="ped-step">
+                        <div class="ped-step-num" style="background:#b38a00">📋</div>
+                        <div class="ped-step-label">⑤ TVA + retour</div>
+                        <div class="ped-step-sub">~20 % → Trésor · CDC annulé</div>
+                    </div>
+                </div>
+
+                {# Zone supervision #}
+                <div class="ped-zone bg-navy-lt b-navy">
+                    <div class="ped-zone-label c-navy">🏛 Supervision — Banque Centrale Européenne (BCE)</div>
+                    <div class="ped-nodes">
+                        <div class="ped-node bg-navy" style="flex:2">
+                            <div class="ped-node-icon">🏛</div>
+                            <div class="ped-node-title">La BCE supervise</div>
+                            <div class="ped-node-sub">Elle ne verse pas directement — elle fixe les règles du mécanisme et audite les opérateurs.</div>
+                            <div class="ped-node-tag bg-gold">Art. 20 TUE · coopération renforcée</div>
+                        </div>
+                        <div class="ped-node bg-navy-lt b-navy" style="flex:3">
+                            <div class="ped-node-icon">📐</div>
+                            <div class="ped-node-title c-navy">Paramètres BCE</div>
+                            <div class="ped-points">
+                                <div class="ped-point"><div class="ped-dot bg-navy">1</div><span><strong>LW₀ = 1 650 € calibré Eurostat 2024</strong> — panier vital de référence UE</span></div>
+                                <div class="ped-point"><div class="ped-dot bg-navy">2</div><span>Coefficient <strong>Zone × HICP × Eq</strong> — ajustement géographique et familial</span></div>
+                                <div class="ped-point"><div class="ped-dot bg-navy">3</div><span>Masse totale de CDC autorisée en circulation (plafond macro)</span></div>
+                                <div class="ped-point"><div class="ped-dot bg-navy">4</div><span>Audit des banques opératrices certifiées · Charte SVG</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ped-arrow-row">
+                    <div class="ped-arrow-down">
+                        <div class="ped-arrow-line" style="background:#003399"></div>
+                        <div class="ped-arrow-head" style="border-top:10px solid #003399"></div>
+                    </div>
+                    <div class="ped-arrow-label bg-navy-lt c-navy">Paramètres transmis aux banques certifiées</div>
+                </div>
+
+                {# Zone génération #}
+                <div class="ped-zone bg-gold-soft b-gold">
+                    <div class="ped-zone-label c-gold">🏦 Génération CDC — Banques commerciales certifiées</div>
+                    <div class="ped-nodes">
+                        <div class="ped-node bg-gold">
+                            <div class="ped-node-icon">🏦</div>
+                            <div class="ped-node-title">Calcul automatique</div>
+                            <div class="ped-node-sub">Chaque 1ᵉʳ du mois, la banque applique la formule pour chaque foyer éligible domicilié.</div>
+                            <div class="ped-node-tag bg-navy" style="color:white">Opérateur certifié BCE</div>
+                        </div>
+                        <div class="ped-node bg-white b-gold" style="flex:2;background:white;border:2px solid #ffcc00">
+                            <div class="ped-node-title c-navy" style="margin-bottom:.4rem">🧮 Formule SVG</div>
+                            <div class="ped-formula" style="margin-top:0;border:none;padding:.5rem .75rem;background:#e8eefc;border-radius:8px">
+                                <div class="ped-formula-eq" style="background:white;border:1.5px solid #003399">SVG = max{0 ; LW₀ × Eq × Zone × HICP − [Pension + max(0 ; Revenu − 300×n)]}</div>
+                            </div>
+                            <div class="ped-node-sub c-grey" style="margin-top:.4rem">Résultat positif → crédité sur le compte CDC. Résultat nul ou négatif → rien versé. France : ~1 350 €/mois pour une personne seule.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ped-arrow-row">
+                    <div class="ped-arrow-down">
+                        <div class="ped-arrow-line" style="background:#b38a00"></div>
+                        <div class="ped-arrow-head" style="border-top:10px solid #b38a00"></div>
+                    </div>
+                    <div class="ped-arrow-label bg-gold-soft c-gold">Crédit sur réseau européen souverain</div>
+                </div>
+
+                {# Zone rails #}
+                <div class="ped-zone bg-grey-lt b-grey" style="padding:.75rem">
+                    <div class="ped-zone-label c-grey">⚡ Infrastructure de paiement — deux réseaux parallèles et indépendants</div>
+                    <div class="ped-rails">
+                        <div class="ped-rail bg-grey-lt b-grey b-dashed">
+                            <div class="ped-node-icon" style="font-size:1.2rem">💳</div>
+                            <div style="font-size:.85rem;font-weight:800;color:#6b7280;margin:.25rem 0">Visa / Mastercard</div>
+                            <div style="font-size:.75rem;color:#6b7280;line-height:1.4">Réseau privé — vos euros classiques. <strong>Inchangé, non concerné par le SVG.</strong></div>
+                        </div>
+                        <div class="ped-rail-divider">≠</div>
+                        <div class="ped-rail bg-navy-lt b-navy">
+                            <div class="ped-node-icon" style="font-size:1.2rem">🇪🇺</div>
+                            <div style="font-size:.85rem;font-weight:800;color:#003399;margin:.25rem 0">TIPS · TARGET2 · Wero</div>
+                            <div style="font-size:.75rem;color:#003399;line-height:1.4">Infrastructure publique BCE. <strong>Souveraineté européenne garantie · Aucun acteur privé non-UE.</strong></div>
+                            <div style="margin-top:.5rem;padding:.3rem .6rem;background:#003399;border-radius:6px;font-size:.72rem;color:#ffcc00;font-weight:700">Compte CDC — dépenses vitales uniquement · Ni retrait cash · Ni accumulation</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ped-arrow-row">
+                    <div class="ped-arrow-down">
+                        <div class="ped-arrow-line" style="background:#003399"></div>
+                        <div class="ped-arrow-head" style="border-top:10px solid #003399"></div>
+                    </div>
+                    <div class="ped-arrow-label bg-navy" style="color:#ffcc00">Paiement CDC chez un prestataire agréé Charte SVG</div>
+                </div>
+
+                {# Zone prestataire + TVA #}
+                <div class="ped-nodes" style="margin-bottom:1rem">
+                    <div class="ped-node bg-green" style="flex:1">
+                        <div class="ped-node-icon">🏪</div>
+                        <div class="ped-node-title">Prestataire agréé</div>
+                        <div class="ped-node-sub">Reçoit le CDC · Réglé en € classique via sa banque (TARGET2 / SEPA). La Charte SVG garantit l'appartenance au périmètre vital.</div>
+                        <div class="ped-pills" style="margin-top:.5rem">
+                            <span class="ped-pill">🏠 Loyer</span>
+                            <span class="ped-pill">🥦 Alimentation</span>
+                            <span class="ped-pill">⚡ Énergie</span>
+                            <span class="ped-pill">🚌 Transport</span>
+                            <span class="ped-pill">🏥 Santé</span>
+                            <span class="ped-pill">📚 Éducation</span>
+                        </div>
+                    </div>
+                    <div class="ped-node bg-gold-soft b-gold" style="flex:1">
+                        <div class="ped-node-icon">📋</div>
+                        <div class="ped-node-title c-gold">TVA ≈ 20 % générée</div>
+                        <div class="ped-node-sub" style="color:#6b4c00">Chaque transaction CDC génère de la TVA → Trésor public → réduit le coût net du dispositif.</div>
+                        <div style="margin-top:.6rem;padding:.4rem .7rem;background:#ffcc00;border-radius:8px;font-size:.75rem;font-weight:800;color:#3a2800">
+                            🔄 CDC annulé au règlement — pas d'accumulation, pas de marché secondaire
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ped-callout bg-navy-lt">
+                    <div class="ped-callout-icon">📌</div>
+                    <div><strong>Lecture synthétique :</strong> ① La BCE fixe le panier vital (LW₀) et supervise. ② La banque calcule et crédite le CDC mensuel selon la formule. ③ Le citoyen dépense via réseau TIPS/Wero. ④ Le prestataire est réglé en euros classiques. ⑤ Le CDC est annulé au règlement — la TVA générée retourne à la collectivité, réduisant le coût net du dispositif.</div>
+                </div>
+
+            </div>
+        </div>
     </section>
 
     {# =============================================================
@@ -387,7 +735,7 @@
                 <div class="sim-result">
                     <p class="sim-result__label">SVG mensuel estimé</p>
                     <p class="sim-result__amount" data-svg-simulator-target="result">1 650 €</p>
-                    <p class="sim-result__unit">EuroE / mois</p>
+                    <p class="sim-result__unit">CDC / mois</p>
                     <div class="sim-result__total-row">
                         <span>Revenu total du foyer</span>
                         <strong data-svg-simulator-target="totalResult">1 650 €</strong>
@@ -395,7 +743,7 @@
                 </div>
 
                 <div class="sim-bar-legend">
-                    <span class="sim-bar-legend__item sim-bar-legend__item--svg">SVG (EuroE)</span>
+                    <span class="sim-bar-legend__item sim-bar-legend__item--svg">SVG (CDC)</span>
                     <span class="sim-bar-legend__item sim-bar-legend__item--franch">Franchise travail</span>
                     <span class="sim-bar-legend__item sim-bar-legend__item--work">Revenu actif net</span>
                 </div>
@@ -412,6 +760,234 @@
             </div>
         </div>
     </section>
+
+
+    {# =============================================================
+       5b. CALIBRATION SVG PAR PAYS
+       ============================================================= #}
+    {% if content.calibration is defined %}
+    <section class="inst-section" id="calibration">
+        <header class="inst-section__heading">
+            <p class="eyebrow">{{ content.calibration.eyebrow }}</p>
+            <h2>{{ content.calibration.title }}</h2>
+            <p class="inst-section__lead">{{ content.calibration.lead }}</p>
+        </header>
+
+        <div class="inst-calibration-note surface-card">
+            <p>{{ content.calibration.note }}</p>
+        </div>
+
+        <div class="inst-table-wrapper">
+            <table class="inst-table inst-table--calibration">
+                <thead>
+                    <tr>
+                        <th>Pays</th>
+                        <th>Seuil pauvreté/mois</th>
+                        <th>Ajustement urbain</th>
+                        <th>SVG maximum</th>
+                        <th>Taux de pauvreté</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in content.calibration.countries %}
+                    <tr>
+                        <td><strong>{{ row.country }}</strong></td>
+                        <td>{{ row.threshold_monthly }}</td>
+                        <td>{{ row.urban_adjustment }}</td>
+                        <td class="inst-table__highlight">{{ row.svg_max }}</td>
+                        <td>{{ row.poverty_rate }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <p class="inst-table-source">{{ content.calibration.source }}</p>
+    </section>
+    {% endif %}
+
+    {# =============================================================
+       5c. CDC VS EURO NUMÉRIQUE BCE
+       ============================================================= #}
+    {% if content.euroe_vs_cbdc is defined %}
+    <section class="inst-section inst-section--alt" id="euroe-vs-cbdc">
+        <header class="inst-section__heading">
+            <p class="eyebrow">{{ content.euroe_vs_cbdc.eyebrow }}</p>
+            <h2>{{ content.euroe_vs_cbdc.title }}</h2>
+            <p class="inst-section__lead">{{ content.euroe_vs_cbdc.lead }}</p>
+        </header>
+
+        <div class="inst-table-wrapper">
+            <table class="inst-table inst-table--comparison">
+                <thead>
+                    <tr>
+                        <th>Dimension</th>
+                        <th>Euro numérique BCE (CBDC)</th>
+                        <th>CDC — Civitalisme</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in content.euroe_vs_cbdc.comparison %}
+                    <tr>
+                        <td><strong>{{ row.dimension }}</strong></td>
+                        <td>{{ row.cbdc }}</td>
+                        <td class="inst-table__highlight">{{ row.euroe }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="inst-synergy-note surface-card">
+            <p class="panel-label">Synergie possible</p>
+            <p>{{ content.euroe_vs_cbdc.synergy }}</p>
+        </div>
+    </section>
+    {% endif %}
+
+    {# =============================================================
+       5d. CHEMIN LÉGAL
+       ============================================================= #}
+    {% if content.legal_pathway is defined %}
+    <section class="inst-section" id="chemin-legal">
+        <header class="inst-section__heading">
+            <p class="eyebrow">{{ content.legal_pathway.eyebrow }}</p>
+            <h2>{{ content.legal_pathway.title }}</h2>
+            <p class="inst-section__lead">{{ content.legal_pathway.lead }}</p>
+        </header>
+
+        <div class="inst-pathway-steps">
+            {% for step in content.legal_pathway.steps %}
+            <div class="inst-pathway-step surface-card">
+                <div class="inst-pathway-step__header">
+                    <span class="inst-pathway-step__phase">{{ step.phase }}</span>
+                    <span class="inst-pathway-step__base">{{ step.legal_base }}</span>
+                </div>
+                <h3 class="inst-pathway-step__title">{{ step.title }}</h3>
+                <p class="inst-pathway-step__body">{{ step.body }}</p>
+                <p class="inst-pathway-step__feasibility">
+                    <strong>Faisabilité :</strong> {{ step.feasibility }}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="inst-key-articles">
+            <p class="panel-label">Articles clés des traités</p>
+            <div class="inst-key-articles__grid">
+                {% for art in content.legal_pathway.key_articles %}
+                <div class="inst-key-article surface-card">
+                    <span class="inst-key-article__ref">{{ art.ref }}</span>
+                    <strong class="inst-key-article__title">{{ art.title }}</strong>
+                    <p class="inst-key-article__body">{{ art.body }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+
+    {# =============================================================
+       5e. CHARTE SVG — CONDITIONS D'AGRÉMENT
+       ============================================================= #}
+    {% if content.charte_svg is defined %}
+    <section class="inst-section inst-section--alt" id="charte-svg">
+        <header class="inst-section__heading">
+            <p class="eyebrow">{{ content.charte_svg.eyebrow }}</p>
+            <h2>{{ content.charte_svg.title }}</h2>
+            <p class="inst-section__lead">{{ content.charte_svg.lead }}</p>
+        </header>
+
+        <div class="inst-calibration-note surface-card">
+            <p class="panel-label">{{ content.charte_svg.legal_anchor.title }}</p>
+            <ul class="feature-list">
+                {% for item in content.charte_svg.legal_anchor.items %}
+                <li><strong>{{ item.ref }}</strong> — {{ item.body }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="inst-pathway-steps">
+            {% for cat in content.charte_svg.categories %}
+            <div class="inst-pathway-step surface-card">
+                <div class="inst-pathway-step__header">
+                    <span class="inst-pathway-step__phase">{{ cat.label }}</span>
+                </div>
+                <p class="inst-pathway-step__body">{{ cat.condition }}</p>
+                <p class="inst-pathway-step__feasibility"><strong>Exemples :</strong> {{ cat.examples }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="inst-synergy-note surface-card">
+            <p class="panel-label">Gouvernance</p>
+            <p>{{ content.charte_svg.governance }}</p>
+        </div>
+    </section>
+    {% endif %}
+
+    {# =============================================================
+       5f. MODÉLISATION DU COÛT — DONNÉES EMPIRIQUES
+       ============================================================= #}
+    {% if content.cost_model is defined %}
+    <section class="inst-section" id="modelisation-cout">
+        <header class="inst-section__heading">
+            <p class="eyebrow">{{ content.cost_model.eyebrow }}</p>
+            <h2>{{ content.cost_model.title }}</h2>
+            <p class="inst-section__lead">{{ content.cost_model.lead }}</p>
+        </header>
+
+        <div class="inst-pathway-steps">
+            {% for pilot in content.cost_model.pilots %}
+            <div class="inst-pathway-step surface-card">
+                <div class="inst-pathway-step__header">
+                    <span class="inst-pathway-step__phase">{{ pilot.name }}</span>
+                    <span class="inst-pathway-step__base">{{ pilot.period }}</span>
+                </div>
+                <p><strong>Échelle :</strong> {{ pilot.scale }} — {{ pilot.amount }}</p>
+                <ul class="feature-list" style="margin:0.75rem 0">
+                    {% for r in pilot.results %}
+                    <li>{{ r }}</li>
+                    {% endfor %}
+                </ul>
+                <div class="inst-calibration-note" style="margin-top:0.75rem">
+                    <p><strong>Enseignement coût :</strong> {{ pilot.cost_lesson }}</p>
+                    <p class="inst-table-source">{{ pilot.source }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="inst-calibration-note surface-card" style="margin-top:2rem">
+            <p class="panel-label">{{ content.cost_model.european_projection.title }}</p>
+            <ul class="feature-list">
+                {% for a in content.cost_model.european_projection.assumptions %}
+                <li>{{ a }}</li>
+                {% endfor %}
+            </ul>
+            <div class="inst-table-wrapper" style="margin-top:1rem">
+                <table class="inst-table">
+                    <tbody>
+                        {% for line in content.cost_model.european_projection.calculation %}
+                        <tr><td>{{ line }}</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <p style="margin-top:0.75rem;font-style:italic;opacity:.7">{{ content.cost_model.european_projection.reference }}</p>
+        </div>
+
+        {% if content.cost_model.academic_path is defined %}
+        <div class="inst-synergy-note surface-card" style="margin-top:2rem">
+            <p class="panel-label">{{ content.cost_model.academic_path.title }}</p>
+            {% for contact in content.cost_model.academic_path.contacts %}
+            <p><strong>{{ contact.name }}</strong> — {{ contact.role }}</p>
+            {% endfor %}
+            <p style="margin-top:0.5rem;opacity:.8">{{ content.cost_model.academic_path.approach }}</p>
+        </div>
+        {% endif %}
+    </section>
+    {% endif %}
 
     {# =============================================================
        6. DIALOGUE SOCIAL ET PARTENAIRES SYNDICAUX
@@ -537,11 +1113,10 @@
              data-controller="svg-charts">
         <header class="inst-section__heading">
             <p class="eyebrow">Analyses économiques</p>
-            <h2>Quatre figures du rapport économique SVG</h2>
+            <h2>4 chiffres clés pour comprendre le SVG</h2>
             <p class="inst-section__lead">
-                Ces graphiques illustrent les propriétés économiques clés du SVG :
-                couverture par type de foyer, préservation de l'incitation au travail,
-                sources de financement et impact simulé sur la pauvreté.
+                Montants, effets sur le travail, coût réel et impact sur la pauvreté —
+                données Eurostat SILC 2023, Drees 2024 et littérature académique sur le revenu de base.
             </p>
         </header>
 
@@ -569,8 +1144,10 @@
         </div>
 
         <p class="inst-charts-note">
-            Les données des figures 5 et 6 sont hypothétiques et à vocation illustrative.
-            Elles seront actualisées lors de la publication du rapport économique complet.
+            Fig. 3 : LW₀ France 1 350 €/mois · Eurostat SILC 2023 · Échelle OCDE modifiée.
+            Fig. 4 : Franchise 300 €/actif · RSA socle Caisse nationale 2024 (635,71 €).
+            Fig. 5 : Projection Civitalisme — Drees 2024, DSS PLF 2025 · 14,8 M bénéficiaires estimés.
+            Fig. 6 : Taux AROP avant SVG = Eurostat ilc_li02 2023 · Projection modélisée : réduction ~60 % d'après Kangas et al. 2019 (Kela) et Straubhaar 2017.
         </p>
     </section>
 

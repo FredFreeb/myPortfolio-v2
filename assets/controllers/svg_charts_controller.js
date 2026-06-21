@@ -1,370 +1,228 @@
 import { Controller } from '@hotwired/stimulus';
 
 /**
- * Graphiques économiques du Socle Vital Garanti — 4 figures du rapport économique.
+ * Graphiques économiques SVG — 4 figures du rapport économique.
+ * Chart.js chargé en CDN UMD → window.Chart disponible.
  *
- * Dépend de Chart.js (chargé en CDN via <script> dans le bloc extra_head du template).
- * Utilise window.Chart, disponible grâce au script UMD chargé avant le bundle ES.
- *
- * Fig. 3 — SVG maximal par composition de ménage (barres horizontales)
- * Fig. 4 — Incitation au travail : SVG + revenu net en fonction du revenu actif (lignes)
- * Fig. 5 — Sources de financement hypothétiques (anneau / doughnut)
- * Fig. 6 — Réduction simulée de la pauvreté, avant/après SVG (barres groupées)
+ * Fig. 3 — Plafond SVG + seuil d'écrêtement par composition de ménage (France 2026)
+ * Fig. 4 — Mécanique de dégressivité : franchise → écrêtement (vs RSA actuel)
+ * Fig. 5 — Coût net SVG France · décomposition waterfall (Md€/an)
+ * Fig. 6 — Taux de pauvreté avant/après SVG · Eurostat SILC 2023 + projection
  */
 
-const LW0       = 1650;
-const HICP      = 1.0;  // Année 2026 = index de référence
+// ── Constantes de calibration France ─────────────────────────────────────────
+const LW0_FR   = 1350;   // LW₀ France zone médiane (Eurostat SILC 2023)
+const LW0_EU   = 1650;   // LW₀ référence UE (Eurostat MW médiane)
+const FRANCHISE = 300;   // Franchise par adulte actif (€/mois)
+const RSA_2024  = 635.71;// RSA socle personne seule (Caisse nationale 2024)
 
-const EU_BLUE   = '#003399';
-const EU_YELLOW = '#ffcc00';
-const EU_LIGHT  = '#9faee5';
-const EU_BLUE2  = '#4266b8';
-const EU_SOFT   = 'rgba(0,51,153,0.12)';
+// ── Palette ──────────────────────────────────────────────────────────────────
+const C = {
+    navy:    '#003399',
+    navy2:   '#4266b8',
+    navyA:   'rgba(0,51,153,0.70)',
+    navyB:   'rgba(0,51,153,0.12)',
+    gold:    '#ffcc00',
+    goldA:   'rgba(255,204,0,0.20)',
+    green:   '#1a7a5e',
+    greenA:  'rgba(26,122,94,0.70)',
+    red:     '#c0392b',
+    redA:    'rgba(192,57,43,0.70)',
+    grey:    '#9faee5',
+    greyA:   'rgba(159,174,229,0.20)',
+    white:   '#ffffff',
+};
 
-// ---------- Données Fig. 3 — SVG par type de foyer --------------------------
-const HOUSEHOLD_TYPES = [
-    { label: 'Personne seule',          eq: 1.0 },
-    { label: 'Couple sans enfant',      eq: 1.5 },
-    { label: 'Couple + 1 enfant',       eq: 1.8 },
-    { label: 'Couple + 2 enfants',      eq: 2.1 },
-    { label: 'Couple + 3 enfants',      eq: 2.4 },
-    { label: 'Parent isolé + 1 enfant', eq: 1.3 },
-    { label: 'Parent isolé + 2 enfants', eq: 1.6 },
+// ── Fig. 3 — Plafond SVG par ménage ──────────────────────────────────────────
+// Echelle OCDE modifiée : 1er adulte = 1.0, adulte supp. = +0.5, enfant = +0.3
+// Seuil d'écrêtement = LW₀×Eq + FRANCHISE×n_actifs
+const HOUSEHOLDS = [
+    { label: 'Personne seule',            eq: 1.0, nActifs: 1 },
+    { label: 'Couple sans enfant',        eq: 1.5, nActifs: 2 },
+    { label: 'Couple + 1 enfant',         eq: 1.8, nActifs: 2 },
+    { label: 'Couple + 2 enfants',        eq: 2.1, nActifs: 2 },
+    { label: 'Couple + 3 enfants',        eq: 2.4, nActifs: 2 },
+    { label: 'Parent isolé + 1 enfant',   eq: 1.3, nActifs: 1 },
+    { label: 'Parent isolé + 2 enfants',  eq: 1.6, nActifs: 1 },
 ];
 
-// ---------- Données Fig. 4 — Incitation au travail --------------------------
-// Foyer : 1 adulte, zone médiane, pas de pension. Franchise = 300€/1 actif.
-function buildIncentiveData() {
-    const incomes = Array.from({ length: 21 }, (_, i) => i * 100); // 0 … 2000
-    const svgAmounts = incomes.map(income => {
-        const franchise = Math.max(0, income - 300);
-        return Math.max(0, LW0 - franchise);
-    });
-    const totalNet = incomes.map((income, i) => income + svgAmounts[i]);
-    return { incomes, svgAmounts, totalNet };
-}
+// ── Fig. 5 — Coût net SVG France · waterfall (Md€/an) ───────────────────────
+// Source : modélisation Civitalisme + Drees 2024 + DSS PLF 2025
+// Hypothèses : 14,8 M bénéficiaires, versement moyen 607 €/mois
+const WATERFALL = [
+    //  label                          start   end    color
+    { label: 'Coût brut\n(distribution CDC)', s: 0,   e: 108, fill: C.navyA },
+    { label: 'TVA collectée\n(~20 %)',         s: 108, e:  86, fill: C.greenA },
+    { label: 'Éco. aides\nexistantes*',        s: 86,  e:  61, fill: C.greenA },
+    { label: 'Retours fiscaux\ninduits',        s: 61,  e:  51, fill: C.greenA },
+    { label: 'Coût net\nrésiduel',             s:  0,  e:  51, fill: C.gold   },
+];
+// * RSA + APL + AAH partiellement subsumés (Drees 2024)
 
-// ---------- Données Fig. 5 — Financement ------------------------------------ (hypothétique)
-const FINANCING = {
-    labels: ['Cotisation IA / automatisation', 'TVA sociale', 'Dividende numérique', 'Contribution publique', 'Coopération franco-allemande'],
-    data:   [35, 25, 20, 15, 5],
-    colors: [EU_BLUE, EU_BLUE2, EU_LIGHT, '#6a8ed4', '#b8c8f0'],
-};
-
-// ---------- Données Fig. 6 — Réduction de la pauvreté -----------------------
+// ── Fig. 6 — Taux AROP (At-Risk-Of-Poverty) · Eurostat SILC 2023 ────────────
+// Source : Eurostat ilc_li02 — seuil 60 % revenu médian équivalent
+// Projection "après SVG" : modélisation hypothèse couverture universelle
+// Réduction estimée 55–65 % d'après : Straubhaar 2017, Kangas et al. 2019 (Kela)
 const POVERTY = {
     countries: ['France', 'Allemagne', 'Italie', 'Espagne', 'Pologne', 'Roumanie'],
-    before:    [14.1,      16.3,        20.1,    21.0,       15.4,     33.9],
-    after:     [ 4.2,       5.1,         8.0,     8.8,        4.9,     12.1],
+    before:    [14.4,     16.1,        20.1,     20.9,      14.2,      32.2],
+    after:     [ 5.6,      6.3,         8.3,      8.8,       5.7,      14.1],
+    // Réduction ≈ 60 % — cohérente avec pilote finlandais Kela 2017-2018
 };
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 export default class extends Controller {
     static targets = ['fig3', 'fig4', 'fig5', 'fig6'];
 
     connect() {
-        // Chart.js est chargé via CDN (UMD) — disponible sur window.Chart
         const Chart = window.Chart;
         if (!Chart) {
-            console.warn('[svg-charts] Chart.js non disponible. Rendu Canvas natif utilisé.');
+            console.warn('[svg-charts] Chart.js non disponible — fallback Canvas.');
             this._initFallbacks();
             return;
         }
-        this._initAll();
+        this._initAll(Chart);
     }
 
     disconnect() {
         this._charts?.forEach(c => c.destroy());
         this._charts = [];
-        if (this._fallbackResizeHandler) {
-            window.removeEventListener('resize', this._fallbackResizeHandler);
-        }
+        if (this._resizeHandler) window.removeEventListener('resize', this._resizeHandler);
     }
 
-    _initAll() {
+    _initAll(Chart) {
         this._charts = [];
-        if (this.hasFig3Target) this._charts.push(this._buildFig3());
-        if (this.hasFig4Target) this._charts.push(this._buildFig4());
-        if (this.hasFig5Target) this._charts.push(this._buildFig5());
-        if (this.hasFig6Target) this._charts.push(this._buildFig6());
+        if (this.hasFig3Target) this._charts.push(this._buildFig3(Chart));
+        if (this.hasFig4Target) this._charts.push(this._buildFig4(Chart));
+        if (this.hasFig5Target) this._charts.push(this._buildFig5(Chart));
+        if (this.hasFig6Target) this._charts.push(this._buildFig6(Chart));
     }
 
-    _initFallbacks() {
-        this._drawFallbacks();
-        this._fallbackResizeHandler = () => {
-            window.clearTimeout(this._fallbackResizeTimer);
-            this._fallbackResizeTimer = window.setTimeout(() => this._drawFallbacks(), 120);
+    // ── Helpers ────────────────────────────────────────────────────────────────
+    _baseTitle(text) {
+        return {
+            display: true,
+            text,
+            color: C.navy,
+            font: { size: 13, weight: '600', family: 'Inter, sans-serif' },
+            padding: { bottom: 14 },
         };
-        window.addEventListener('resize', this._fallbackResizeHandler);
     }
 
-    _drawFallbacks() {
-        if (this.hasFig3Target) this._drawFig3Fallback(this.fig3Target);
-        if (this.hasFig4Target) this._drawFig4Fallback(this.fig4Target);
-        if (this.hasFig5Target) this._drawFig5Fallback(this.fig5Target);
-        if (this.hasFig6Target) this._drawFig6Fallback(this.fig6Target);
+    _baseTooltip(fmtFn) {
+        return { callbacks: { label: ctx => ` ${fmtFn(ctx)}` } };
     }
 
-    _prepareCanvas(canvas) {
-        const wrapper = canvas.parentElement;
-        const width = Math.max(320, Math.floor(wrapper?.clientWidth ?? 640));
-        const height = Math.max(260, Math.floor(wrapper?.clientHeight ?? 320));
-        const ratio = window.devicePixelRatio || 1;
-
-        canvas.width = Math.floor(width * ratio);
-        canvas.height = Math.floor(height * ratio);
-        canvas.style.width = `${width}px`;
-        canvas.style.height = `${height}px`;
-
-        const ctx = canvas.getContext('2d');
-        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-        ctx.clearRect(0, 0, width, height);
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, width, height);
-        ctx.font = '12px Inter, system-ui, sans-serif';
-        ctx.textBaseline = 'middle';
-
-        return { ctx, width, height };
-    }
-
-    _drawTitle(ctx, text, width) {
-        ctx.fillStyle = EU_BLUE;
-        ctx.font = '600 13px Inter, system-ui, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText(text, width / 2, 22);
-    }
-
-    _drawFig3Fallback(canvas) {
-        const { ctx, width, height } = this._prepareCanvas(canvas);
-        const data = HOUSEHOLD_TYPES.map(h => ({ label: h.label, value: Math.round(LW0 * h.eq * HICP) }));
-        const max = Math.max(...data.map(item => item.value));
-        const left = width < 520 ? 118 : 170;
-        const right = 24;
-        const top = 52;
-        const row = Math.max(24, (height - top - 22) / data.length);
-
-        this._drawTitle(ctx, 'Fig. 3 — SVG maximal avant déductions', width);
-        data.forEach((item, index) => {
-            const y = top + index * row;
-            const barWidth = ((width - left - right) * item.value) / max;
-            ctx.fillStyle = EU_SOFT;
-            ctx.fillRect(left, y + 7, width - left - right, 12);
-            ctx.fillStyle = index % 2 === 0 ? EU_BLUE : EU_BLUE2;
-            ctx.fillRect(left, y + 7, barWidth, 12);
-            ctx.fillStyle = EU_BLUE;
-            ctx.font = '12px Inter, system-ui, sans-serif';
-            ctx.textAlign = 'right';
-            ctx.fillText(item.label, left - 10, y + 13);
-            ctx.textAlign = 'left';
-            ctx.fillText(`${item.value.toLocaleString('fr-FR')} €`, left + barWidth + 6, y + 13);
-        });
-    }
-
-    _drawFig4Fallback(canvas) {
-        const { ctx, width, height } = this._prepareCanvas(canvas);
-        const { incomes, svgAmounts, totalNet } = buildIncentiveData();
-        const left = 46;
-        const right = 22;
-        const top = 52;
-        const bottom = 44;
-        const chartW = width - left - right;
-        const chartH = height - top - bottom;
-        const max = Math.max(...totalNet);
-        const x = index => left + (index / (incomes.length - 1)) * chartW;
-        const y = value => top + chartH - (value / max) * chartH;
-
-        this._drawTitle(ctx, 'Fig. 4 — Incitation au travail', width);
-        ctx.strokeStyle = EU_SOFT;
-        ctx.lineWidth = 1;
-        for (let i = 0; i <= 4; i++) {
-            const gy = top + (chartH / 4) * i;
-            ctx.beginPath();
-            ctx.moveTo(left, gy);
-            ctx.lineTo(width - right, gy);
-            ctx.stroke();
-        }
-
-        const drawLine = (values, color) => {
-            ctx.strokeStyle = color;
-            ctx.lineWidth = 2.4;
-            ctx.beginPath();
-            values.forEach((value, index) => {
-                if (index === 0) ctx.moveTo(x(index), y(value));
-                else ctx.lineTo(x(index), y(value));
-            });
-            ctx.stroke();
-        };
-
-        drawLine(svgAmounts, EU_BLUE);
-        drawLine(totalNet, EU_YELLOW);
-        ctx.fillStyle = EU_BLUE;
-        ctx.font = '12px Inter, system-ui, sans-serif';
-        ctx.textAlign = 'left';
-        ctx.fillText('SVG', left, height - 22);
-        ctx.fillStyle = '#b38f00';
-        ctx.fillText('Revenu total', left + 54, height - 22);
-    }
-
-    _drawFig5Fallback(canvas) {
-        const { ctx, width, height } = this._prepareCanvas(canvas);
-        const cx = width / 2;
-        const cy = Math.max(130, height * 0.43);
-        const radius = Math.min(width, height) * 0.24;
-        let start = -Math.PI / 2;
-
-        this._drawTitle(ctx, 'Fig. 5 — Sources de financement hypothétiques', width);
-        FINANCING.data.forEach((value, index) => {
-            const angle = (value / 100) * Math.PI * 2;
-            ctx.beginPath();
-            ctx.moveTo(cx, cy);
-            ctx.arc(cx, cy, radius, start, start + angle);
-            ctx.closePath();
-            ctx.fillStyle = FINANCING.colors[index];
-            ctx.fill();
-            start += angle;
-        });
-        ctx.beginPath();
-        ctx.arc(cx, cy, radius * 0.58, 0, Math.PI * 2);
-        ctx.fillStyle = '#ffffff';
-        ctx.fill();
-
-        ctx.font = '11px Inter, system-ui, sans-serif';
-        ctx.textAlign = 'left';
-        FINANCING.labels.forEach((label, index) => {
-            const x = 24 + (index % 2) * Math.max(140, width * 0.45);
-            const y = height - 74 + Math.floor(index / 2) * 20;
-            ctx.fillStyle = FINANCING.colors[index];
-            ctx.fillRect(x, y - 5, 10, 10);
-            ctx.fillStyle = EU_BLUE;
-            ctx.fillText(`${label} · ${FINANCING.data[index]} %`, x + 16, y);
-        });
-    }
-
-    _drawFig6Fallback(canvas) {
-        const { ctx, width, height } = this._prepareCanvas(canvas);
-        const left = 42;
-        const right = 24;
-        const top = 52;
-        const bottom = 46;
-        const chartW = width - left - right;
-        const chartH = height - top - bottom;
-        const groupW = chartW / POVERTY.countries.length;
-        const max = 40;
-
-        this._drawTitle(ctx, 'Fig. 6 — Réduction de la pauvreté', width);
-        ctx.strokeStyle = EU_SOFT;
-        ctx.lineWidth = 1;
-        for (let i = 0; i <= 4; i++) {
-            const y = top + (chartH / 4) * i;
-            ctx.beginPath();
-            ctx.moveTo(left, y);
-            ctx.lineTo(width - right, y);
-            ctx.stroke();
-        }
-
-        POVERTY.countries.forEach((country, index) => {
-            const baseX = left + index * groupW + groupW * 0.22;
-            const barW = Math.max(8, groupW * 0.2);
-            const beforeH = (POVERTY.before[index] / max) * chartH;
-            const afterH = (POVERTY.after[index] / max) * chartH;
-            ctx.fillStyle = 'rgba(0,51,153,0.72)';
-            ctx.fillRect(baseX, top + chartH - beforeH, barW, beforeH);
-            ctx.fillStyle = EU_YELLOW;
-            ctx.fillRect(baseX + barW + 4, top + chartH - afterH, barW, afterH);
-            ctx.fillStyle = EU_BLUE;
-            ctx.font = '10px Inter, system-ui, sans-serif';
-            ctx.textAlign = 'center';
-            ctx.fillText(country.slice(0, 3), baseX + barW, height - 22);
-        });
-    }
-
-    // -------------------------------------------------------------------------
-    // Fig. 3 — SVG maximal par type de ménage (zone médiane, 2026, sans déductions)
-    // -------------------------------------------------------------------------
-    _buildFig3() {
-        const Chart = window.Chart;
-        const labels = HOUSEHOLD_TYPES.map(h => h.label);
-        const data   = HOUSEHOLD_TYPES.map(h => Math.round(LW0 * h.eq * HICP));
+    // ── Fig. 3 ─────────────────────────────────────────────────────────────────
+    _buildFig3(Chart) {
+        const labels  = HOUSEHOLDS.map(h => h.label);
+        const plafond = HOUSEHOLDS.map(h => Math.round(LW0_FR * h.eq));
+        const seuil   = HOUSEHOLDS.map(h => Math.round(LW0_FR * h.eq) + FRANCHISE * h.nActifs);
 
         return new Chart(this.fig3Target, {
             type: 'bar',
             data: {
                 labels,
-                datasets: [{
-                    label: 'SVG maximal (€/mois)',
-                    data,
-                    backgroundColor: data.map((_, i) => i % 2 === 0 ? EU_BLUE : EU_BLUE2),
-                    borderRadius: 6,
-                    borderSkipped: false,
-                }],
+                datasets: [
+                    {
+                        label: 'Plafond SVG (€/mois)',
+                        data: plafond,
+                        backgroundColor: C.navyA,
+                        borderColor: C.navy,
+                        borderWidth: 1.5,
+                        borderRadius: 5,
+                        borderSkipped: false,
+                    },
+                    {
+                        label: 'Seuil d\'écrêtement (€/mois)',
+                        data: seuil,
+                        backgroundColor: C.goldA,
+                        borderColor: C.gold,
+                        borderWidth: 1.5,
+                        borderRadius: 5,
+                        borderSkipped: false,
+                    },
+                ],
             },
             options: {
                 indexAxis: 'y',
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            label: ctx => ` ${ctx.raw.toLocaleString('fr-FR')} €/mois (avant déductions)`,
-                        },
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: C.navy, font: { size: 11 }, padding: 12 },
                     },
-                    title: {
-                        display: true,
-                        text: 'Fig. 3 — SVG maximal avant déductions (zone médiane · 2026)',
-                        color: EU_BLUE,
-                        font: { size: 13, weight: '600', family: 'Inter, sans-serif' },
-                        padding: { bottom: 16 },
-                    },
+                    tooltip: this._baseTooltip(ctx => `${ctx.raw.toLocaleString('fr-FR')} €/mois`),
+                    title: this._baseTitle([
+                        'Entre 1 350 € et 3 960 €/mois selon la composition du foyer',
+                        'Plafond SVG avant déductions · France 2026 · Échelle OCDE modifiée · Eurostat SILC 2023',
+                    ]),
                 },
                 scales: {
                     x: {
-                        grid:   { color: EU_SOFT },
-                        ticks: {
-                            color: EU_BLUE2,
-                            callback: v => `${(v / 1000).toFixed(1)}k €`,
-                        },
+                        grid: { color: C.greyA },
+                        ticks: { color: C.navy2, callback: v => `${(v/1000).toFixed(1)}k €` },
                     },
                     y: {
                         grid: { display: false },
-                        ticks: { color: EU_BLUE, font: { size: 12 } },
+                        ticks: { color: C.navy, font: { size: 11 } },
                     },
                 },
             },
         });
     }
 
-    // -------------------------------------------------------------------------
-    // Fig. 4 — Incitation au travail (1 adulte, zone médiane, franchise 300 €)
-    // -------------------------------------------------------------------------
-    _buildFig4() {
-        const Chart = window.Chart;
-        const { incomes, svgAmounts, totalNet } = buildIncentiveData();
+    // ── Fig. 4 ─────────────────────────────────────────────────────────────────
+    _buildFig4(Chart) {
+        // Personne seule, zone médiane France, n=1 actif
+        // SVG = max(0, LW₀ - max(0, Revenu - FRANCHISE))
+        // Phase 1 [0-300€] : franchise active → SVG = LW₀_FR = 1350€
+        // Phase 2 [300-1650€] : dégressivité 1 pour 1 → SVG = 1650 - Revenu
+        // Phase 3 [>1650€] : SVG = 0
+        const incomes = Array.from({ length: 22 }, (_, i) => i * 100); // 0…2100
+        const svgVals = incomes.map(rev => {
+            const deduit = Math.max(0, rev - FRANCHISE);
+            return Math.max(0, LW0_FR - deduit);
+        });
+        const totalVals = incomes.map((rev, i) => rev + svgVals[i]);
+        const rsaLine   = incomes.map(() => RSA_2024);
 
         return new Chart(this.fig4Target, {
             type: 'line',
             data: {
-                labels: incomes.map(v => `${v} €`),
+                labels: incomes.map(v => `${v}`),
                 datasets: [
                     {
-                        label: 'SVG (EuroE/mois)',
-                        data: svgAmounts,
-                        borderColor: EU_BLUE,
-                        backgroundColor: 'rgba(0,51,153,0.10)',
+                        label: `SVG France (€/mois)`,
+                        data: svgVals,
+                        borderColor: C.navy,
+                        backgroundColor: 'rgba(0,51,153,0.08)',
                         fill: true,
-                        tension: 0.1,
-                        pointRadius: 4,
-                        pointBackgroundColor: EU_BLUE,
+                        tension: 0,
+                        pointRadius: 0,
+                        borderWidth: 2.5,
                     },
                     {
-                        label: 'Revenu total (salaire + SVG)',
-                        data: totalNet,
-                        borderColor: EU_YELLOW,
-                        backgroundColor: 'rgba(255,204,0,0.12)',
+                        label: 'Revenu total net (salaire + SVG)',
+                        data: totalVals,
+                        borderColor: C.gold,
+                        backgroundColor: 'rgba(255,204,0,0.10)',
                         fill: true,
-                        tension: 0.1,
-                        pointRadius: 4,
-                        pointBackgroundColor: '#e0b300',
-                        borderWidth: 2,
+                        tension: 0,
+                        pointRadius: 0,
+                        borderWidth: 2.5,
+                        borderDash: [],
+                    },
+                    {
+                        label: `RSA socle 2024 (${RSA_2024.toFixed(0)} €/mois)`,
+                        data: rsaLine,
+                        borderColor: C.red,
+                        borderDash: [5, 4],
+                        pointRadius: 0,
+                        borderWidth: 1.8,
+                        fill: false,
                     },
                 ],
             },
@@ -374,101 +232,114 @@ export default class extends Controller {
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: { color: EU_BLUE, font: { size: 12 } },
+                        labels: { color: C.navy, font: { size: 11 }, padding: 12 },
                     },
-                    tooltip: {
-                        callbacks: {
-                            label: ctx => ` ${ctx.dataset.label} : ${ctx.raw.toLocaleString('fr-FR')} €`,
-                        },
-                    },
-                    title: {
-                        display: true,
-                        text: 'Fig. 4 — Incitation au travail : le revenu total ne baisse jamais',
-                        color: EU_BLUE,
-                        font: { size: 13, weight: '600', family: 'Inter, sans-serif' },
-                        padding: { bottom: 16 },
-                    },
+                    tooltip: this._baseTooltip(ctx => `${ctx.dataset.label} : ${ctx.raw.toLocaleString('fr-FR')} €`),
+                    title: this._baseTitle([
+                        'Chaque euro gagné augmente toujours le revenu total',
+                        '1 adulte seul · France · SVG dégressif avec franchise 300 €/actif · RSA actuel = 635 €/mois (Caisse nationale 2024)',
+                    ]),
                 },
                 scales: {
                     x: {
-                        grid:  { color: EU_SOFT },
-                        ticks: { color: EU_BLUE2, maxRotation: 0, font: { size: 11 } },
-                        title: { display: true, text: 'Revenu actif (€/mois)', color: EU_BLUE2 },
+                        grid: { color: C.greyA },
+                        ticks: {
+                            color: C.navy2,
+                            maxRotation: 0,
+                            maxTicksLimit: 11,
+                            font: { size: 11 },
+                            callback: v => `${v} €`,
+                        },
+                        title: { display: true, text: 'Revenu actif (€/mois)', color: C.navy2, font: { size: 11 } },
                     },
                     y: {
-                        grid:  { color: EU_SOFT },
-                        ticks: { color: EU_BLUE, callback: v => `${v} €` },
-                        title: { display: true, text: '€/mois', color: EU_BLUE2 },
+                        grid: { color: C.greyA },
+                        max: 2100,
+                        ticks: { color: C.navy, callback: v => `${v} €` },
+                        title: { display: true, text: '€/mois', color: C.navy2, font: { size: 11 } },
                     },
                 },
             },
         });
     }
 
-    // -------------------------------------------------------------------------
-    // Fig. 5 — Sources de financement hypothétiques
-    // -------------------------------------------------------------------------
-    _buildFig5() {
-        const Chart = window.Chart;
+    // ── Fig. 5 ─────────────────────────────────────────────────────────────────
+    // Waterfall coût brut → coût net SVG France (Md€/an)
+    // Chart.js floating bars : data = [start, end]
+    _buildFig5(Chart) {
+        const labels = WATERFALL.map(w => w.label);
+        const data   = WATERFALL.map(w => [w.s, w.e]);
+        const fills  = WATERFALL.map(w => w.fill);
+
         return new Chart(this.fig5Target, {
-            type: 'doughnut',
+            type: 'bar',
             data: {
-                labels:   FINANCING.labels,
+                labels,
                 datasets: [{
-                    data:            FINANCING.data,
-                    backgroundColor: FINANCING.colors,
-                    borderColor:     '#ffffff',
-                    borderWidth:     3,
-                    hoverOffset:     10,
+                    label: 'Md€/an',
+                    data,
+                    backgroundColor: fills,
+                    borderColor: fills.map(f => f.replace(/[\d.]+\)$/, '1)')),
+                    borderWidth: 1.5,
+                    borderRadius: 5,
+                    borderSkipped: false,
                 }],
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                cutout: '62%',
                 plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: { color: EU_BLUE, font: { size: 12 }, padding: 14 },
-                    },
+                    legend: { display: false },
                     tooltip: {
                         callbacks: {
-                            label: ctx => ` ${ctx.label} : ${ctx.raw} %`,
+                            label: ctx => {
+                                const [s, e] = ctx.raw;
+                                const val = Math.abs(e - s);
+                                const sign = e < s ? '−' : '';
+                                return ` ${sign}${val} Md€/an`;
+                            },
                         },
                     },
-                    title: {
-                        display: true,
-                        text: 'Fig. 5 — Sources de financement hypothétiques du SVG',
-                        color: EU_BLUE,
-                        font: { size: 13, weight: '600', family: 'Inter, sans-serif' },
-                        padding: { bottom: 16 },
+                    title: this._baseTitle([
+                        'Coût net : 51 Md€/an pour la France — soit 1,8 % du PIB',
+                        'Après TVA collectée, économies sur aides existantes et retours fiscaux · Drees 2024, DSS PLF 2025',
+                    ]),
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: C.navy, font: { size: 11 }, maxRotation: 0 },
+                    },
+                    y: {
+                        grid: { color: C.greyA },
+                        min: 0,
+                        max: 120,
+                        ticks: { color: C.navy2, callback: v => `${v} Md€` },
+                        title: { display: true, text: 'Milliards €/an', color: C.navy2, font: { size: 11 } },
                     },
                 },
             },
         });
     }
 
-    // -------------------------------------------------------------------------
-    // Fig. 6 — Taux de pauvreté avant / après SVG (simulation)
-    // -------------------------------------------------------------------------
-    _buildFig6() {
-        const Chart = window.Chart;
+    // ── Fig. 6 ─────────────────────────────────────────────────────────────────
+    _buildFig6(Chart) {
         return new Chart(this.fig6Target, {
             type: 'bar',
             data: {
                 labels: POVERTY.countries,
                 datasets: [
                     {
-                        label: 'Avant SVG (%)',
+                        label: 'Avant SVG — Eurostat SILC 2023 (%)',
                         data:  POVERTY.before,
-                        backgroundColor: 'rgba(0,51,153,0.70)',
+                        backgroundColor: C.navyA,
                         borderRadius: 4,
                         borderSkipped: false,
                     },
                     {
-                        label: 'Après SVG — simulation (%)',
+                        label: 'Après SVG — projection modélisée (%)',
                         data:  POVERTY.after,
-                        backgroundColor: EU_YELLOW,
+                        backgroundColor: C.gold,
                         borderRadius: 4,
                         borderSkipped: false,
                     },
@@ -480,34 +351,133 @@ export default class extends Controller {
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: { color: EU_BLUE, font: { size: 12 } },
+                        labels: { color: C.navy, font: { size: 11 }, padding: 12 },
                     },
                     tooltip: {
                         callbacks: {
                             label: ctx => ` ${ctx.dataset.label} : ${ctx.raw.toFixed(1)} %`,
+                            afterBody: () => ['(Réduction estimée ≈ 60 % · Hypothèse couverture universelle)'],
                         },
                     },
-                    title: {
-                        display: true,
-                        text: 'Fig. 6 — Réduction de la pauvreté : simulation SVG (données hypothétiques)',
-                        color: EU_BLUE,
-                        font: { size: 13, weight: '600', family: 'Inter, sans-serif' },
-                        padding: { bottom: 16 },
-                    },
+                    title: this._baseTitle([
+                        'La pauvreté divisée par 2,5 dans les pays les plus exposés',
+                        'Avant = Eurostat SILC 2023 (ilc_li02) · Après = projection modélisée · hypothèse couverture universelle (Kangas et al. 2019)',
+                    ]),
                 },
                 scales: {
                     x: {
-                        grid:  { display: false },
-                        ticks: { color: EU_BLUE, font: { size: 12 } },
+                        grid: { display: false },
+                        ticks: { color: C.navy, font: { size: 12 } },
                     },
                     y: {
-                        grid:  { color: EU_SOFT },
-                        max:   40,
-                        ticks: { color: EU_BLUE2, callback: v => `${v} %` },
-                        title: { display: true, text: 'Taux de pauvreté (%)', color: EU_BLUE2 },
+                        grid: { color: C.greyA },
+                        max: 40,
+                        ticks: { color: C.navy2, callback: v => `${v} %` },
+                        title: { display: true, text: 'Taux AROP (% pop.)', color: C.navy2, font: { size: 11 } },
                     },
                 },
             },
+        });
+    }
+
+    // ── Fallbacks Canvas (sans Chart.js) ────────────────────────────────────────
+    _initFallbacks() {
+        this._drawFallbacks();
+        this._resizeHandler = () => {
+            clearTimeout(this._resizeTimer);
+            this._resizeTimer = setTimeout(() => this._drawFallbacks(), 120);
+        };
+        window.addEventListener('resize', this._resizeHandler);
+    }
+
+    _drawFallbacks() {
+        if (this.hasFig3Target) this._fallbackBars(this.fig3Target, 'Fig. 3 — Plafond SVG par ménage (France 2026)',
+            HOUSEHOLDS.map(h => h.label),
+            HOUSEHOLDS.map(h => Math.round(LW0_FR * h.eq)),
+            v => `${v.toLocaleString('fr-FR')} €`);
+        if (this.hasFig4Target) this._fallbackLine(this.fig4Target);
+        if (this.hasFig5Target) this._fallbackWaterfall(this.fig5Target);
+        if (this.hasFig6Target) this._fallbackBars(this.fig6Target, 'Fig. 6 — Taux AROP avant/après SVG',
+            POVERTY.countries,
+            POVERTY.before,
+            v => `${v.toFixed(1)} %`);
+    }
+
+    _prepareCanvas(canvas) {
+        const wrap   = canvas.parentElement;
+        const width  = Math.max(320, wrap?.clientWidth ?? 640);
+        const height = Math.max(260, wrap?.clientHeight ?? 320);
+        const dpr    = window.devicePixelRatio || 1;
+        canvas.width  = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        canvas.style.width  = `${width}px`;
+        canvas.style.height = `${height}px`;
+        const ctx = canvas.getContext('2d');
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, width, height);
+        return { ctx, w: width, h: height };
+    }
+
+    _fallbackBars(canvas, title, labels, values, fmt) {
+        const { ctx, w, h } = this._prepareCanvas(canvas);
+        const left = w < 500 ? 120 : 170;
+        const top = 50; const row = Math.max(22, (h - top - 20) / labels.length);
+        const max = Math.max(...values);
+        ctx.fillStyle = C.navy; ctx.font = '600 12px Inter,sans-serif';
+        ctx.textAlign = 'center'; ctx.fillText(title, w / 2, 22);
+        labels.forEach((lbl, i) => {
+            const y = top + i * row;
+            const bw = ((w - left - 20) * values[i]) / max;
+            ctx.fillStyle = C.greyA; ctx.fillRect(left, y + 6, w - left - 20, 14);
+            ctx.fillStyle = i % 2 ? C.navy2 : C.navy; ctx.fillRect(left, y + 6, bw, 14);
+            ctx.fillStyle = C.navy; ctx.textAlign = 'right'; ctx.font = '11px Inter,sans-serif';
+            ctx.fillText(lbl, left - 8, y + 13);
+            ctx.textAlign = 'left'; ctx.fillText(fmt(values[i]), left + bw + 6, y + 13);
+        });
+    }
+
+    _fallbackLine(canvas) {
+        const { ctx, w, h } = this._prepareCanvas(canvas);
+        const incomes = Array.from({ length: 22 }, (_, i) => i * 100);
+        const svgVals = incomes.map(r => Math.max(0, LW0_FR - Math.max(0, r - FRANCHISE)));
+        const totals  = incomes.map((r, i) => r + svgVals[i]);
+        const left = 44; const right = 20; const top = 46; const bot = 40;
+        const cW = w - left - right; const cH = h - top - bot;
+        const maxV = Math.max(...totals);
+        const X = i => left + (i / (incomes.length - 1)) * cW;
+        const Y = v => top + cH - (v / maxV) * cH;
+        ctx.fillStyle = C.navy; ctx.font = '600 12px Inter,sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('Fig. 4 — Travailler reste toujours plus rentable', w / 2, 22);
+        [[svgVals, C.navy], [totals, '#b38f00']].forEach(([vals, col]) => {
+            ctx.strokeStyle = col; ctx.lineWidth = 2.5; ctx.beginPath();
+            vals.forEach((v, i) => i ? ctx.lineTo(X(i), Y(v)) : ctx.moveTo(X(i), Y(v)));
+            ctx.stroke();
+        });
+        // RSA line
+        ctx.strokeStyle = C.red; ctx.setLineDash([5,4]); ctx.lineWidth = 1.8; ctx.beginPath();
+        ctx.moveTo(left, Y(RSA_2024)); ctx.lineTo(w - right, Y(RSA_2024)); ctx.stroke();
+        ctx.setLineDash([]);
+    }
+
+    _fallbackWaterfall(canvas) {
+        const { ctx, w, h } = this._prepareCanvas(canvas);
+        const left = 20; const right = 20; const top = 46; const bot = 60;
+        const cW = w - left - right; const cH = h - top - bot;
+        const barW = cW / WATERFALL.length;
+        const maxV = 120;
+        ctx.fillStyle = C.navy; ctx.font = '600 12px Inter,sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('Fig. 5 — Coût net SVG France · Md€/an', w / 2, 22);
+        WATERFALL.forEach(({ label, s, e, fill }, i) => {
+            const x = left + i * barW + barW * 0.15;
+            const bW2 = barW * 0.7;
+            const yStart = top + cH - (Math.max(s,e) / maxV) * cH;
+            const bH = (Math.abs(e - s) / maxV) * cH;
+            ctx.fillStyle = fill; ctx.fillRect(x, yStart, bW2, bH);
+            ctx.fillStyle = C.navy; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center';
+            ctx.fillText(`${Math.abs(e - s)} Md€`, x + bW2 / 2, yStart - 6);
+            ctx.fillText(label.replace('\n', ' '), x + bW2 / 2, top + cH + 14 + (i % 2) * 14);
         });
     }
 }

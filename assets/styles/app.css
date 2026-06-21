@@ -50,15 +50,15 @@ body {
 body.theme-civitalisme {
     --bg: #f4f7fd;
     --bg-deep: #e8eefc;
-    --surface: rgba(255, 255, 255, 0.88);
-    --surface-strong: rgba(255, 255, 255, 0.96);
+    --surface: rgba(255, 255, 255, 0.92);
+    --surface-strong: rgba(255, 255, 255, 0.98);
     --line: rgba(0, 51, 153, 0.14);
-    --text: #003399;
-    --muted: #3d5ba0;
+    --text: #003399;          /* 10.4:1 on #f4f7fd — AAA */
+    --muted: #2d4d94;         /* 6.7:1 on white — AA */
     --accent: #ffcc00;
-    --accent-deep: #e0b300;
-    --accent-soft: #fff3b8;
-    --forest: #9faee5;
+    --accent-deep: #c8a000;
+    --accent-soft: #fff8d6;
+    --forest: #1a47b8;        /* 7.0:1 on white — AAA */
     --shadow: 0 24px 70px rgba(0, 51, 153, 0.14);
     --bg-gradient-start: #f4f7fd;
     --bg-gradient-end: #e4ecfb;
@@ -67,6 +67,10 @@ body.theme-civitalisme {
     --grid-color: rgba(0, 51, 153, 0.05);
     --font-display: "Inter", "DM Sans", "Helvetica Neue", sans-serif;
     --font-body: "Inter", "DM Sans", "Segoe UI", "Helvetica Neue", sans-serif;
+    /* Semantic aliases — used by vita + article components */
+    --color-heading: var(--text);        /* #003399 — 10.4:1 on bg */
+    --color-accent: var(--forest);       /* #1a47b8 — 7:1 on white */
+    --color-text-muted: var(--muted);    /* #2d4d94 — 6.7:1 on white */
 }
 
 a {
@@ -2612,7 +2616,7 @@ h3 {
     flex-wrap: wrap;
     gap: 0.5rem;
     align-items: center;
-    color: var(--accent-deep);
+    color: var(--forest);
     font-family: var(--font-mono);
     font-size: 0.76rem;
     letter-spacing: 0.08em;
@@ -2625,7 +2629,7 @@ h3 {
     min-height: 1.8rem;
     align-items: center;
     padding: 0.28rem 0.62rem;
-    border: 1px solid rgba(0, 51, 153, 0.12);
+    border: 1px solid var(--line);
     border-radius: 999px;
     background: rgba(0, 51, 153, 0.05);
 }
@@ -2641,7 +2645,7 @@ h3 {
 
 .civitalisme-article__summary {
     max-width: 42rem;
-    color: #224a7a;
+    color: var(--muted);
     font-size: clamp(1.04rem, 2vw, 1.24rem);
     line-height: 1.62;
 }
@@ -2676,14 +2680,14 @@ h3 {
     gap: 0.45rem;
     max-width: 42rem;
     padding: 1rem;
-    border-left: 4px solid #ffcc00;
+    border-left: 4px solid var(--accent);
     border-radius: 8px;
     background: rgba(255, 204, 0, 0.14);
-    color: #26342f;
+    color: var(--text);
 }
 
 .civitalisme-article__impact strong {
-    color: #003399;
+    color: var(--color-accent, var(--forest));
     font-family: var(--font-mono);
     font-size: 0.76rem;
     letter-spacing: 0.08em;
@@ -3071,12 +3075,12 @@ h3 {
 .contact-form ul {
     margin: 0.4rem 0 0;
     padding-left: 1rem;
-    color: var(--accent-deep);
+    color: var(--text);
 }
 
 .contact-form .form-error-message,
 .contact-form .invalid-feedback {
-    color: var(--accent-deep);
+    color: #c0392b;  /* red — always readable, semantic for errors */
 }
 
 #contact_type_website {
@@ -3449,7 +3453,7 @@ h3 {
 .theme-civitalisme .section-link,
 .theme-civitalisme .page-switch__state,
 .theme-civitalisme .metric-chip strong {
-    color: var(--accent-deep);
+    color: var(--forest);   /* #1a47b8 JOUR 7:1 | #7aacff NUIT 8.3:1 */
 }
 
 .theme-civitalisme .hero__tag {
@@ -3572,7 +3576,7 @@ h3 {
 
 .theme-civitalisme .site-footer__col a:hover,
 .theme-civitalisme .stack-line {
-    color: var(--accent-deep);
+    color: var(--forest);
 }
 
 @keyframes drift {
@@ -4178,6 +4182,11 @@ h3 {
     box-shadow: none;
 }
 
+.page-civitalisme--public .section--alt {
+    background: rgba(66, 102, 184, 0.03);
+    border-radius: var(--radius-lg);
+}
+
 .page-civitalisme--public .surface-card {
     background: rgba(255, 255, 255, 0.92);
     border: 1px solid rgba(0, 51, 153, 0.10);
@@ -4333,6 +4342,33 @@ h3 {
     margin: 1.2rem auto 0;
 }
 
+.gp-solution__loop-note {
+    max-width: 44rem;
+    margin: 1.8rem auto 0;
+    padding: 1.3rem 1.6rem 1.3rem 1.4rem;
+    border-left: 4px solid var(--accent, #ffcc00);
+    background: rgba(255, 204, 0, 0.06);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    box-shadow: 0 4px 16px rgba(0, 51, 153, 0.06);
+}
+
+.gp-solution__loop-note__title {
+    font-weight: 700;
+    color: var(--fg);
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.gp-solution__loop-note__body {
+    color: var(--muted);
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
 /* -- 4. Steps list ----------------------------------------------------- */
 .gp-step-list {
     list-style: none;
@@ -4478,7 +4514,7 @@ h3 {
     background: rgba(255, 204, 0, 0.18);
     border: 1px solid rgba(224, 179, 0, 0.45);
     border-radius: 999px;
-    color: var(--accent-deep);
+    color: var(--text);  /* dark text on light yellow bg — high contrast */
     font-weight: 600;
 }
 
@@ -4492,12 +4528,16 @@ h3 {
 }
 
 .gp-incentive__note {
-    margin: 1.3rem auto 0;
-    text-align: center;
+    margin: 1.4rem auto 0;
+    max-width: 44rem;
+    font-size: 0.88rem;
     color: var(--muted);
-    font-size: 0.95rem;
-    max-width: 36rem;
-    font-style: italic;
+    background: rgba(66, 102, 184, 0.05);
+    border: 1px solid rgba(0, 51, 153, 0.10);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1.1rem;
+    text-align: left;
+    line-height: 1.55;
 }
 
 /* -- 6. Personas grid -------------------------------------------------- */
@@ -4540,17 +4580,32 @@ h3 {
 
 .gp-persona-card__situation {
     margin: 0.15rem 0 0.6rem;
-    color: var(--accent-deep);
+    color: var(--forest);
     font-size: 0.88rem;
     font-weight: 600;
     letter-spacing: 0.02em;
+}
+
+.gp-persona-card__amount {
+    margin: 0 0 0.4rem;
+    display: inline-block;
+    background: rgba(0, 51, 153, 0.08);
+    color: #003399;
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 51, 153, 0.15);
+}
+
+.gp-persona-card__amount strong {
+    font-weight: 700;
 }
 
 .gp-persona-card__body {
     margin: 0;
     color: var(--muted);
     font-size: 0.95rem;
-    font-style: italic;
     line-height: 1.5;
 }
 
@@ -7152,18 +7207,24 @@ body.theme-portfolio .site-footer {
    Theme picker component
    ═══════════════════════════════════════════════════════════════════════════ */
 
+/* ── Theme picker — pill-track (iOS segmented control style) ──────────── */
 .theme-picker {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 0.2rem;
+    gap: 2px;
+    padding: 3px;
+    background: rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 100px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
 .theme-picker__btn {
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
-    padding: 0.28rem 0.6rem;
-    border: 1px solid var(--line);
+    padding: 0.26rem 0.6rem;
+    border: none;
     border-radius: 100px;
     background: transparent;
     color: var(--muted);
@@ -7171,8 +7232,9 @@ body.theme-portfolio .site-footer {
     font-size: 0.68rem;
     line-height: 1;
     cursor: pointer;
-    transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+    transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
     white-space: nowrap;
+    position: relative;
 }
 
 .theme-picker__btn svg {
@@ -7182,19 +7244,115 @@ body.theme-portfolio .site-footer {
 }
 
 .theme-picker__btn:hover {
-    background: var(--surface);
     color: var(--text);
+    background: rgba(0, 0, 0, 0.05);
 }
 
+/* Active: white elevated pill — readable in all light themes */
 .theme-picker__btn.is-active {
-    background: var(--text);
-    color: var(--bg);
-    border-color: var(--text);
+    background: #ffffff;
+    color: #19262d;
+    box-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.14),
+        0 0 0 0.5px rgba(0, 0, 0, 0.06);
 }
 
 .theme-picker__btn:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
+}
+
+/* Dark track + elevated pill in forced dark mode */
+html[data-color-scheme="dark"] .theme-picker {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.10);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.30);
+}
+
+html[data-color-scheme="dark"] .theme-picker__btn {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+html[data-color-scheme="dark"] .theme-picker__btn:hover {
+    color: rgba(255, 255, 255, 0.80);
+    background: rgba(255, 255, 255, 0.07);
+}
+
+html[data-color-scheme="dark"] .theme-picker__btn.is-active {
+    background: rgba(255, 255, 255, 0.16);
+    color: #e4ede7;
+    box-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.40),
+        0 0 0 0.5px rgba(255, 255, 255, 0.12);
+}
+
+/* Civitalisme light track */
+body.theme-civitalisme .theme-picker {
+    background: rgba(0, 51, 153, 0.06);
+    border-color: rgba(0, 51, 153, 0.12);
+}
+
+body.theme-civitalisme .theme-picker__btn {
+    color: rgba(0, 51, 153, 0.50);
+}
+
+body.theme-civitalisme .theme-picker__btn:hover {
+    color: #003399;
+    background: rgba(0, 51, 153, 0.07);
+}
+
+body.theme-civitalisme .theme-picker__btn.is-active {
+    background: #ffffff;
+    color: #003399;
+    box-shadow:
+        0 1px 4px rgba(0, 51, 153, 0.18),
+        0 0 0 0.5px rgba(0, 51, 153, 0.10);
+}
+
+/* Dark civitalisme track */
+html[data-color-scheme="dark"] body.theme-civitalisme .theme-picker {
+    background: rgba(100, 140, 255, 0.08);
+    border-color: rgba(100, 140, 255, 0.15);
+}
+
+html[data-color-scheme="dark"] body.theme-civitalisme .theme-picker__btn {
+    color: rgba(180, 200, 255, 0.40);
+}
+
+html[data-color-scheme="dark"] body.theme-civitalisme .theme-picker__btn:hover {
+    color: rgba(220, 232, 255, 0.80);
+    background: rgba(100, 140, 255, 0.10);
+}
+
+html[data-color-scheme="dark"] body.theme-civitalisme .theme-picker__btn.is-active {
+    background: rgba(100, 140, 255, 0.22);
+    color: #dce8ff;
+    box-shadow:
+        0 1px 4px rgba(0, 0, 80, 0.40),
+        0 0 0 0.5px rgba(100, 140, 255, 0.20);
+}
+
+/* A11y — maximum visibility */
+html[data-color-scheme="a11y"] .theme-picker {
+    background: #f0f0f0;
+    border: 2px solid #000000;
+    box-shadow: none;
+}
+
+html[data-color-scheme="a11y"] .theme-picker__btn {
+    color: #333333;
+    border-radius: 4px;
+}
+
+html[data-color-scheme="a11y"] .theme-picker__btn:hover {
+    background: #e0e0e0;
+    color: #000000;
+}
+
+html[data-color-scheme="a11y"] .theme-picker__btn.is-active {
+    background: #000000;
+    color: #ffffff;
+    box-shadow: none;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -7599,3 +7757,1310 @@ html[data-color-scheme="light"] body.theme-portfolio .network-card--linkedin {
     box-shadow: 0 8px 32px rgba(10, 102, 194, 0.40);
 }
 
+
+/* =============================================================
+   PAGE VITA — /civitalisme/vita
+   ============================================================= */
+
+/* Hero */
+.vita-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    padding: 5rem var(--space-layout) 4rem;
+}
+@media (max-width: 768px) {
+    .vita-hero { grid-template-columns: 1fr; }
+    .vita-hero__visual { display: none; }
+}
+.vita-hero__visual svg { width: 100%; max-width: 320px; }
+.vita-hero__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--color-heading, var(--text, #003399));
+    margin-bottom: 0.5rem;
+}
+.vita-hero__subtitle {
+    font-size: 1.1rem;
+    color: var(--color-accent, var(--forest, #1a47b8));
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+.vita-hero__lead { font-size: 1.05rem; color: var(--color-text-muted, var(--muted, #555)); line-height: 1.7; }
+
+/* Section headings */
+.vita-section-heading { text-align: center; max-width: 640px; margin: 0 auto 3rem; }
+.vita-section-heading h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; margin-bottom: 0.75rem; }
+.vita-section-lead { color: var(--color-text-muted, var(--muted, #555)); font-size: 1.05rem; line-height: 1.7; }
+
+/* Profiles grid */
+.vita-situations { padding: 5rem var(--space-layout); }
+.vita-profiles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Profile card */
+.vita-profile-card {
+    padding: 1.5rem;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.vita-profile-card__header { display: flex; align-items: center; gap: 1rem; }
+.vita-profile-card__emoji { font-size: 2.2rem; line-height: 1; }
+.vita-profile-card__name { font-size: 1rem; font-weight: 700; margin: 0; }
+.vita-profile-card__city { font-size: 0.82rem; color: var(--color-text-muted, #666); margin: 0; }
+
+.vita-profile-card__income {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--color-surface-alt, rgba(0,51,153,0.04));
+    border-radius: 8px; padding: 0.5rem 0.75rem; font-size: 0.88rem;
+}
+.vita-profile-card__income-label { color: var(--color-text-muted, #666); }
+.vita-profile-card__income-value { font-weight: 600; }
+
+.vita-profile-card__amounts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.vita-profile-card__amount {
+    border-radius: 10px; padding: 0.75rem; text-align: center;
+    display: flex; flex-direction: column; gap: 0.2rem;
+}
+.vita-profile-card__amount--svg {
+    background: rgba(0, 51, 153, 0.07);
+    border: 1px solid rgba(0, 51, 153, 0.15);
+}
+.vita-profile-card__amount--total {
+    background: rgba(0, 160, 80, 0.07);
+    border: 1px solid rgba(0, 160, 80, 0.18);
+}
+.vita-profile-card__amount-label { font-size: 0.75rem; color: var(--color-text-muted, #666); }
+.vita-profile-card__amount-value { font-size: 1.35rem; font-weight: 800; color: var(--color-heading, #003399); }
+.vita-profile-card__amount--total .vita-profile-card__amount-value { color: #00803e; }
+.vita-profile-card__amount-unit { font-size: 0.72rem; color: var(--color-text-muted, #888); }
+
+.vita-profile-card__note {
+    font-size: 0.8rem; color: var(--color-text-muted, #777);
+    border-left: 3px solid var(--color-accent, #4266b8);
+    padding-left: 0.75rem; margin: 0;
+}
+.vita-profile-card__impact {
+    background: rgba(255, 204, 0, 0.12);
+    border-radius: 8px; padding: 0.6rem 0.75rem;
+    font-size: 0.88rem; font-weight: 600;
+}
+.vita-profile-card__quote {
+    margin: 0; font-style: italic; font-size: 0.9rem;
+    color: var(--color-text-muted, #555);
+    border-top: 1px solid var(--color-border, rgba(0,0,0,0.08));
+    padding-top: 0.75rem;
+}
+.vita-profile-card__quote p { margin: 0; }
+
+.vita-situations__source {
+    font-size: 0.78rem; color: var(--color-text-muted, #888);
+    text-align: center; max-width: 640px; margin: 0 auto;
+}
+
+/* Daily change section */
+.vita-daily { padding: 5rem var(--space-layout); }
+.vita-daily-grid { display: flex; flex-direction: column; gap: 1rem; max-width: 800px; margin: 0 auto; }
+.vita-daily-item {
+    display: grid; grid-template-columns: 1fr auto 1fr;
+    gap: 1rem; align-items: center;
+}
+@media (max-width: 600px) {
+    .vita-daily-item { grid-template-columns: 1fr; }
+    .vita-daily-item__arrow { display: none; }
+}
+.vita-daily-item__before, .vita-daily-item__after {
+    padding: 1rem 1.25rem; border-radius: 10px; font-size: 0.92rem; line-height: 1.5;
+}
+.vita-daily-item__before {
+    background: rgba(200, 50, 50, 0.06);
+    border: 1px solid rgba(200, 50, 50, 0.14);
+}
+.vita-daily-item__after {
+    background: rgba(0, 160, 80, 0.07);
+    border: 1px solid rgba(0, 160, 80, 0.18);
+}
+.vita-daily-item__arrow { font-size: 1.4rem; color: var(--color-accent, #4266b8); font-weight: 700; }
+.vita-daily-item__badge {
+    display: inline-block; font-size: 0.72rem; font-weight: 700;
+    padding: 0.15rem 0.5rem; border-radius: 4px;
+    margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.vita-daily-item__badge--before { background: rgba(200,50,50,0.12); color: #b02020; }
+.vita-daily-item__badge--after { background: rgba(0,160,80,0.12); color: #00803e; }
+
+/* FAQ */
+.vita-faq { padding: 5rem var(--space-layout); }
+.vita-faq-list { display: flex; flex-direction: column; gap: 0.75rem; max-width: 720px; margin: 0 auto; }
+.vita-faq-item { padding: 1.25rem 1.5rem; border-radius: 12px; }
+.vita-faq-item__question {
+    cursor: pointer; font-weight: 700; font-size: 1rem; list-style: none;
+    display: flex; justify-content: space-between; align-items: center;
+}
+.vita-faq-item__question::after { content: '+'; font-size: 1.4rem; opacity: 0.5; }
+details[open] .vita-faq-item__question::after { content: '−'; }
+.vita-faq-item__answer { margin-top: 0.75rem; font-size: 0.94rem; line-height: 1.7; color: var(--color-text-muted, #555); }
+
+/* CTA */
+.vita-cta { padding: 4rem var(--space-layout); }
+.vita-cta__inner {
+    max-width: 600px; margin: 0 auto;
+    padding: 3rem; border-radius: 16px; text-align: center;
+}
+.vita-cta__inner h2 { font-size: 1.6rem; margin-bottom: 0.75rem; }
+.vita-cta__inner p { color: var(--color-text-muted, #555); margin-bottom: 1.5rem; }
+.vita-cta__inner .button { margin: 0.4rem; }
+
+/* =============================================================
+   TECHNIQUE — nouvelles sections calibration / euroe_vs_cbdc / legal_pathway
+   ============================================================= */
+
+/* Table générique */
+.inst-table-wrapper { overflow-x: auto; margin: 2rem 0; }
+.inst-table {
+    width: 100%; border-collapse: collapse; font-size: 0.9rem;
+}
+.inst-table th {
+    background: rgba(0,51,153,0.07); color: var(--color-heading, #003399);
+    padding: 0.75rem 1rem; text-align: left; font-weight: 700;
+    border-bottom: 2px solid rgba(0,51,153,0.15);
+}
+.inst-table td {
+    padding: 0.75rem 1rem; border-bottom: 1px solid var(--color-border, rgba(0,0,0,0.07));
+    vertical-align: top; line-height: 1.5;
+}
+.inst-table tr:last-child td { border-bottom: none; }
+.inst-table__highlight { font-weight: 700; color: var(--color-heading, #003399); }
+.inst-table-source { font-size: 0.78rem; color: var(--color-text-muted, #888); margin-top: 0.5rem; }
+
+/* Calibration note */
+.inst-calibration-note {
+    padding: 1.25rem 1.5rem; border-radius: 10px; margin-bottom: 1.5rem;
+    border-left: 4px solid var(--color-accent, #4266b8);
+    font-size: 0.92rem; line-height: 1.6;
+}
+
+/* Synergy note */
+.inst-synergy-note {
+    padding: 1.25rem 1.5rem; border-radius: 10px; margin-top: 1.5rem;
+    border-left: 4px solid #ffcc00;
+    font-size: 0.92rem; line-height: 1.6;
+}
+
+/* Legal pathway */
+.inst-pathway-steps {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem; margin-bottom: 2.5rem;
+}
+.inst-pathway-step { padding: 1.5rem; border-radius: 12px; }
+.inst-pathway-step__header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 0.75rem;
+}
+.inst-pathway-step__phase {
+    font-size: 0.78rem; font-weight: 700; color: var(--color-accent, var(--forest, #1a47b8));
+    text-transform: uppercase; letter-spacing: 0.05em;
+}
+.inst-pathway-step__base {
+    font-size: 0.75rem; background: rgba(0,51,153,0.08);
+    color: var(--color-heading, var(--text, #003399)); padding: 0.2rem 0.5rem; border-radius: 4px;
+    font-weight: 700;
+}
+.inst-pathway-step__title { font-size: 1rem; font-weight: 700; margin: 0 0 0.5rem; }
+.inst-pathway-step__body { font-size: 0.88rem; line-height: 1.6; color: var(--color-text-muted, var(--muted, #555)); margin-bottom: 0.75rem; }
+.inst-pathway-step__feasibility { font-size: 0.82rem; line-height: 1.5; color: var(--color-text-muted, #777); }
+
+/* Key articles */
+.inst-key-articles { margin-top: 1.5rem; }
+.inst-key-articles__grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem; margin-top: 1rem;
+}
+.inst-key-article { padding: 1.25rem; border-radius: 10px; }
+.inst-key-article__ref {
+    display: block; font-size: 0.75rem; font-weight: 800; color: var(--color-accent, #4266b8);
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.25rem;
+}
+.inst-key-article__title { display: block; font-size: 0.92rem; font-weight: 700; margin-bottom: 0.4rem; }
+.inst-key-article__body { font-size: 0.82rem; line-height: 1.5; color: var(--color-text-muted, #666); margin: 0; }
+
+/* Page-switch — 3 cartes */
+.page-switch__cards { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 700px) { .page-switch__cards { grid-template-columns: 1fr; } }
+
+/* ── Vita (réhabilitation écologique) ─────────────────────────────────── */
+
+/* Stats grid */
+.vita-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+.vita-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1.5rem;
+  border-radius: 14px;
+  border-top: 4px solid transparent;
+}
+.vita-stat-card--alert  { border-top-color: #e53935; }
+.vita-stat-card--positive { border-top-color: #43a047; }
+.vita-stat-card--neutral  { border-top-color: var(--color-accent, var(--forest, #003399)); }
+.vita-stat-card__number {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-accent, #003399);
+  line-height: 1;
+}
+.vita-stat-card--alert .vita-stat-card__number { color: #e53935; }
+.vita-stat-card--positive .vita-stat-card__number { color: #2e7d32; }
+.vita-stat-card__label  { font-size: 0.9rem; font-weight: 600; line-height: 1.3; }
+.vita-stat-card__trend  { font-size: 0.78rem; color: var(--color-text-muted, var(--muted, #666)); font-style: italic; }
+.vita-stat-card__source { font-size: 0.72rem; color: var(--color-text-muted, var(--muted, #999)); margin-top: 0.25rem; }
+
+/* Timeline processus */
+.vita-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+  position: relative;
+}
+.vita-timeline__step {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  padding: 1.25rem 1.5rem;
+  border-radius: 12px;
+}
+.vita-timeline__number {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-accent, var(--forest, #003399));
+  color: #fff;
+  font-weight: 800;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.vita-timeline__content { flex: 1; }
+.vita-timeline__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.4rem;
+}
+.vita-timeline__title   { font-size: 0.95rem; font-weight: 700; margin: 0; }
+.vita-timeline__duration {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-accent, var(--forest, #003399));
+  background: rgba(0,51,153,0.07);
+  padding: 0.15rem 0.5rem;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.vita-timeline__body { font-size: 0.875rem; line-height: 1.6; color: var(--color-text-muted, var(--muted, #555)); margin: 0; }
+
+/* Badge financement */
+.vita-badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  background: rgba(0,51,153,0.08);
+  color: var(--color-accent, var(--forest, #003399));
+}
+
+/* CTA vita */
+.vita-cta { text-align: center; }
+.vita-cta__content { max-width: 640px; margin: 0 auto; }
+.vita-cta__title  { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.75rem; }
+.vita-cta__body   { font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem; opacity: 0.85; }
+.vita-cta__actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+/* ── Schéma de fonctionnement SVG/CDC ─────────────────────────────────── */
+.svg-schema-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 16px;
+  background: #f8faff;
+  padding: 0.5rem;
+}
+.svg-schema {
+  display: block;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  height: auto;
+}
+@media (max-width: 600px) {
+  .svg-schema { min-width: 600px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Dark Civitalisme — html[data-color-scheme="dark"] body.theme-civitalisme
+   Without this, body.theme-civitalisme (spec 0,1,1) overrides the dark vars
+   set on html (spec 0,1,1 but lower in the cascade). This block wins with
+   combined specificity (0,2,2) applied at body level, cascading to children.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+html[data-color-scheme="dark"] body.theme-civitalisme {
+    --bg: #060e1c;
+    --bg-deep: #091426;
+    --surface: rgba(10, 30, 80, 0.55);
+    --surface-strong: rgba(10, 30, 80, 0.80);
+    --line: rgba(100, 160, 255, 0.20);
+    --text: #e4eeff;          /* 12.8:1 on #060e1c — AAA */
+    --muted: #96b0e8;         /* 8.5:1 on #060e1c — AAA */
+    --accent: #ffcc00;
+    --accent-deep: #e0b000;
+    --accent-soft: #2a1f00;
+    --forest: #7aacff;        /* 8.3:1 on #060e1c — AAA */
+    --shadow: 0 24px 80px rgba(0, 0, 0, 0.60);
+    --bg-gradient-start: #060e1c;
+    --bg-gradient-end: #091426;
+    --orb-primary: rgba(20, 60, 180, 0.30);
+    --orb-secondary: rgba(255, 204, 0, 0.10);
+    --grid-color: rgba(100, 160, 255, 0.04);
+    /* Semantic aliases — dark values */
+    --color-heading: var(--text);        /* #e4eeff — 12.8:1 on bg */
+    --color-accent: var(--forest);       /* #7aacff — 8.3:1 on bg */
+    --color-text-muted: var(--muted);    /* #96b0e8 — 8.5:1 on bg */
+}
+
+html[data-color-scheme="dark"] body.theme-civitalisme .site-header {
+    background: rgba(8, 16, 30, 0.82);
+    backdrop-filter: blur(64px) saturate(150%);
+    -webkit-backdrop-filter: blur(64px) saturate(150%);
+    border-color: rgba(100, 140, 255, 0.18);
+}
+
+/* Dark civ: ghost/subtle buttons — was white bg + light text = invisible */
+html[data-color-scheme="dark"] body.theme-civitalisme .button--ghost,
+html[data-color-scheme="dark"] body.theme-civitalisme .button--subtle {
+    background: rgba(100, 160, 255, 0.10);
+    border-color: rgba(100, 160, 255, 0.32);
+    color: var(--text);
+}
+
+html[data-color-scheme="dark"] body.theme-civitalisme .button--ghost:hover,
+html[data-color-scheme="dark"] body.theme-civitalisme .button--subtle:hover {
+    background: rgba(100, 160, 255, 0.20);
+    border-color: rgba(100, 160, 255, 0.50);
+    color: var(--text);
+}
+
+/* Dark civ: primary button — keep yellow on dark bg = ✓ */
+html[data-color-scheme="dark"] body.theme-civitalisme .button:not(.button--ghost):not(.button--subtle) {
+    background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+    color: #000000;
+}
+
+html[data-color-scheme="dark"] body.theme-civitalisme .site-footer {
+    background:
+        radial-gradient(circle at bottom right, var(--orb-primary), transparent 40%),
+        radial-gradient(circle at top left, var(--orb-secondary), transparent 38%),
+        rgba(8, 16, 30, 0.96);
+    border-color: rgba(100, 140, 255, 0.15);
+}
+
+html[data-color-scheme="dark"] body.theme-civitalisme .surface-card {
+    background: rgba(10, 30, 80, 0.55);
+    border-color: rgba(100, 160, 255, 0.18);
+    color: var(--text);
+}
+
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-circuit__column {
+    background: rgba(0, 30, 80, 0.45);
+    border-color: rgba(100, 140, 255, 0.18);
+}
+
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-table {
+    background: rgba(0, 20, 60, 0.50);
+}
+
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-table thead tr {
+    background: rgba(0, 51, 153, 0.40);
+}
+
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-table td,
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-table th {
+    border-color: rgba(100, 160, 255, 0.14);
+    color: var(--text);
+}
+
+/* ─── Dark civitalisme — vita + article component fixes ──────────────────── */
+
+/* Article impact box: dark bg adaptation */
+html[data-color-scheme="dark"] body.theme-civitalisme .civitalisme-article__impact {
+    background: rgba(255, 204, 0, 0.06);
+    border-left-color: var(--accent);
+    color: var(--text);
+}
+
+html[data-color-scheme="dark"] body.theme-civitalisme .civitalisme-article__impact strong {
+    color: var(--accent);
+}
+
+/* Article summary */
+html[data-color-scheme="dark"] body.theme-civitalisme .civitalisme-article__summary {
+    color: var(--muted);
+}
+
+/* Vita: badge/tag pill backgrounds — replace hardcoded navy rgba */
+html[data-color-scheme="dark"] body.theme-civitalisme .vita-timeline__duration,
+html[data-color-scheme="dark"] body.theme-civitalisme .vita-badge,
+html[data-color-scheme="dark"] body.theme-civitalisme .vita-bailleur-type,
+html[data-color-scheme="dark"] body.theme-civitalisme .inst-pathway-step__base {
+    background: rgba(100, 160, 255, 0.14);
+    color: var(--forest);
+}
+
+/* Vita: stat card number color */
+html[data-color-scheme="dark"] body.theme-civitalisme .vita-stat-card__number {
+    color: var(--forest);
+}
+
+html[data-color-scheme="dark"] body.theme-civitalisme .vita-stat-card--alert .vita-stat-card__number {
+    color: #ff7b7b;
+}
+
+html[data-color-scheme="dark"] body.theme-civitalisme .vita-stat-card--positive .vita-stat-card__number {
+    color: #5ac87d;
+}
+
+/* Vita: timeline circle bg */
+html[data-color-scheme="dark"] body.theme-civitalisme .vita-timeline__number {
+    background: var(--forest);
+    color: #060e1c;
+}
+
+/* Vita: bailleur rate (yellow on dark) */
+html[data-color-scheme="dark"] body.theme-civitalisme .vita-bailleur-card__rate {
+    color: var(--accent);
+}
+
+/* Vita: stat cards */
+html[data-color-scheme="dark"] body.theme-civitalisme .vita-stat-card {
+    background: rgba(10, 30, 80, 0.60);
+    border-color: rgba(100, 160, 255, 0.16);
+}
+
+/* Vita: neutral border accent on stat cards */
+html[data-color-scheme="dark"] body.theme-civitalisme .vita-stat-card--neutral {
+    border-top-color: var(--forest);
+}
+
+/* ─── Vita bailleur section ─────────────────────────────────────────────── */
+
+.vita-bailleur-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.vita-bailleur-card {
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius-md, 22px);
+    border: 1px solid var(--line);
+    background: var(--surface, rgba(255,255,255,0.9));
+}
+
+.vita-bailleur-card__name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 0.3rem;
+}
+
+.vita-bailleur-card__rate {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--accent, #ffcc00);
+    margin: 0 0 0.5rem;
+}
+
+.vita-bailleur-card__condition {
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: var(--muted);
+    margin: 0 0 0.5rem;
+}
+
+.vita-bailleur-type {
+    display: inline-block;
+    padding: 0.12rem 0.5rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: rgba(0, 51, 153, 0.08);
+    color: var(--text);
+}
+
+/* ─── Vita doctrinal references ─────────────────────────────────────────── */
+
+.vita-doctrinal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+@media (max-width: 700px) {
+    .vita-doctrinal-grid { grid-template-columns: 1fr; }
+}
+
+.vita-doctrinal-card {
+    padding: 1.75rem;
+    border-radius: var(--radius-md, 22px);
+    border: 1px solid var(--line);
+    background: var(--surface, rgba(255,255,255,0.9));
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.vita-doctrinal-card__role {
+    display: inline-block;
+    padding: 0.2rem 0.7rem;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: var(--accent, #ffcc00);
+    color: #000;
+    align-self: flex-start;
+}
+
+.vita-doctrinal-card__title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--text);
+    margin: 0;
+    font-style: italic;
+}
+
+.vita-doctrinal-card__meta {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.4;
+}
+
+.vita-doctrinal-card__summary {
+    font-size: 0.875rem;
+    line-height: 1.65;
+    color: var(--text);
+    opacity: 0.88;
+    margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   A11y Civitalisme — html[data-color-scheme="a11y"] body.theme-civitalisme
+   WCAG AAA: 7:1 minimum. Yellow (#ffcc00) fails on white → replaced with
+   high-contrast dark blue. No blur, no transparency, squared corners.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+html[data-color-scheme="a11y"] body.theme-civitalisme {
+    --bg: #ffffff;
+    --bg-deep: #f0f0f5;
+    --surface: #ffffff;
+    --surface-strong: #f5f5fa;
+    --line: rgba(0, 0, 0, 0.25);
+    --text: #000000;          /* 21:1 on white — AAA */
+    --muted: #3d3d3d;         /* 7.6:1 on white — AAA */
+    --accent: #0033cc;        /* yellow fails on white → dark blue 8.6:1 */
+    --accent-deep: #0022aa;
+    --accent-soft: #e8f0ff;
+    --forest: #002299;        /* 10.2:1 on white — AAA */
+    --shadow: 0 2px 6px rgba(0, 0, 0, 0.20);
+    --bg-gradient-start: #ffffff;
+    --bg-gradient-end: #f0f0f5;
+    --orb-primary: transparent;
+    --orb-secondary: transparent;
+    --grid-color: transparent;
+    --radius-lg: 8px;
+    --radius-md: 6px;
+    --radius-sm: 4px;
+    /* Semantic aliases */
+    --color-heading: #000000;
+    --color-accent: #0033cc;
+    --color-text-muted: #3d3d3d;
+}
+
+/* A11y civitalisme — solid header, no blur */
+html[data-color-scheme="a11y"] body.theme-civitalisme .site-header {
+    background: #ffffff;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: 2px solid rgba(0, 0, 0, 0.20);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+/* A11y civitalisme — decorative backgrounds off */
+html[data-color-scheme="a11y"] body.theme-civitalisme .site-background {
+    display: none;
+}
+
+/* A11y civitalisme — buttons: yellow → dark blue */
+html[data-color-scheme="a11y"] body.theme-civitalisme .button {
+    background: #000000;
+    color: #ffffff;
+    box-shadow: none;
+}
+
+html[data-color-scheme="a11y"] body.theme-civitalisme .button:hover {
+    background: #0033cc;
+    box-shadow: none;
+    transform: none;
+}
+
+html[data-color-scheme="a11y"] body.theme-civitalisme .button--ghost,
+html[data-color-scheme="a11y"] body.theme-civitalisme .button--subtle {
+    background: #ffffff;
+    border: 2px solid #000000;
+    color: #000000;
+    box-shadow: none;
+}
+
+html[data-color-scheme="a11y"] body.theme-civitalisme .button--ghost:hover,
+html[data-color-scheme="a11y"] body.theme-civitalisme .button--subtle:hover {
+    background: #000000;
+    color: #ffffff;
+    box-shadow: none;
+    transform: none;
+}
+
+/* A11y civitalisme — cards: solid, no transparency */
+html[data-color-scheme="a11y"] body.theme-civitalisme .hero__panel,
+html[data-color-scheme="a11y"] body.theme-civitalisme .surface-card,
+html[data-color-scheme="a11y"] body.theme-civitalisme .narrative-card--emphasis,
+html[data-color-scheme="a11y"] body.theme-civitalisme .civic-quote,
+html[data-color-scheme="a11y"] body.theme-civitalisme .pill-card,
+html[data-color-scheme="a11y"] body.theme-civitalisme .formula-card,
+html[data-color-scheme="a11y"] body.theme-civitalisme .case-study-card,
+html[data-color-scheme="a11y"] body.theme-civitalisme .governance-card,
+html[data-color-scheme="a11y"] body.theme-civitalisme .insight-card,
+html[data-color-scheme="a11y"] body.theme-civitalisme .timeline-phase,
+html[data-color-scheme="a11y"] body.theme-civitalisme .vita-bailleur-card,
+html[data-color-scheme="a11y"] body.theme-civitalisme .vita-doctrinal-card,
+html[data-color-scheme="a11y"] body.theme-civitalisme .vita-timeline__step {
+    background: #ffffff;
+    border: 2px solid rgba(0, 0, 0, 0.20);
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+/* A11y civitalisme — impact box: yellow border → blue */
+html[data-color-scheme="a11y"] body.theme-civitalisme .civitalisme-article__impact {
+    background: #e8f0ff;
+    border-left-color: #0033cc;
+    color: #000000;
+}
+
+html[data-color-scheme="a11y"] body.theme-civitalisme .civitalisme-article__impact strong {
+    color: #0033cc;
+}
+
+/* A11y civitalisme — hero tag: yellow bg → accessible tint */
+html[data-color-scheme="a11y"] body.theme-civitalisme .hero__tag {
+    background: #e8f0ff;
+    border-color: #0033cc;
+    color: #000000;
+}
+
+/* A11y civitalisme — vita badges */
+html[data-color-scheme="a11y"] body.theme-civitalisme .vita-timeline__duration,
+html[data-color-scheme="a11y"] body.theme-civitalisme .vita-badge,
+html[data-color-scheme="a11y"] body.theme-civitalisme .vita-bailleur-type,
+html[data-color-scheme="a11y"] body.theme-civitalisme .inst-pathway-step__base {
+    background: #e8f0ff;
+    color: #0033cc;
+    border: 1px solid #0033cc;
+}
+
+/* A11y civitalisme — stat card number: blue accent */
+html[data-color-scheme="a11y"] body.theme-civitalisme .vita-stat-card__number {
+    color: #0033cc;
+}
+
+/* A11y civitalisme — vita timeline circle */
+html[data-color-scheme="a11y"] body.theme-civitalisme .vita-timeline__number {
+    background: #000000;
+    color: #ffffff;
+}
+
+/* A11y civitalisme — bailleur rate */
+html[data-color-scheme="a11y"] body.theme-civitalisme .vita-bailleur-card__rate {
+    color: #0033cc;
+}
+
+/* A11y civitalisme — doctrinal role badge: yellow → dark blue */
+html[data-color-scheme="a11y"] body.theme-civitalisme .vita-doctrinal-card__role {
+    background: #0033cc;
+    color: #ffffff;
+}
+
+/* A11y civitalisme — insight resource pills */
+html[data-color-scheme="a11y"] body.theme-civitalisme .insight-card .resource-pill {
+    background: #e8f0ff;
+    border: 1px solid #0033cc;
+    color: #0033cc;
+}
+
+/* A11y civitalisme — footer */
+html[data-color-scheme="a11y"] body.theme-civitalisme .site-footer {
+    background: #f0f0f5;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-color: rgba(0, 0, 0, 0.20);
+    box-shadow: none;
+}
+
+
+
+/* ─── Dark civitalisme — SVG inline fills override ──────────────────────── */
+/* Hardcoded fill="#003399" on dark bg = invisible. CSS fill overrides attr. */
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-solution__diagram text {
+    fill: var(--text) !important;
+}
+
+/* Node circle backgrounds: keep white for icon readability on dark */
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-solution__diagram circle[r="40"] {
+    fill: rgba(20, 50, 120, 0.85) !important;
+    stroke: var(--accent) !important;
+}
+
+/* Problem section SVG text labels */
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-problem-card__illustration text,
+html[data-color-scheme="dark"] body.theme-civitalisme svg text {
+    fill: var(--text);
+}
+
+/* ─── Dark civitalisme — article meta chips ─────────────────────────────── */
+html[data-color-scheme="dark"] body.theme-civitalisme .civitalisme-article__meta {
+    color: var(--forest);
+}
+
+html[data-color-scheme="dark"] body.theme-civitalisme .civitalisme-article__meta span,
+html[data-color-scheme="dark"] body.theme-civitalisme .civitalisme-article__meta time {
+    background: rgba(100, 160, 255, 0.08);
+    border-color: rgba(100, 160, 255, 0.18);
+}
+/* ═══════════════════════════════════════════════════════════════════════════
+   SKIP LINK — accessibility (WCAG 2.4.1)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    padding: 0.55rem 1.2rem;
+    background: #ffcc00;
+    color: #003399;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: 0 0 8px 8px;
+    z-index: 9999;
+    text-decoration: none;
+    transition: top 0.15s ease;
+}
+.skip-link:focus {
+    top: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FOCUS-VISIBLE — thème civitalisme (WCAG 2.4.7)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.theme-civitalisme :focus-visible {
+    outline: 3px solid var(--accent, #ffcc00);
+    outline-offset: 3px;
+    border-radius: 3px;
+}
+html[data-color-scheme="dark"] body.theme-civitalisme :focus-visible {
+    outline-color: var(--accent); /* #ffcc00 — visible sur fond sombre */
+}
+html[data-color-scheme="a11y"] body.theme-civitalisme :focus-visible {
+    outline: 4px solid #0033cc;
+    outline-offset: 3px;
+    border-radius: 3px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARK CIVITALISME — page-switch cards (restaient blanches)
+   Spécificité 0,2,2 > .theme-civitalisme .page-switch__card (0,2,1)
+   ═══════════════════════════════════════════════════════════════════════════ */
+html[data-color-scheme="dark"] body.theme-civitalisme .page-switch__card {
+    background: rgba(10, 30, 80, 0.55);
+    border-color: rgba(100, 160, 255, 0.18);
+    color: var(--text);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .page-switch__card:hover,
+html[data-color-scheme="dark"] body.theme-civitalisme .page-switch__card:focus-visible {
+    background: rgba(20, 50, 120, 0.65);
+    border-color: rgba(122, 172, 255, 0.32);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .page-switch__card.is-active {
+    background: rgba(20, 50, 120, 0.80);
+    border-color: rgba(255, 204, 0, 0.45);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .page-switch__card strong {
+    color: var(--text);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .page-switch__card span {
+    color: var(--muted);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .page-switch__copy p {
+    color: var(--muted);
+}
+
+/* A11y page-switch cards */
+html[data-color-scheme="a11y"] body.theme-civitalisme .page-switch__card {
+    background: #ffffff;
+    border: 2px solid rgba(0, 0, 0, 0.25);
+    color: #000000;
+    border-radius: 4px;
+}
+html[data-color-scheme="a11y"] body.theme-civitalisme .page-switch__card.is-active {
+    background: #e8f0ff;
+    border-color: #0033cc;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LÉGENDE DU GRAPHIQUE D'INCITATION (WCAG 1.4.1 — info pas uniquement par couleur)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.gp-incentive-legend {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.1rem;
+    flex-wrap: wrap;
+}
+.gp-incentive-legend__item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.88rem;
+    color: var(--muted);
+}
+.gp-incentive-legend__swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+.gp-incentive-legend__swatch--svg {
+    background: linear-gradient(135deg, #4266b8, #003399);
+}
+.gp-incentive-legend__swatch--work {
+    background: linear-gradient(135deg, #ffcc00, #e0b300);
+    border: 1px solid rgba(0,0,0,0.08);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-incentive-legend__swatch--svg {
+    background: linear-gradient(135deg, #5a8bdd, #7aacff);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARK CIVITALISME — SVG INLINE FILLS SYSTÉMIQUES
+   CSS fill property overrides l'attribut SVG fill (cascade CSS gagne)
+   Sélecteurs d'attribut : [fill="#003399"] = spécificité 0,1,0
+   Préfixe dark civitalisme = 0,2,2 → gagne toujours
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Hero index — famille sur le pont ─────────────────────────────────── */
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-hero__illustration [fill="#003399"] { fill: var(--forest); }
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-hero__illustration [fill="#4266b8"] { fill: var(--muted); }
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-hero__illustration [stroke="#003399"] { stroke: var(--forest); }
+
+/* ── Problem cards (robot, chart, facture) ────────────────────────────── */
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-problem-card__illustration [fill="#003399"] { fill: var(--forest); }
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-problem-card__illustration [fill="#4266b8"] { fill: var(--muted); }
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-problem-card__illustration [fill="#ffffff"] { fill: rgba(10, 30, 80, 0.70); }
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-problem-card__illustration [fill="#f5f8fc"] { fill: rgba(10, 30, 80, 0.45); }
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-problem-card__illustration [stroke="#003399"] { stroke: var(--forest); }
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-problem-card__illustration [stroke="#4266b8"] { stroke: var(--muted); }
+
+/* ── Step cards (phone, payment card, shopping) ───────────────────────── */
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-step-card__illustration [fill="#003399"] { fill: var(--forest); }
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-step-card__illustration [fill="#4266b8"] { fill: var(--muted); }
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-step-card__illustration [fill="#ffffff"] { fill: rgba(10, 30, 80, 0.65); }
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-step-card__illustration [fill="#f5f8fc"] { fill: rgba(10, 30, 80, 0.45); }
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-step-card__illustration [stroke="#003399"] { stroke: var(--forest); }
+
+/* ── Persona avatars ──────────────────────────────────────────────────── */
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-persona-card__avatar [fill="#003399"] { fill: var(--forest); }
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-persona-card__avatar [fill="#4266b8"] { fill: var(--muted); }
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-persona-card__avatar [fill="#fff3b8"] { fill: rgba(15, 30, 80, 0.70); }
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-persona-card__avatar [fill="#e8eefc"] { fill: rgba(15, 30, 80, 0.55); }
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-persona-card__avatar [stroke="#003399"] { stroke: var(--forest); }
+
+/* ── Solution diagram — icônes sur cercles bleu foncé ────────────────── */
+/* Les cercles r=40 sont déjà en rgba(20,50,120) → les stroke="#003399" des icônes y sont invisibles */
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-solution__diagram [stroke="#003399"] { stroke: var(--text); }
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-solution__diagram [fill="#4266b8"] { fill: var(--muted); }
+/* Cercle central blanc : le garder lisible sur fond sombre */
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-solution__diagram circle[r="72"] {
+    fill: rgba(10, 30, 80, 0.88) !important;
+    stroke: var(--forest) !important;
+}
+/* Personnages dans le cercle central : fill="#003399" sur fond sombre = invisible */
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-solution__diagram [transform="translate(240 240)"] [fill="#003399"] { fill: var(--text); }
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-solution__diagram [transform="translate(240 240)"] [fill="#4266b8"] { fill: var(--muted); }
+
+/* ── Shield SVG (gradient bleu → déjà lisible, checkmark jaune = OK) ─── */
+/* Pas de fix nécessaire — gradient fill="url(#...)" non affecté par attr selector */
+
+/* ── Europe map ────────────────────────────────────────────────────────── */
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-europe__map [fill="#e8eefc"] { fill: rgba(30, 60, 130, 0.55); }
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-europe__map [stroke="#4266b8"] { stroke: rgba(122, 172, 255, 0.45); }
+
+/* ── Vita hero visual (bâtiment réhabilité) ──────────────────────────── */
+html[data-color-scheme="dark"] body.theme-civitalisme .vita-hero__visual [fill="#003399"] { fill: var(--forest); }
+html[data-color-scheme="dark"] body.theme-civitalisme .vita-hero__visual [fill="#eef4ff"] { fill: rgba(10, 25, 70, 0.70); }
+html[data-color-scheme="dark"] body.theme-civitalisme .vita-hero__visual [fill="#e8f5e9"] { fill: rgba(20, 60, 40, 0.60); }
+html[data-color-scheme="dark"] body.theme-civitalisme .vita-hero__visual [fill="#c8e6c9"] { fill: rgba(20, 80, 40, 0.55); }
+html[data-color-scheme="dark"] body.theme-civitalisme .vita-hero__visual [stroke="#003399"] { stroke: var(--forest); }
+
+/* ── Texte SVG universel (déjà partiel, renforcer) ───────────────────── */
+html[data-color-scheme="dark"] body.theme-civitalisme svg text { fill: var(--text); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   A11Y CIVITALISME — SVG fills → couleurs haute visibilité
+   ═══════════════════════════════════════════════════════════════════════════ */
+html[data-color-scheme="a11y"] body.theme-civitalisme .gp-hero__illustration [fill="#003399"] { fill: #0022aa; }
+html[data-color-scheme="a11y"] body.theme-civitalisme .gp-hero__illustration [fill="#4266b8"] { fill: #003399; }
+html[data-color-scheme="a11y"] body.theme-civitalisme .gp-problem-card__illustration [fill="#003399"] { fill: #0022aa; }
+html[data-color-scheme="a11y"] body.theme-civitalisme .gp-problem-card__illustration [fill="#4266b8"] { fill: #003399; }
+html[data-color-scheme="a11y"] body.theme-civitalisme .gp-step-card__illustration [fill="#003399"] { fill: #0022aa; }
+html[data-color-scheme="a11y"] body.theme-civitalisme .gp-solution__diagram [stroke="#003399"] { stroke: #0022aa; }
+html[data-color-scheme="a11y"] body.theme-civitalisme svg text { fill: #000000; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   GRAND PUBLIC — nouvelles sections pédagogiques
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Hero stats chips ────────────────────────────────────────────────────── */
+.gp-hero__stats {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+.gp-hero__stat {
+    display: flex;
+    flex-direction: column;
+    padding: 0.6rem 1rem;
+    background: rgba(0, 51, 153, 0.07);
+    border: 1px solid rgba(0, 51, 153, 0.14);
+    border-radius: var(--radius-sm);
+    min-width: 100px;
+}
+.gp-hero__stat-value {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+}
+.gp-hero__stat-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.3;
+    margin-top: 0.3rem;
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-hero__stat {
+    background: rgba(100, 160, 255, 0.08);
+    border-color: rgba(100, 160, 255, 0.18);
+}
+
+/* ── "En 30 secondes" strip ──────────────────────────────────────────────── */
+.gp-brief {
+    padding: 3.5rem 0;
+}
+.gp-brief__steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+    position: relative;
+}
+.gp-brief__steps::before {
+    content: '';
+    position: absolute;
+    top: 2.2rem;
+    left: 12%;
+    right: 12%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent) 0%, rgba(255, 204, 0, 0.3) 100%);
+    z-index: 0;
+}
+.gp-brief__step {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 0 0.5rem;
+}
+.gp-brief__icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 1rem;
+    background: var(--surface-strong, #fff);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+}
+.gp-brief__icon svg {
+    width: 26px;
+    height: 26px;
+}
+.gp-brief__step-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 0.4rem;
+    line-height: 1.3;
+}
+.gp-brief__step-body {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.5;
+    margin: 0;
+}
+@media (max-width: 760px) {
+    .gp-brief__steps {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .gp-brief__steps::before { display: none; }
+}
+@media (max-width: 480px) {
+    .gp-brief__steps {
+        grid-template-columns: 1fr;
+    }
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-brief__icon {
+    background: rgba(10, 30, 80, 0.80);
+    border-color: var(--accent);
+}
+
+/* ── Problem card stat callout ───────────────────────────────────────────── */
+.gp-problem-card__stat {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--forest);
+    line-height: 1;
+    margin-bottom: 0.35rem;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ── Problem transition renforcé ─────────────────────────────────────────── */
+.gp-problem__transition {
+    margin: 2.5rem auto 0;
+    max-width: 44rem;
+    text-align: center;
+    padding: 1.5rem 2rem;
+    background: rgba(0, 51, 153, 0.05);
+    border-radius: var(--radius);
+    border: 1px solid rgba(0, 51, 153, 0.1);
+}
+.gp-problem__transition-text {
+    font-size: 1.05rem;
+    color: var(--muted);
+    margin: 0 0 0.4rem;
+    line-height: 1.5;
+}
+.gp-problem__transition-accent {
+    font-size: 1.12rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0;
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-problem__transition {
+    background: rgba(100, 160, 255, 0.06);
+    border-color: rgba(100, 160, 255, 0.14);
+}
+
+/* ── Solution formula callout ────────────────────────────────────────────── */
+.gp-solution__formula {
+    max-width: 40rem;
+    margin: 0 auto 2.5rem;
+    padding: 1.5rem 2rem;
+    text-align: center;
+    border-left: 4px solid var(--accent);
+}
+.gp-solution__formula-label {
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin: 0 0 0.5rem;
+}
+.gp-solution__formula-text {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text);
+    margin: 0 0 0.5rem;
+    line-height: 1.3;
+}
+.gp-solution__formula-note {
+    font-size: 0.83rem;
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* ── Work incentive trampoline note ──────────────────────────────────────── */
+.gp-incentive__trampoline {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    max-width: 48rem;
+    margin: 0 auto 1.8rem;
+    padding: 1rem 1.4rem;
+    border-left: 4px solid var(--accent);
+}
+.gp-incentive__trampoline svg {
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+.gp-incentive__trampoline p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+/* ── FAQ / Objections ────────────────────────────────────────────────────── */
+.gp-faq__list {
+    max-width: 52rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.gp-faq__item {
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
+}
+.gp-faq__item[open] {
+    box-shadow: 0 8px 24px rgba(0, 51, 153, 0.10);
+}
+.gp-faq__question {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.1rem 1.4rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text);
+    list-style: none;
+    user-select: none;
+    transition: background 0.15s ease;
+}
+.gp-faq__question::-webkit-details-marker { display: none; }
+.gp-faq__question:hover {
+    background: rgba(0, 51, 153, 0.04);
+}
+.gp-faq__q-icon {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    background: var(--accent);
+    color: #003399;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 900;
+    line-height: 1;
+}
+.gp-faq__chevron {
+    margin-left: auto;
+    color: var(--muted);
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+}
+.gp-faq__item[open] .gp-faq__chevron {
+    transform: rotate(180deg);
+}
+.gp-faq__answer {
+    padding: 0.5rem 1.4rem 1.4rem calc(1.4rem + 26px + 0.75rem);
+    border-top: 1px solid var(--line);
+}
+.gp-faq__answer p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.65;
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-faq__item[open] {
+    box-shadow: 0 8px 24px rgba(0, 20, 60, 0.35);
+}
+html[data-color-scheme="dark"] body.theme-civitalisme .gp-faq__question:hover {
+    background: rgba(100, 160, 255, 0.06);
+}
+html[data-color-scheme="a11y"] body.theme-civitalisme .gp-faq__q-icon {
+    background: #0033cc;
+    color: #ffffff;
+}
+html[data-color-scheme="a11y"] body.theme-civitalisme .gp-faq__item {
+    border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+/* ─── Dark civitalisme — articles section heading + card backgrounds ─────── */
+html[data-color-scheme="dark"] body.theme-civitalisme .civitalisme-articles {
+    background:
+        linear-gradient(135deg, rgba(10, 30, 80, 0.70), rgba(5, 15, 50, 0.55)),
+        radial-gradient(circle at top right, rgba(100, 160, 255, 0.08), transparent 34%);
+    border-color: rgba(100, 160, 255, 0.16);
+}
+
+html[data-color-scheme="dark"] body.theme-civitalisme .civitalisme-articles .eyebrow {
+    color: var(--muted);
+}
+
+html[data-color-scheme="dark"] body.theme-civitalisme .civitalisme-articles h2 {
+    color: var(--text);
+}
+
+html[data-color-scheme="dark"] body.theme-civitalisme .civitalisme-articles .section-intro {
+    color: var(--muted);
+}
+
+html[data-color-scheme="dark"] body.theme-civitalisme .civitalisme-article {
+    background: rgba(10, 25, 70, 0.65);
+    border-color: rgba(100, 160, 255, 0.14);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.40);
+}
+
+html[data-color-scheme="dark"] body.theme-civitalisme .civitalisme-article h3 {
+    color: var(--text);
+}
+
+/* ─── Dark civitalisme — article featured card override ──────────────────── */
+html[data-color-scheme="dark"] body.theme-civitalisme .civitalisme-article--featured {
+    background: rgba(10, 25, 70, 0.75);
+    border-color: rgba(255, 204, 0, 0.22);
+}

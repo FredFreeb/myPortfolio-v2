@@ -185,6 +185,16 @@ class PageController extends AbstractController
         ]);
     }
 
+
+    #[Route('/civitalisme/vita', name: 'app_civitalisme_vita', methods: ['GET'])]
+    public function civitalismeVita(
+        CivitalismeContentProvider $contentProvider,
+    ): Response {
+        return $this->render('page/civitalisme/vita.html.twig', [
+            'content' => $contentProvider->vitaPage(),
+        ]);
+    }
+
     #[Route('/civitalisme/{audience}', name: 'app_civitalisme_audience', requirements: ['audience' => 'grand-public|institutionnel'], methods: ['GET'])]
     public function civitalismeAudience(string $audience): Response
     {

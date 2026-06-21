@@ -33,7 +33,7 @@ class ProjectUpdate
     private string $body = '';
 
     #[ORM\Column(length: 100)]
-    private string $statusLabel = 'En construction';
+    private string $statusLabel = 'Document de travail';
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $outcome = null;
@@ -142,7 +142,7 @@ class ProjectUpdate
     public function setStatusLabel(?string $statusLabel): static
     {
         $value = trim((string) $statusLabel);
-        $this->statusLabel = '' === $value ? 'En construction' : $value;
+        $this->statusLabel = '' === $value ? 'Document de travail' : $value;
 
         return $this;
     }
