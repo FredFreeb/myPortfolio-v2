@@ -104,7 +104,7 @@
 					{% for update in publicHighlights %}
 						<div class="snippet">
 							<strong>{{ update.title }}</strong>
-							<span>{{ update.summary }}</span>
+							<span>{{ update.summary|raw }}</span>
 						</div>
 					{% endfor %}
 				</div>
@@ -121,7 +121,7 @@
 					{% for update in institutionalHighlights %}
 						<div class="snippet">
 							<strong>{{ update.title }}</strong>
-							<span>{{ update.summary }}</span>
+							<span>{{ update.summary|raw }}</span>
 						</div>
 					{% endfor %}
 				</div>
